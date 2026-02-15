@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Works - Adrián Velasco (Tablet)</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <link href="../css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="../css/tablet.css" rel="stylesheet" type="text/css">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Limelight&family=Syne:wght@400..800&family=Climate+Crisis:YEAR@1979..2050&display=swap"
+        rel="stylesheet">
+
+    <script>
+        function checkRedirect() {
+            if (window.innerWidth < 768) {
+                window.location.href = "viewer_mobile.html" + window.location.search;
+            } else if (window.innerWidth >= 1024) {
+                window.location.href = "viewer.html" + window.location.search;
+            }
+        }
+        window.addEventListener('resize', checkRedirect);
+        checkRedirect();
+    </script>
+
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #0000ff;
+            font-family: 'Syne', sans-serif;
+            margin: 0;
+            padding-top: 60px;
+            /* Space for the fixed header */
+            overflow-x: hidden;
+            overflow-y: auto !important;
+            /* Force scroll visibility */
+            height: auto !important;
+            /* Allow body to grow with content */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: #ffffff;
+        }
+
+        .work-detail-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-height: calc(100vh - 60px);
+        }
+
+        #work-content-wrapper {
+            width: 100%;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .work-title {
+            font-family: 'Limelight', cursive;
+            font-weight: 400;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            text-align: left;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .video-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 255, 0.1);
+            position: relative;
+        }
+
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .info-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding-bottom: 100px;
+            /* Space for the footer */
+        }
+
+        .info-text p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .credits-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-top: 1px solid rgba(0, 0, 255, 0.15);
+            padding-top: 25px;
+        }
+
+        .credits-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .credits-label {
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            opacity: 0.5;
+            letter-spacing: 0.5px;
+        }
+
+        .credits-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Simplified Nav Arrows for Mobile (Bottom Bar) */
+        .mobile-nav-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: #ffffff;
+            border-top: 1px solid rgba(0, 0, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            box-sizing: border-box;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-btn:active {
+            opacity: 0.5;
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Language Switcher Override */
+        .lang-slider {
+            top: 1px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="mobile-header">
+        <a href="../tablet.html?section=home" class="nav-btn-logo">
+            <img src="../images/Logo.png" alt="Logo" class="header-logo-img">
+        </a>
+        <nav class="nav-links">
+            <a href="../tablet.html?section=about" class="nav-link">ABOUT</a>
+            <a href="../tablet.html?section=works" class="nav-link active">WORK</a>
+            <a href="../tablet.html?section=contact" class="nav-link">CONTACT</a>
+        </nav>
+        <div class="lang-switcher" id="langSwitcher">
+            <div class="lang-slider"></div>
+            <div class="lang-option active" data-lang="en">EN</div>
+            <div class="lang-option" data-lang="es">ES</div>
+        </div>
+    </header>
+
+    <!-- Background Canvas for Topological Waves -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="work-detail-container">
+        <div id="work-content-wrapper">
+            <h1 class="work-title" id="display-title">LOADING...</h1>
+
+            <div class="video-column" id="display-videos">
+                <!-- Videos here -->
+            </div>
+
+            <div class="info-column">
+                <div class="info-text" id="display-desc">
+                    <!-- Description injected -->
+                </div>
+                <div class="credits-box" id="display-credits">
+                    <!-- Credits injected -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Footer Nav -->
+    <footer class="mobile-nav-footer">
+        <button class="nav-btn" id="prevWork">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+            PREV
+        </button>
+        <button class="nav-btn" id="nextWork">
+            NEXT
+            <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+            </svg>
+        </button>
+    </footer>
+
+    <script>
+        // TRANSLATIONS (Synced with mobile.js)
+        const translations = {
+            en: {
+                'work-personas-desc': "A collaborative composition by Adri Velasco, Fran Escobar, Alejandro Mondragón, and Alberto Hijón.<br><br>This piece explores the connections and disconnections in the digital age, represented through a multi-layered acoustic and electronic performance.",
+                'work-ebdvp-desc': "Ok, wait, listen to this: there's a moment. A moment when everything fits. The light. The shadows. The music. The words. You're there, in front of the screen, and for one tiny yet infinite instant, you feel… something. Not satisfaction. Something much better.<br><br>A spark of electricity rising from your fingers to the back of your head. The perfect video. You did it. It's real. Here and now.<br><br>But can the magic lasts?",
+                'work-pianogames-desc': "Dear pianist:<br><br>This musical piece, if that's what it is, aims to be an amusement for your study sessions. Three minigames have been gently crafted to refine certain aspects of your technique in an unusual, perhaps more enjoyable way, on your path toward the virtuoso you have always wished to become.<br><br>Pianogames lives in two versions. There's the cozy home version and then there's the concert version: same mini-games now framed by an introduction, an intermezzo, and a closing gesture worthy of the stage.",
+                'work-rumble-desc': "Rumble, is a piece for symphony orchestra, its title borrowed from the fourth track of Quest For Fire by Skrillex. A constant loop runs throughout, taking on multiple shapes in its various iterations. This loop aims for a linear evolution over the course of the work's 113 measures, yet it is occasionally disrupted by musical \"pop-ups\" that interrupt the main discourse.",
+                'work-osc-desc': "I. Encoded<br>II. 192.168.20.1<br>III. Node with errors inside<br>IV. Received",
+                'work-tyoe-desc': "\"Three Years of Evolution\" showcases the intimate and dynamic relationship established between an individual, represented by the trombonist, and the demanding city that will host him for the next three years.<br><br>Independence, far from being an absolute state, becomes a continuous process of negotiation with existing structures. The trombonist presents a personal experience, where the individual matures through the learning that arises from interaction with expectations.",
+                'work-life-desc': "Game of Life is an adaptation of John Conway's traditional game. This cellular automaton evolves deterministically according to its initial configuration, without requiring further intervention.<br><br>In this musical recreation, as the board progresses, the sound system responds to the player's instructions—whether timbral, harmonic, or related to tempo.",
+                'work-amc-desc': "This is simply about messing with the Madrid Royal Conservatory of Music.",
+                'work-espontanea-desc': "Some captions published on a private Instagram account were verbalizing many thoughts that I hadn't yet been able to formulate.<br><br>This piece collects some writings by @rosello.alba, attempting to find that curious point in her texts where the chaotic nature of the micro manages to balance with the coherent nature of the macro, without taking away the work's virtue of spontaneity.",
+                'work-minuit-desc': "Winner of the II Composition Prize TZ-RCSMM. Premiered by Trio Arbós at Teatro de la Zarzuela. A work that explores the threshold of dawn and the inevitable arrival of midnight.",
+                'work-cisne-desc': "A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas, exploring the duality between the sublime and the grotesque."
+            },
+            es: {
+                'work-personas-desc': "Una composición colaborativa de Adri Velasco, Fran Escobar, Alejandro Mondragón y Alberto Hijón.<br><br>Esta pieza explora las conexiones y desconexiones en la era digital, representadas a través de una interpretación acústica y electrónica multicapa.",
+                'work-ebdvp-desc': "Vale, espera, escucha esto: hay un momento. Un momento en el que todo encaja. La luz. Las sombras. La música. Las palabras. Estás ahí, frente a la pantalla, y por un instante diminuto pero infinito, sientes... algo. No satisfacción. Algo mucho mejor.<br><br>Una chispa de electricidad subiendo por tus dedos hasta la nuca. El vídeo perfecto. Lo lograste. Es real. Aquí y ahora.<br><br>Pero, ¿puede durar la magia?",
+                'work-pianogames-desc': "Querido pianista:<br><br>Esta pieza musical, si es que eso es lo que es, pretende ser un divertimento para tus sesiones de estudio. Tres minijuegos han sido delicadamente diseñados para perfeccionar ciertos aspectos de tu técnica de una manera inusual, quizá más amena, en tu camino hacia el virtuoso que siempre has deseado ser.<br><br>Pianogames vive en dos versiones. Está la acogedora versión doméstica y luego está la versión de concierto: los mismos minijuegos ahora enmarcados por una introducción, un intermezzo y un gesto de cierre digno del escenario.",
+                'work-rumble-desc': "Rumble es una pieza para orquesta sinfónica, cuyo título proviene del cuarto track de Quest For Fire de Skrillex. Un bucle constante recorre toda la obra, adoptando múltiples formas en sus diversas iteraciones. Este bucle busca una evolución lineal a lo largo de los 113 compases de la obra, pero ocasionalmente se ve interrumpido por \"pop-ups\" musicales que distorsionan el discurso principal.",
+                'work-osc-desc': "I. Encoded<br>II. 192.168.20.1<br>III. Nodo con errores internos<br>IV. Recibido",
+                'work-tyoe-desc': "\"Three Years of Evolution\" muestra la relación íntima y dinámica establecida entre un individuo, representado por el trombonista, y la exigente ciudad que lo acogerá durante los próximos tres años.<br><br>La independencia no es un estado absoluto, sino una negociación continua con las estructuras existentes. El trombonista presenta una experiencia personal, donde el individuo madura a través del aprendizaje que surge de la interacción con las expectativas.",
+                'work-life-desc': "Game of Life es una adaptación del juego tradicional de John Conway. Este autómata celular evoluciona de forma determinista según su configuración inicial, sin requerir intervención posterior.<br><br>En esta recreación musical, a medida que el tablero progresa, el sistema de sonido responde a las instrucciones del intérprete, ya sean tímbricas, armónicas o relacionadas con el tempo.",
+                'work-amc-desc': "Esto se trata simplemente de destruir un poco el Real Conservatorio Superior de Música de Madrid.",
+                'work-espontanea-desc': "Algunos pies de foto publicados en una cuenta privada de Instagram verbalizaban muchos pensamientos que yo aún no había sido capaz de formular.<br><br>Esta pieza recoge algunos escritos de @rosello.alba, intentando encontrar ese punto curioso en sus textos donde la naturaleza caótica de lo micro consigue equilibrarse con la naturaleza coherente de lo macro, sin quitarle la virtud de la espontaneidad a la obra.",
+                'work-minuit-desc': "Ganador del II Premio de Composición TZ-RCSMM. Estrenado por el Trío Arbós en el Teatro de la Zarzuela. Una obra que explora el umbral del alba y la inevitable llegada de la medianoche.",
+                'work-cisne-desc': "Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía. Basada en textos de Dionisio Cañas, explora la dualidad entre lo sublime y lo grotesco."
+            }
+        };
+
+        // WORKS DATABASE (Exact same order as viewer.html)
+        const worksData = [
+            {
+                id: 'personas',
+                title: 'PERSONAS QUE QUIZÁ CONOZCAS. 2025',
+                videos: ['kRRLhsWD46s'],
+                desc: 'work-personas-desc',
+                credits: [
+                    { label: 'Composers', value: 'Adri Velasco, Fran Escobar,<br>Alejandro Mondragón, Alberto Hijón' },
+                    { label: 'Performer', value: 'Gabriel Brockway' },
+                    { label: 'Musicians', value: 'Violeta Casado, Javier Díaz, Paula Ortega, María Calvo' }
+                ]
+            },
+            {
+                id: 'ebdvp',
+                title: 'IN SEARCH OF THE PERFECT VIDEO. 2025',
+                videos: ['PiDJJbJzv9I', 'f70KsUdA6Fk'],
+                desc: 'work-ebdvp-desc',
+                credits: [
+                    { label: 'TEXT', value: 'Adrián Velasco' },
+                    { label: 'VOICE', value: 'Eduardo Velasco' }
+                ]
+            },
+            {
+                id: 'pianogames',
+                title: 'PIANOGAMES. 2025',
+                videos: ['hMIFmIM2tNQ'],
+                desc: 'work-pianogames-desc',
+                credits: [
+                    { label: 'Minigames', value: 'Adrián Velasco' },
+                    { label: 'Pianist', value: 'Pablo Gil' }
+                ]
+            },
+            {
+                id: 'rumble',
+                title: 'RUMBLE. 2025',
+                videos: ['QhXVTFkVde4'],
+                desc: 'work-rumble-desc',
+                credits: [
+                    { label: 'Dates', value: '1 FEB. Auditorio Nacional de España<br>7 MAR. Centro Cultural Villa de Nerja' }
+                ]
+            },
+            {
+                id: 'osc',
+                title: 'OSC PROTOCOL. 2024',
+                videos: ['SJr9lo4Ses0', 'T-8SwfE1cHs'],
+                desc: 'work-osc-desc',
+                credits: [
+                    { label: 'Piano', value: 'Pablo Gil' },
+                    { label: 'Dates', value: '9 MAY. Ateneo de Madrid<br>18 MAY. Real Conservatorio Superior de Música de Madrid' }
+                ]
+            },
+            {
+                id: 'three-years',
+                title: 'THREE YEARS OF EVOLUTION. 2024',
+                videos: ['0w1TvFGLKVU'],
+                desc: 'work-tyoe-desc',
+                credits: [
+                    { label: 'Work', value: 'Adri Velasco' },
+                    { label: 'Performer', value: 'Paula Ortega' },
+                    { label: 'Stylist', value: 'Alba Roselló' },
+                    { label: 'Filmed by', value: 'Iris Casilari<br>Into' },
+                    { label: 'Edited by', value: 'Iris Casilari<br>Adri Velasco' }
+                ]
+            },
+            {
+                id: 'game-of-life',
+                title: 'GAME OF LIFE. 2024',
+                videos: ['9p8PEvWN9Lk', '5JbYX-IOZ_4'],
+                desc: 'work-life-desc',
+                credits: [
+                    { label: 'Design', value: 'Adrián Velasco' },
+                    { label: 'Code', value: 'Fran Escobar' }
+                ]
+            },
+            {
+                id: 'another-music',
+                title: 'ANOTHER MUSIC CONSERVATORY. 2024',
+                videos: ['Pp1SH6bG458'],
+                desc: 'work-amc-desc',
+                credits: []
+            },
+            {
+                id: 'lespontanea',
+                title: 'LESPONTANEA. 2023',
+                videos: ['KumuBWSrm3A'],
+                desc: 'work-espontanea-desc',
+                credits: [
+                    { label: 'Work', value: 'Adrián Velasco' },
+                    { label: 'Text', value: 'Alba Roselló' },
+                    { label: 'Voice', value: 'Samuel Sarrión' }
+                ]
+            },
+            {
+                id: 'minuit',
+                title: 'MINUIT TOUJOURS ARRIVE. 2023',
+                videos: ['LCkRsxdqyDU'],
+                desc: 'work-minuit-desc',
+                credits: [
+                    { label: 'Premiered by', value: 'Trio Arbós<br>at Teatro de la Zarzuela' },
+                    { label: 'Awards', value: 'II PREMIO DE COMPOSICIÓN TZ-RCSMM' }
+                ]
+            },
+            {
+                id: 'cisne',
+                title: 'CISNE Y CERDO. 2022',
+                videos: ['3nSSqvQ-25o'],
+                desc: 'work-cisne-desc',
+                credits: [
+                    { label: 'Text', value: 'Dionisio Cañas' },
+                    { label: 'Dates', value: '21 JUN. Sala 400 Museo Reina Sofía, Madrid' }
+                ]
+            }
+        ];
+
+        let currentIndex = 0;
+        let currentLang = localStorage.getItem('preferredLanguage') || 'en';
+
+        function renderWork(index, updateURL = true) {
+            const work = worksData[index];
+            if (!work) return;
+
+            if (updateURL) {
+                const newURL = window.location.pathname + '?work=' + work.id;
+                window.history.pushState({ index: index }, '', newURL);
+            }
+
+            const wrapper = document.getElementById('work-content-wrapper');
+            wrapper.classList.add('fade-out');
+
+            setTimeout(() => {
+                document.getElementById('display-title').textContent = work.title;
+
+                const videoColumn = document.getElementById('display-videos');
+                videoColumn.innerHTML = work.videos.map(id => `
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0" allowfullscreen></iframe>
+                    </div>
+                `).join('');
+
+                const descDiv = document.getElementById('display-desc');
+                const translationKey = work.desc;
+                const translatedText = translations[currentLang][translationKey] || "";
+                descDiv.innerHTML = `<p>${translatedText}</p>`;
+
+                const creditsBox = document.getElementById('display-credits');
+                creditsBox.innerHTML = work.credits.map(c => `
+                    <div class="credits-row">
+                        <span class="credits-label">${c.label}</span>
+                        <span class="credits-value">${c.value}</span>
+                    </div>
+                `).join('');
+
+                wrapper.classList.remove('fade-out');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
+        }
+
+        // Navigation
+        document.getElementById('prevWork').onclick = () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+            renderWork(currentIndex);
+        };
+
+        document.getElementById('nextWork').onclick = () => {
+            currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+            renderWork(currentIndex);
+        };
+
+        // Lang Switcher
+        const langSwitcher = document.getElementById('langSwitcher');
+        const slider = langSwitcher.querySelector('.lang-slider');
+        const options = langSwitcher.querySelectorAll('.lang-option');
+
+        function updateLangUI(lang) {
+            const activeOption = lang === 'en' ? options[0] : options[1];
+
+            if (activeOption && slider) {
+                slider.style.width = activeOption.offsetWidth + 'px';
+                slider.style.left = activeOption.offsetLeft + 'px';
+            }
+
+            options.forEach(opt => {
+                const active = opt.getAttribute('data-lang') === lang;
+                opt.classList.toggle('active', active);
+            });
+            currentLang = lang;
+
+            // Solo actualizar el texto, sin animación completa
+            const work = worksData[currentIndex];
+            if (!work) return;
+
+            const descDiv = document.getElementById('display-desc');
+            const translationKey = work.desc;
+            const translatedText = translations[currentLang][translationKey] || "";
+            descDiv.innerHTML = `<p>${translatedText}</p>`;
+        }
+
+        langSwitcher.onclick = () => {
+            const nextLang = currentLang === 'en' ? 'es' : 'en';
+            localStorage.setItem('preferredLanguage', nextLang);
+            updateLangUI(nextLang);
+        };
+
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const workId = urlParams.get('work');
+            if (workId) {
+                const found = worksData.findIndex(w => w.id === workId);
+                if (found !== -1) currentIndex = found;
+            }
+            updateLangUI(currentLang);
+            renderWork(currentIndex, true);
+
+            // Re-check lang UI when fonts are ready to ensure perfect pill alignment
+            document.fonts.ready.then(() => {
+                updateLangUI(currentLang);
+            });
+
+            // Initialize background waves
+            initBackgroundWaves();
+        };
+
+        // --- BACKGROUND WAVES ANIMATION ---
+        function initBackgroundWaves() {
+            const bgCanvas = document.getElementById('bg-canvas');
+            if (!bgCanvas) return;
+
+            const bgCtx = bgCanvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            let topoTime = 0;
+
+            function resizeCanvas() {
+                bgCanvas.width = window.innerWidth * dpr;
+                bgCanvas.height = window.innerHeight * dpr;
+                bgCanvas.style.width = window.innerWidth + 'px';
+                bgCanvas.style.height = window.innerHeight + 'px';
+                bgCtx.setTransform(1, 0, 0, 1, 0, 0);
+                bgCtx.scale(dpr, dpr);
+                bgCtx.imageSmoothingEnabled = false;
+            }
+
+            function drawTopoLines() {
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+                const numRings = 6;
+                bgCtx.save();
+                bgCtx.lineWidth = 1.5;
+
+                const centerX = w / 2;
+                const centerY = h / 2;
+
+                for (let i = 0; i < numRings; i++) {
+                    bgCtx.beginPath();
+                    bgCtx.strokeStyle = `rgba(0, 80, 255, ${0.05 + (i * 0.015)})`;
+
+                    const baseRadius = (h / 6) * (i + 1);
+                    const driftX = Math.sin(topoTime * 0.5 + i) * 40;
+                    const driftY = Math.cos(topoTime * 0.3 + i * 1.5) * 30;
+
+                    const angleStep = 0.3;
+                    for (let angle = 0; angle <= Math.PI * 2; angle += angleStep) {
+                        const distortion1 = Math.sin(angle * 3 + topoTime + i) * 20;
+                        const distortion2 = Math.cos(angle * 5 - topoTime * 0.8) * 15;
+                        const distortion3 = Math.sin(angle * 2 + topoTime * 0.4 + i * 2) * 30;
+                        const r = baseRadius + distortion1 + distortion2 + distortion3;
+                        const x = (centerX + driftX) + Math.cos(angle) * r;
+                        const y = (centerY + driftY) + Math.sin(angle) * r;
+                        if (angle === 0) bgCtx.moveTo(x, y);
+                        else bgCtx.lineTo(x, y);
+                    }
+                    bgCtx.closePath();
+                    bgCtx.stroke();
+                }
+                bgCtx.restore();
+            }
+
+            function animate() {
+                bgCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                drawTopoLines();
+                topoTime += 0.01;
+                requestAnimationFrame(animate);
+            }
+
+            resizeCanvas();
+            animate();
+            window.addEventListener('resize', resizeCanvas);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,891 @@
+/* --- MOBILE RESET & BASE STYLES --- */
+:root {
+    --primary: #0000ff;
+    --bg: #ffffff;
+    --text: #0000ff;
+    --font-heading: 'Limelight', cursive;
+    --font-body: 'Syne', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    /* Main body should not scroll, only sections */
+}
+
+/* --- BACKGROUND CANVAS --- */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+/* --- NAVIGATION --- */
+.mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 0 15px;
+    /* Eliminado padding vertical para permitir logo más grande */
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 255, 0.1);
+    height: 50px;
+    /* Altura fija para ayudar al centrado vertical */
+}
+
+.nav-btn-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.header-logo-img {
+    height: 40px;
+    /* Logo más grande, cercano al límite del header */
+    width: auto;
+}
+
+.nav-links {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 20px;
+    /* Un poco más de espacio entre links de navegación */
+    z-index: 105;
+}
+
+.nav-link {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--primary);
+    text-decoration: none;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link.active {
+    opacity: 1;
+}
+
+.header-right-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    height: 100%;
+    z-index: 110;
+}
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 1px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 255, 0.5);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    height: 18px;
+    user-select: none;
+    overflow: hidden;
+    box-sizing: border-box;
+    min-width: 55px;
+    z-index: 110;
+    flex-shrink: 0;
+}
+
+.header-socials {
+    display: flex;
+    gap: 12px;
+    margin-right: 15px;
+    /* Espacio con el lang-switcher */
+    align-items: center;
+}
+
+.header-social-link {
+    width: 14px;
+    height: 14px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.header-social-link:hover {
+    opacity: 1;
+}
+
+.header-social-link svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+}
+
+.lang-option {
+    flex: 1;
+    padding: 0 4px;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    /* Ajustado para coincidir con la nav */
+    font-weight: 800;
+    color: var(--primary);
+    z-index: 2;
+    transition: color 0.3s ease;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    pointer-events: none;
+}
+
+.lang-option.active {
+    color: #ffffff;
+}
+
+.lang-slider {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 26px;
+    height: 14px;
+    /* Ajustado a la nueva altura interna */
+    background: var(--primary);
+    border-radius: 20px;
+    z-index: 1;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#app-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 70px 25px 40px 25px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateX(0);
+    /* Punto neutro */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    /* Lock horizontal scroll in the section */
+    -webkit-overflow-scrolling: touch;
+}
+
+.section::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.section.before {
+    transform: translateX(-100%);
+}
+
+.section.after {
+    transform: translateX(100%);
+}
+
+.section.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+}
+
+/* --- HERO / HOME --- */
+#home {
+    padding: 0 !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.model-container {
+    width: 100vw;
+    height: 80vh;
+    /* Aumentamos el alto para que el modelo tenga más espacio y se vea centrado */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    line-height: 0.9;
+    text-align: center;
+    color: var(--primary);
+}
+
+/* --- ABOUT --- */
+.about-keys {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+    margin-top: -10px;
+    /* Sin overflow: hidden para que el escudo sea visible */
+}
+
+.about-keys-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 75px;
+    padding: 10px 0 20px 0;
+    overflow: hidden;
+    /* Aquí sí ocultamos las teclas que entran/salen */
+}
+
+/* Escudo para ocultar el texto que sube */
+.about-keys::before {
+    content: "";
+    position: absolute;
+    top: -150px;
+    /* Más alto para cubrir todo hasta el header */
+    left: -25px;
+    /* Ajustado al padding de la sección */
+    right: -25px;
+    height: 150px;
+    background: var(--bg);
+    z-index: 5;
+}
+
+.key-item {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    /* Evitar que se encojan */
+    background: #ffffff;
+    border: 1.5px solid var(--primary);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 0 var(--primary);
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.6s ease, margin-left 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.key-item img,
+.key-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.about-text {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: justify;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.about-text p {
+    width: 100%;
+    text-align: justify;
+}
+
+.btn-cv {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 15px 30px;
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-cv:active {
+    background: var(--primary);
+    color: white;
+}
+
+/* --- WORKS --- */
+#works {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.works-subnav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 12px 0;
+    background: #ffffff;
+    position: sticky;
+    top: 50px;
+    /* Exactamente donde termina el header (10+30+10) */
+    z-index: 100;
+    width: 100vw;
+    margin-left: -25px;
+    margin-top: 0;
+    border-bottom: 1px solid rgba(0, 0, 255, 0.05);
+}
+
+.foryou-nav-wrapper {
+    position: relative;
+    /* Para posicionar el altavoz absolutamente */
+    display: flex;
+    align-items: center;
+}
+
+.audio-toggle {
+    position: absolute;
+    left: calc(100% + 5px);
+    /* Justo a la derecha de FOR YOU */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Mostrar altavoz con fade in cuando For You está activo */
+.works-nav-item[data-view="foryou"].active+.audio-toggle {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.audio-icon-container {
+    width: 100%;
+    height: 100%;
+}
+
+.audio-toggle svg {
+    width: 100%;
+    height: 100%;
+}
+
+.audio-toggle svg.hidden {
+    display: none;
+}
+
+.audio-toggle:active {
+    transform: translateY(-50%) scale(1.2);
+}
+
+.works-nav-item {
+    font-family: 'Limelight', cursive;
+    font-size: 1.1rem;
+    color: var(--primary);
+    opacity: 0.4;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    padding-bottom: 5px;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.works-nav-item.active {
+    opacity: 1;
+}
+
+.works-nav-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--primary);
+}
+
+.works-view {
+    display: none;
+    width: 100%;
+}
+
+.works-view.active {
+    display: block;
+}
+
+/* For You (TikTok Style) */
+#foryou-view {
+    height: calc(100vh - 100px);
+    /* Ajustado para subnav + header */
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 0;
+    /* For You no necesita padding extra si ya se calcula el height */
+
+    /* Ocultar barra de scroll */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+}
+
+#foryou-view::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.foryou-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    scroll-snap-align: start;
+    overflow: hidden;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #fff;
+    border-radius: 50%;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: rotate-loader 1s linear infinite;
+    pointer-events: none;
+}
+
+.video-loader.visible {
+    opacity: 1;
+}
+
+@keyframes rotate-loader {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#foryou-view video {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#foryou-view video.playing {
+    opacity: 1;
+}
+
+.foryou-video-container {
+    width: 450px;
+    /* Tamaño similar al de escritorio */
+    height: 562.5px;
+    /* Manteniendo la proporción 4:5 */
+    max-width: 80vw;
+    max-height: 70vh;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 255, 0.2), 0 0 0 1px rgba(0, 0, 255, 0.1);
+    background: #000;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.foryou-card:active .foryou-video-container {
+    transform: scale(0.98);
+}
+
+.foryou-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.foryou-content {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    text-align: center;
+    color: var(--primary);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.foryou-title {
+    font-family: 'Limelight', cursive;
+    font-size: 2.2rem;
+    line-height: 1.1;
+    font-weight: 400;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    color: var(--primary);
+    text-shadow: 0 4px 10px rgba(0, 0, 255, 0.1);
+}
+
+.foryou-description {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    max-height: 120px;
+    overflow-y: auto;
+    pointer-events: auto;
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+/* Catalogue */
+.catalogue-filters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 20px 20px;
+    width: 100vw;
+    margin-left: -25px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 94px;
+    z-index: 95;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 255, 0.1);
+    align-items: center;
+    /* Centrado vertical de los botones */
+}
+
+.filter-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.45rem;
+    font-weight: 800;
+    color: var(--primary);
+    border: 1px solid rgba(0, 0, 255, 0.4);
+    padding: 8px 2px;
+    border-radius: 20px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    background: transparent;
+    white-space: nowrap;
+    letter-spacing: -0.2px;
+}
+
+.filter-btn.active {
+    opacity: 1;
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.catalogue-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    padding: 40px 20px 40px 20px;
+}
+
+.catalogue-item {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.catalogue-thumb {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: #f0f0f5;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.catalogue-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.catalogue-title {
+    font-family: 'Limelight', cursive;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-top: 8px;
+    line-height: 1.2;
+}
+
+.year-header {
+    grid-column: 1 / -1;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 25px 0 10px 0;
+    border-bottom: 2px solid rgba(0, 0, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+/* --- CONTACT (Centered & Grid Layout) --- */
+#contact {
+    padding: 60px 40px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-y: auto !important;
+}
+
+.contact_container2 {
+    width: 100%;
+    max-width: 800px;
+    /* Más estrecho para mejor centrado vertical */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    text-align: center;
+}
+
+.info_block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.contact_title {
+    font-family: 'Limelight', cursive;
+    font-size: 5rem;
+    color: var(--primary);
+    line-height: 0.9;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+}
+
+.email_link {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    transition: opacity 0.3s ease;
+}
+
+.form_block {
+    width: 100%;
+}
+
+/* Estructura de tabla/grid para el formulario */
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Dos columnas principales */
+    gap: 15px 20px;
+    text-align: left;
+}
+
+.form .field_labels {
+    grid-column: span 1;
+    margin-bottom: 5px;
+}
+
+.form .fields {
+    grid-column: span 1;
+    margin-bottom: 0 !important;
+    /* El gap del grid maneja el espacio */
+}
+
+/* Campos que ocupan el ancho completo (Asunto, Mensaje, Botón) */
+#subject-tablet,
+label[for="subject-tablet"],
+#message-tablet,
+label[for="message-tablet"],
+.submit-button {
+    grid-column: span 2;
+}
+
+.field_labels {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.65rem;
+    color: var(--primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.fields {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 255, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 12px 15px !important;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.9rem !important;
+    color: var(--primary) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease !important;
+    outline: none;
+}
+
+.fields:focus {
+    border-color: var(--primary) !important;
+    background: white !important;
+    box-shadow: 0 0 0 4px rgba(0, 0, 255, 0.05) !important;
+}
+
+.submit-button {
+    background: var(--primary) !important;
+    color: white !important;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    border-radius: 10px !important;
+    padding: 15px !important;
+    width: 100% !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background: #0000cc !important;
+    transform: translateY(-2px);
+}
+
+/* Responsividad para móviles dentro de tablet (si se reduce mucho el ancho) */
+@media (max-width: 600px) {
+    .form {
+        grid-template-columns: 1fr;
+    }
+
+    .form .fields,
+    .form .field_labels,
+    .submit-button {
+        grid-column: span 1;
+    }
+
+    .contact_title {
+        font-size: 3.5rem;
+    }
+}
+
+
+@media (max-height: 700px) {
+    #contact {
+        padding: 40px !important;
+    }
+
+    .contact_title {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+
+    .fields {
+        padding: 10px 12px !important;
+        margin-bottom: 12px !important;
+    }
+}

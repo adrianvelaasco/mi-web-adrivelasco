@@ -1,0 +1,492 @@
+/* Shared Navbar Styles */
+
+.navbar_links {
+    color: #00f;
+    letter-spacing: .25px;
+    cursor: pointer;
+    width: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 0 10px;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 20px;
+    line-height: 24px;
+    /* Reduced from 30px */
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+    text-transform: uppercase !important;
+    height: 24px;
+    /* Reduced from 30px */
+    overflow: hidden;
+    display: block;
+}
+
+.nav-link-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* Vital for individual span sizing */
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 72px;
+    /* 3 items * 24px */
+    width: auto;
+}
+
+.nav-link-slot span {
+    height: 24px;
+    line-height: 24px;
+    display: block;
+    text-align: right;
+    white-space: nowrap;
+    width: max-content;
+    /* Ensure they don't stretch to parent */
+}
+
+/* Logic for "always from below" (handled via JS for snapping) */
+.nav-link-slot.to-es {
+    transform: translateY(-24px);
+}
+
+.nav-link-slot.to-en {
+    transform: translateY(0);
+}
+
+.nav-link-slot.no-transition {
+    transition: none !important;
+}
+
+.navbar_links:hover {
+    color: #55f;
+}
+
+/* For the underline pseudo-element */
+.navbar_links::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #00f;
+    transition: width 0.3s ease;
+}
+
+.navbar_links:hover::after {
+    width: 100%;
+}
+
+/* Nuking Webflow default active states */
+.navbar_links.w--current,
+.w-nav-link.w--current,
+.nav-menu-two .w--current,
+.navbar_container .w--current {
+    color: #0000ff !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+}
+
+/* Language Switcher Styles */
+.lang-switcher-wrapper {
+    display: flex !important;
+    align-items: center;
+    margin-left: 20px;
+    position: relative;
+    z-index: 9999;
+}
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 4px;
+    /* Increased horizontal padding for breathing room */
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 255, 0.5);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    height: 28px;
+    user-select: none;
+    overflow: hidden;
+    box-sizing: border-box;
+    min-width: 100px;
+    /* Ensure it's substantial enough */
+}
+
+.lang-switcher .lang-option {
+    padding: 0 10px;
+    /* Slightly more room for the circle */
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: #0000ff;
+    z-index: 2;
+    transition: color 0.3s ease;
+    line-height: normal;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.lang-switcher .lang-option.active {
+    color: #ffffff;
+}
+
+.lang-switcher .lang-slider {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 0;
+    height: 20px;
+    background: #0000ff;
+    border-radius: 12px;
+    z-index: 1;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+}
+
+/* .lang-switcher.es .lang-slider Removed manual transform, handled by JS */
+
+/* Slot Machine Wave Effect */
+@keyframes slotIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+        filter: blur(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* Layout Utilities to ensure consistency */
+.navbar_container2 {
+    position: relative;
+    z-index: 10;
+}
+
+#headerArrowCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Navbar Link Alignment across languages */
+/* Navbar Link Alignment across languages */
+.nav-menu-two {
+    display: grid !important;
+    grid-template-columns: 160px 160px 240px;
+    justify-content: end;
+    align-items: center;
+    gap: 0;
+}
+
+.nav-menu-two li {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* New Header Right Group */
+.header-right-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20px;
+}
+
+.social-links-desktop {
+    display: flex;
+    align-items: center;
+}
+
+.social-links-mobile {
+    display: none;
+    /* Hidden by default on desktop */
+}
+
+
+@media (max-width: 991px) {
+    .nav-menu-two {
+        display: flex !important;
+        flex-direction: column;
+        grid-template-columns: none;
+        gap: 30px;
+        /* Increased gap for better spacing */
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .nav-menu-two li {
+        width: auto;
+        display: block;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .navbar_links {
+        font-size: 24px;
+        /* Larger font for mobile */
+        height: auto;
+        padding: 5px 15px;
+    }
+
+    .nav-link-slot {
+        height: 84px;
+        /* Adjusted for larger font */
+        align-items: center;
+        /* Center align items */
+    }
+
+    .nav-link-slot span {
+        height: 28px;
+        line-height: 28px;
+    }
+
+    .nav-link-slot.to-es {
+        transform: translateY(-28px);
+    }
+
+    /* Mobile Menu Styling Fixes */
+    .w-nav-menu {
+        background-color: rgba(255, 255, 255, 0.95);
+        /* Better background */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        height: 100vh;
+        /* Full height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 100px;
+        /* Space for bottom stuff */
+    }
+
+    .nav_menu_wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Social Links handling */
+    .social-links-desktop {
+        display: none;
+        /* Hide desktop socials on mobile */
+    }
+
+    .social-links-mobile {
+        display: flex;
+        margin-top: 30px;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .social-links-mobile .social-medias {
+        color: #00f;
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Header layout adjustment */
+    .navbar_container2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding-right: 15px;
+        /* Ensure padding for button */
+        position: relative;
+        /* Ensure relative pos for absolute children */
+    }
+
+    .header-right-group {
+        margin-left: auto;
+        /* Push to right */
+        margin-right: 0;
+        gap: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Move lang switcher to absolute center on mobile */
+    .lang-switcher-wrapper {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        /* Center and scale down */
+        margin: 0;
+        z-index: 20;
+        /* Above everything */
+        pointer-events: auto;
+        /* Ensure clickable */
+    }
+
+    /* Ensure menu button is visible and on top */
+    .menu_button {
+        position: relative;
+        z-index: 30;
+    }
+
+    /* Hide header arrow on mobile */
+    #headerArrowCanvas {
+        display: none !important;
+    }
+}
+
+/* Logo Fixes */
+.navbar_logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    left: 0;
+    /* Override any potential offset */
+}
+
+.brand-logo-link {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Desktop Layout Fixes */
+@media (min-width: 992px) {
+    .navbar_container2 {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
+        position: relative;
+    }
+
+    /* Logo stays left */
+    .navbar_logo {
+        margin-right: auto;
+    }
+
+    /* Nav menu */
+    .nav_menu_wrapper {
+        display: flex !important;
+        justify-content: flex-end;
+        align-items: center;
+        margin-left: auto;
+        margin-right: 20px;
+        position: static !important;
+        /* Fix overlap issue */
+        background: transparent !important;
+    }
+
+    /* Ensure the mobile social links are completely removed from flow */
+    .nav_menu_wrapper .social-links-mobile {
+        display: none !important;
+    }
+
+    /* Lang switcher next to contact */
+    .lang-switcher-wrapper {
+        margin: 0 !important;
+        position: relative !important;
+        /* Reset mobile absolute positioning */
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        z-index: auto !important;
+        display: flex !important;
+    }
+
+    /* Socials and hidden menu button at far right */
+    .header-right-group {
+        margin-left: 40px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Ensure social links are visible on desktop */
+    .social-links-desktop {
+        display: flex !important;
+        gap: 20px;
+    }
+
+    /* Ensure mobile social links are hidden */
+    .social-links-mobile {
+        display: none !important;
+    }
+
+    /* Hide menu button on desktop */
+    .menu_button {
+        display: none !important;
+    }
+
+    /* Ensure links are single line height on desktop - GENERAL RULE FIRST */
+    .navbar_links {
+        height: 24px !important;
+        overflow: hidden !important;
+        display: block !important;
+        line-height: 24px !important;
+    }
+
+    .nav-link-slot {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 72px !important;
+        /* 3 items * 24px */
+    }
+
+    /* Override size for social icons which share navbar_links class - SPECIFIC RULE LAST */
+    .social-medias .navbar_links {
+        height: 35px !important;
+        width: 35px !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    .social-medias {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+    }
+
+    /* Ensure main logo isn't shrunk */
+    .navbar_logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Add right margin to the last social icon (Patreon) */
+    .social-links-desktop .social-medias:last-child {
+        margin-right: 20px;
+    }
+}
