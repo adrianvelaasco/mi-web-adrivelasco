@@ -285,7 +285,9 @@
       });
 
       const switcher = document.getElementById('langSwitcher');
-      const slots = document.querySelectorAll('.nav-link-slot');
+      const navSlots = document.querySelectorAll('.nav-link-slot');
+      const contactSlots = document.querySelectorAll('.contact-title-slot');
+      const allSlots = [...navSlots, ...contactSlots];
 
       if (switcher) {
         const options = switcher.querySelectorAll('.lang-option');
@@ -300,7 +302,7 @@
         options[1].classList.toggle('active', lang === 'es');
       }
 
-      slots.forEach(slot => {
+      allSlots.forEach(slot => {
         const spans = slot.querySelectorAll('span');
         const targetSpan = (lang === 'es') ? spans[1] : spans[0];
 

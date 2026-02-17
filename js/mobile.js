@@ -103,6 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-espontanea-desc': "Some captions published on a private Instagram account were verbalizing many thoughts that I hadn't yet been able to formulate.",
             'work-minuit-desc': "Winner of the II Composition Prize TZ-RCSMM. Premiered by Trio Arbós at Teatro de la Zarzuela.",
             'work-cisne-desc': "A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas.",
+            'success-msg': "Thank you! Your submission has been received",
+            'error-msg': "Oops! Something went wrong while submitting the form.",
             cvLink: "CVs/CV_Ingles.pdf"
         },
         es: {
@@ -137,6 +139,8 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-espontanea-desc': "Algunos pies de foto publicados en una cuenta privada de Instagram verbalizaban muchos pensamientos que yo aún no había sido capaz de formular.",
             'work-minuit-desc': "Ganador del II Premio de Composición TZ-RCSMM. Estrenado por el Trío Arbós en el Teatro de la Zarzuela.",
             'work-cisne-desc': "Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía basada en textos de Dionisio Cañas.",
+            'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
+            'error-msg': "¡Vaya! Algo ha fallado al enviar el formulario.",
             cvLink: "CVs/CV_Español.pdf"
         }
     };
@@ -517,12 +521,14 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         `).join('');
 
-        // Posicionar en el primer elemento real al inicio (Solo la primera vez)
+        // Posicionar en el primer elemento real al inicio
         setTimeout(() => {
-            forYouView.scrollTo({ top: forYouView.clientHeight, behavior: 'instant' });
-        }, 10);
+            if (forYouView.children.length > 0) {
+                forYouView.scrollTo({ top: forYouView.clientHeight, behavior: 'instant' });
+            }
+        }, 20);
 
-        // Intersection Observer con rootMargin para pre-carga predictiva
+        // Intersection Observer con rootMargin reducido para no saturar la red en móvil
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const video = entry.target.querySelector('video');
@@ -532,7 +538,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const isForYouActive = isWorksActive && (document.getElementById('foryou-view')?.classList.contains('active'));
 
                 if (entry.isIntersecting) {
-                    // 1. CARGA (Pre-load)
+                    // 1. CARGA (Pre-load) - Solo si no tiene src
                     if (!video.src) {
                         video.onplaying = () => {
                             video.classList.add('playing');
@@ -544,43 +550,47 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
 
                         video.oncanplay = () => {
-                            if (loader) loader.classList.remove('visible');
-                            if (entry.intersectionRatio > 0.6 && isForYouActive) {
-                                video.muted = isMuted;
-                                video.play().catch(() => {
-                                    video.muted = true;
-                                    video.play().catch(() => { });
-                                });
+                            // Cuando esté listo, si sigue siendo el principal, play
+                            const rect = entry.target.getBoundingClientRect();
+                            const container = document.getElementById('foryou-view');
+                            if (container) {
+                                const cRect = container.getBoundingClientRect();
+                                const cp = cRect.top + (cRect.height / 2);
+                                if (rect.top <= cp && rect.bottom >= cp && isForYouActive) {
+                                    video.muted = isMuted;
+                                    video.play().catch(() => {
+                                        video.muted = true;
+                                        video.play().catch(() => { });
+                                    });
+                                }
                             }
                         };
 
                         video.src = video.getAttribute('data-src');
-                        video.load();
                     }
 
-                    // 2. PRIORIDAD (Play)
-                    if (entry.intersectionRatio > 0.6 && isForYouActive) {
-                        video.muted = isMuted;
-                        const playPromise = video.play();
+                    // 2. PRIORIDAD (Play/Pause basado en visibilidad real)
+                    // Iniciamos el vídeo MUCHO antes (10% de visibilidad) para que el motor de audio esté listo
+                    if (entry.intersectionRatio > 0.1 && isForYouActive) {
+                        // Siempre empezamos muted para asegurar que el play() sea aceptado por el navegador
+                        video.muted = true;
 
-                        if (playPromise !== undefined) {
-                            playPromise.catch(() => {
-                                if (!video.muted) {
-                                    video.muted = true;
-                                    video.play().catch(() => { });
-                                }
-                            });
+                        if (video.paused) {
+                            video.play().catch(() => { });
                         }
 
-                        if (video.readyState < 3 && !video.classList.contains('playing')) {
+                        // Solo mostrar loader si realmente está tardando (readyState < 2)
+                        if (video.readyState < 2 && entry.intersectionRatio > 0.6) {
                             if (loader) loader.classList.add('visible');
                         }
                     } else {
+                        // Solo pausamos si desaparece casi por completo
                         video.pause();
                         video.muted = true;
+                        if (loader) loader.classList.remove('visible');
                     }
 
-                    if (video.classList.contains('playing') && loader) {
+                    if (video.readyState >= 3 && loader) {
                         loader.classList.remove('visible');
                     }
 
@@ -590,8 +600,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         }, {
-            threshold: [0, 0.6, 0.9],
-            rootMargin: '100% 0px'
+            threshold: [0, 0.5, 0.8],
+            rootMargin: '100% 0px' // Aumentamos para que cargue antes de llegar
         });
 
         document.querySelectorAll('.foryou-card').forEach(card => observer.observe(card));
@@ -709,30 +719,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         videos.forEach(v => {
             const rect = v.getBoundingClientRect();
-            const isExactlyVisible = (rect.top <= centerPoint && rect.bottom >= centerPoint);
+            // Determinamos si es el vídeo principal (el que cruza el centro)
+            const isCenterVideo = (rect.top <= centerPoint && rect.bottom >= centerPoint);
 
-            if (isExactlyVisible && isForYouActive) {
-                // El vídeo del centro debe seguir el estado global solo si estamos en For You
+            if (isCenterVideo && isForYouActive) {
+                // Sincronizar mute con la preferencia global
                 if (v.muted !== isMuted) {
                     v.muted = isMuted;
                 }
 
-                // Si el usuario quiere audio y el vídeo está pausado (por el observer o por el navegador), intentar play
-                if (!isMuted && v.paused) {
+                // Fallback de seguridad: si debe sonar pero está pausado por algún motivo, play
+                if (!isMuted && v.paused && v.readyState >= 2) {
                     v.play().catch(() => {
-                        const playMuted = () => {
-                            v.muted = true;
-                            v.play().catch(() => { });
-                        };
-                        playMuted();
+                        v.muted = true;
+                        v.play().catch(() => { });
                     });
                 }
             } else {
-                // Silencio absoluto si no es el vídeo central o no estamos en For You
+                // Todo lo que no esté en el centro DEBE estar silenciado
+                // Pero NO lo pausamos aquí para permitir que el Observer gestione el pre-play
                 v.muted = true;
-                if (!isExactlyVisible || !isForYouActive) {
-                    v.pause(); // Pausar si no es el central o no estamos en la sección para ahorrar recursos
-                }
             }
         });
     }
@@ -742,6 +748,18 @@ document.addEventListener("DOMContentLoaded", function () {
     if (audioToggle) {
         audioToggle.addEventListener('click', (e) => {
             e.stopPropagation();
+
+            // "Bless" all current video elements for future audio playback
+            // (Standard technique for mobile browser audio policies)
+            const videos = document.querySelectorAll('#foryou-view video');
+            videos.forEach(v => {
+                // We don't play() here, just ensure we touch the muted state
+                // under a user interaction event.
+                if (v.paused) {
+                    v.play().then(() => v.pause()).catch(() => { });
+                }
+            });
+
             syncAudioState(!isMuted);
         });
     }
@@ -791,6 +809,54 @@ document.addEventListener("DOMContentLoaded", function () {
     // Inicializar vistas
     renderForYou();
     renderCatalogue();
+
+    // --- CONTACT FORM AJAX ---
+    const contactForm = document.getElementById('email-form-mobile');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn-mobile');
+            const originalText = btn.textContent;
+            btn.textContent = currentLang === 'en' ? 'SENDING...' : 'ENVIANDO...';
+            btn.disabled = true;
+
+            const formData = new FormData(contactForm);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+                .then(async (response) => {
+                    let json = await response.json();
+                    if (response.status == 200) {
+                        // Ocultar formulario y mostrar mensaje de éxito
+                        contactForm.style.display = 'none';
+                        const successDiv = document.createElement('div');
+                        successDiv.className = 'success-message';
+                        successDiv.style.display = 'block';
+                        successDiv.innerHTML = `<div class="success_text">${translations[currentLang]['success-msg']}</div>`;
+                        contactForm.parentNode.appendChild(successDiv);
+                    } else {
+                        console.log(response);
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                        alert(translations[currentLang]['error-msg']);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    alert(translations[currentLang]['error-msg']);
+                });
+        });
+    }
 
     // --- KEYBOARD CAROUSEL LOGIC ---
     const keyContainer = document.getElementById('key-carousel');

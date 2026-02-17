@@ -228,7 +228,7 @@
         position: absolute;
         top: 100px;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translateX(calc(-50% + 2px));
         z-index: 100;
         display: flex !important;
         gap: 0 !important;
@@ -613,8 +613,8 @@
         margin: 0 !important;
         border-radius: 40px !important;
         overflow: hidden !important;
-        box-shadow: 0 30px 60px rgba(0, 0, 255, 0.15),
-            0 0 0 1px rgba(0, 0, 255, 0.1) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 255, 0.08),
+            0 0 0 1px rgba(0, 0, 255, 0.05) !important;
         background: transparent !important;
         transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
@@ -653,48 +653,61 @@
         text-align: justify !important;
     }
 
-    /* Slider Arrows Styling - Rectangular & Vertically Stacked */
+    /* Redesigned Slider Arrows - Transparent Pill */
     .w-slider-arrow-left,
     .w-slider-arrow-right {
-        background: white !important;
-        /* CSS Width = Screen Height, CSS Height = Screen Width (due to 90deg rotation) */
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
         width: 34px !important;
-        height: 160px !important;
-        border-radius: 4px !important;
+        /* height on screen */
+        height: 100px !important;
+        /* width on screen */
+        border: 1px solid rgba(0, 0, 255, 0.3) !important;
         color: #0000ff !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        border: 2px solid #0000ff !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 255, 0.08) !important;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
         z-index: 100 !important;
         top: auto !important;
         right: auto !important;
+        box-shadow: none !important;
     }
 
-    /* Screen-Y (Vertical) is CSS 'left', Screen-X (Horizontal) is CSS 'bottom' */
+    .w-icon-slider-left,
+    .w-icon-slider-right {
+        font-size: 20px !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    /* Screen-Y (Vertical) is CSS 'left', Screen-X (Horizontal) is CSS 'bottom' due to 90deg rotation */
     .w-slider-arrow-left {
-        left: calc(45vh + 280px) !important;
-        /* Top of stack */
-        bottom: calc(50% - 80px) !important;
-        /* Center screen-horizontal */
-        transform: none !important;
+        left: calc(45vh + 260px) !important;
+        bottom: calc(50% - 92px) !important;
+        border-radius: 40px 4px 4px 40px !important;
     }
 
     .w-slider-arrow-right {
-        left: calc(45vh + 324px) !important;
-        /* Bottom of stack (34px height + 10px gap) */
-        bottom: calc(50% - 80px) !important;
-        /* Center screen-horizontal */
-        transform: none !important;
+        left: calc(45vh + 260px) !important;
+        bottom: calc(50% + 12px) !important;
+        border-radius: 4px 40px 40px 4px !important;
     }
 
     .w-slider-arrow-left:hover,
     .w-slider-arrow-right:hover {
-        background: #0000ff !important;
+        background: rgba(0, 0, 255, 0.9) !important;
         color: white !important;
-        box-shadow: 0 8px 30px rgba(0, 0, 255, 0.2) !important;
+        border-color: #0000ff !important;
+        box-shadow: 0 0 30px rgba(0, 0, 255, 0.4) !important;
+    }
+
+    .w-slider-arrow-left:hover .w-icon-slider-left {
+        transform: scale(1.1) translateX(-3px);
+    }
+
+    .w-slider-arrow-right:hover .w-icon-slider-right {
+        transform: scale(1.1) translateX(3px);
     }
 
     /* --- RESPONSIVE FOR YOU --- */
@@ -717,12 +730,25 @@
             width: 280px !important;
         }
 
+        .w-slider-arrow-left,
+        .w-slider-arrow-right {
+            width: 30px !important;
+            height: 90px !important;
+            border-radius: 4px !important;
+            background: transparent !important;
+            backdrop-filter: none !important;
+        }
+
         .w-slider-arrow-left {
             left: calc(45vh + 240px) !important;
+            bottom: calc(50% - 82px) !important;
+            border-radius: 40px 4px 4px 40px !important;
         }
 
         .w-slider-arrow-right {
-            left: calc(45vh + 284px) !important;
+            left: calc(45vh + 240px) !important;
+            bottom: calc(50% + 12px) !important;
+            border-radius: 4px 40px 40px 4px !important;
         }
     }
 
@@ -822,19 +848,25 @@
 
         .w-slider-arrow-left,
         .w-slider-arrow-right {
-            height: 120px !important;
+            width: 30px !important;
+            height: 80px !important;
+            border-radius: 4px !important;
+            background: transparent !important;
+            backdrop-filter: none !important;
         }
 
         .w-slider-arrow-left {
             left: auto !important;
             right: 20px !important;
-            bottom: calc(50% + 10px) !important;
+            bottom: calc(50% - 72px) !important;
+            border-radius: 40px 4px 4px 40px !important;
         }
 
         .w-slider-arrow-right {
             left: auto !important;
             right: 20px !important;
-            bottom: calc(50% - 130px) !important;
+            bottom: calc(50% + 12px) !important;
+            border-radius: 4px 40px 40px 4px !important;
         }
     }
 
@@ -1062,18 +1094,23 @@
 
     /* Styles from contact.html */
     .contact_container2 {
-        padding: 60px 60px 20px 60px !important;
         width: 100%;
-        max-width: 1100px !important;
+        max-width: 1250px;
+        /* Wider to allow more separation */
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 80px;
-        box-shadow: none !important;
+        gap: 120px;
+        /* Increased gap to push labels further left */
         text-align: left;
+        margin: 60px auto 0 auto;
     }
 
     .form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px 20px;
+        text-align: left;
         margin-bottom: 0 !important;
     }
 
@@ -1081,30 +1118,85 @@
     .w-form-fail {
         margin-top: 0 !important;
         margin-bottom: 0 !important;
+        background: transparent !important;
+    }
+
+    .success_text,
+    .error_text {
+        font-family: 'Syne', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
+        color: #0000ff !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .info_block {
-        flex: 0 0 45%;
-        margin-bottom: 0;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        flex: 0 0 450px;
+        /* Locked width to handle 'Contact' vs 'Contacto' without shifting */
+        min-width: 450px;
     }
 
     .contact_title {
         font-family: 'Limelight', cursive !important;
         font-size: 5rem !important;
         color: #0000ff !important;
-        line-height: 1 !important;
-        margin-bottom: 25px !important;
+        line-height: 0.9 !important;
+        margin-bottom: 20px !important;
         text-transform: uppercase !important;
         letter-spacing: -2px;
+        text-align: left !important;
+        display: flex;
+        /* Kept flex for the O to be on the same line */
+        align-items: baseline;
+        height: 4.5rem;
+        overflow: hidden;
+    }
+
+    .contact-title-slot {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+            width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        height: 13.5rem;
+        vertical-align: baseline;
+    }
+
+    .contact-title-slot span {
+        height: 4.5rem;
+        line-height: 4.5rem;
+        display: block;
+        white-space: nowrap;
+        width: max-content;
+        font-family: 'Limelight', cursive !important;
+        transform: translateY(12px);
+        /* Increased from 4px to bring it further down */
+    }
+
+    .contact-title-slot.to-es {
+        transform: translateY(-4.5rem);
+        width: 1ch;
+        /* Give it width in ES */
+    }
+
+    .contact-title-slot.to-en {
+        transform: translateY(0);
+        width: 0;
+        /* Shrink to 0 in EN */
+    }
+
+    .contact-title-slot.no-transition {
+        transition: none !important;
     }
 
     .email_link {
         font-family: 'Syne', sans-serif;
         font-weight: 700;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: #0000ff;
         text-decoration: underline;
         text-underline-offset: 6px;
@@ -1118,33 +1210,42 @@
     .form_block {
         flex: 1;
         width: 100%;
+        background: transparent !important;
+        outline: none !important;
+        border: none !important;
     }
 
     .field_labels {
         font-family: 'Syne', sans-serif;
         font-weight: 800;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         color: #0000ff;
-        margin-bottom: 6px;
-        display: block;
         letter-spacing: 1px;
-        text-align: left;
         text-transform: uppercase;
-        opacity: 0.7;
+        opacity: 0.8;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    #Message-contact,
+    label[for="Message-contact"],
+    .submit-button {
+        grid-column: span 2;
     }
 
     .fields {
-        background: rgba(255, 255, 255, 0.9) !important;
-        border: 1px solid rgba(0, 0, 255, 0.15) !important;
-        border-radius: 12px !important;
-        padding: 14px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1px solid rgba(0, 0, 255, 0.1) !important;
+        border-radius: 10px !important;
+        padding: 12px 15px !important;
         font-family: 'Syne', sans-serif !important;
-        font-size: 0.95rem !important;
+        font-size: 0.9rem !important;
         color: #0000ff !important;
-        margin-bottom: 20px !important;
         width: 100% !important;
         box-sizing: border-box !important;
         transition: all 0.2s ease !important;
+        outline: none;
+        margin-bottom: 0 !important;
     }
 
     form .fields:last-of-type {
@@ -1164,19 +1265,20 @@
         font-family: 'Syne', sans-serif !important;
         font-weight: 800 !important;
         text-transform: uppercase !important;
-        border-radius: 12px !important;
-        padding: 16px !important;
+        border-radius: 10px !important;
+        padding: 15px !important;
         width: 100% !important;
         border: none !important;
         cursor: pointer !important;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        font-size: 0.9rem !important;
+        transition: all 0.3s ease !important;
+        font-size: 0.85rem !important;
         letter-spacing: 1px;
+        margin-top: 10px;
     }
 
     .submit-button:hover {
+        background: #0000cc !important;
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(0, 0, 255, 0.3);
     }
 
     @media (max-width: 991px) {
