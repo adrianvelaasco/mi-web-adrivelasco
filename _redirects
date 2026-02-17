@@ -1,0 +1,13 @@
+
+# Redirects for Clean URLs
+
+# --- Works Viewer ---
+/work/:id   /works/viewer.html?work=:id  200
+
+# --- Sections (Mobile/Tablet) ---
+/about      /mobile.html?section=about   200
+/works      /mobile.html?section=works   200
+/contact    /mobile.html?section=contact 200
+
+# --- Default Fallback ---
+/*          /index.html                  200

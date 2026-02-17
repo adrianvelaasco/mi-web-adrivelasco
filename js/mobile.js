@@ -34,7 +34,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update URL/History if needed
         const sectionId = sectionsIds[index];
-        window.history.pushState(null, null, `?section=${sectionId}`);
+        function updateURL(sectionId) {
+            if (!sectionId) return;
+
+            // Clean path logic: /about, /works, /contact
+            const knownSections = ['home', 'about', 'works', 'contact'];
+
+            if (knownSections.includes(sectionId)) {
+                let newPath = '/' + sectionId;
+                if (sectionId === 'home') newPath = '/';
+
+                // Push state visually
+                history.pushState({ section: sectionId }, '', newPath);
+            }
+        }
+        updateURL(sectionId);
 
         // Si entramos en Works, asegurar que la vista activa es la preferida
         if (sectionId === 'works') {

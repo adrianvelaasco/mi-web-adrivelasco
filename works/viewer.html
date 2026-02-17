@@ -452,10 +452,12 @@
             const work = worksData[index];
             if (!work) return;
 
-            // Update URL so refresh works
+            // Update URL cleanly: /work/id
             if (updateURL) {
-                const newURL = window.location.pathname + '?work=' + work.id;
-                window.history.pushState({ index: index }, '', newURL);
+                // Check if we are already using clean path or query param
+                const newPath = '/work/' + work.id;
+                // Use the new path visually
+                window.history.pushState({ index: index }, '', newPath);
             }
 
             const wrapper = document.getElementById('work-content-wrapper');

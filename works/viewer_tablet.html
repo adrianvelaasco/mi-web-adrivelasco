@@ -411,8 +411,8 @@
             if (!work) return;
 
             if (updateURL) {
-                const newURL = window.location.pathname + '?work=' + work.id;
-                window.history.pushState({ index: index }, '', newURL);
+                const newPath = '/work/' + work.id;
+                window.history.pushState({ index: index }, '', newPath);
             }
 
             const wrapper = document.getElementById('work-content-wrapper');
