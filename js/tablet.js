@@ -80,6 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentLang = 'en';
     const translations = {
         en: {
+            'nav-about': "ABOUT",
+            'nav-work': "WORK",
+            'nav-contact': "CONTACT",
             about: [
                 "Adri Velasco (2002, Málaga) is a multimedia artist, composer, and producer based in Hamburg, Germany, where he is pursuing the Master's in Multimedia Composition at the Hochschule für Musik und Theater.",
                 "His work is characterized by a fragmented and maximalist language that investigates the dialogue between contemporary and pop/urban aesthetics. Attentive to the concerns of his generation, he addresses issues related to Internet culture, multiple identities, and privacy in the digital age.",
@@ -114,6 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
             cvLink: "CVs/CV_Ingles.pdf"
         },
         es: {
+            'nav-about': "BIO",
+            'nav-work': "OBRA",
+            'nav-contact': "CONTACTO",
             about: [
                 "Adri Velasco (2002, Málaga) es un artista multimedia, compositor y productor afincado en Hamburgo, Alemania, donde cursa el Máster en Composición Multimedia en la Hochschule für Musik und Theater.",
                 "Su trabajo se caracteriza por un lenguaje fragmentado y maximalista que investiga el diálogo entre la estética contemporánea y la pop/urbana. Atento a las inquietudes de su generación, aborda temas relacionados con la cultura de Internet, las identidades múltiples y la privacidad en la era digital.",
