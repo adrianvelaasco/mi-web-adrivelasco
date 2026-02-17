@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Works - Adrián Velasco (Tablet)</title>
+    <title>Works - Adri Velasco</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <link href="../css/normalize.css" rel="stylesheet" type="text/css">
@@ -15,12 +15,28 @@
         href="https://fonts.googleapis.com/css2?family=Limelight&family=Syne:wght@400..800&family=Climate+Crisis:YEAR@1979..2050&display=swap"
         rel="stylesheet">
 
+    <script src="../js/router-redirect.js"></script>
     <script>
         function checkRedirect() {
+            // Get clean path (e.g. 'works/three-years')
+            const path = window.location.pathname.replace(/^\/|\/$/g, '');
+            const params = window.location.search;
+            let targetSuffix = params;
+
+            // Extract work ID from path if present (e.g. works/three-years -> three-years)
+            if (path && !path.includes('viewer_tablet.html')) {
+                const parts = path.split('/');
+                const workId = parts.length > 1 ? parts[parts.length - 1] : null;
+
+                if (workId && !params.includes('work=')) {
+                    targetSuffix = '?work=' + workId + (params ? '&' + params.slice(1) : '');
+                }
+            }
+
             if (window.innerWidth < 768) {
-                window.location.href = "viewer_mobile.html" + window.location.search;
+                window.location.href = "viewer_mobile.html" + targetSuffix;
             } else if (window.innerWidth >= 1024) {
-                window.location.href = "viewer.html" + window.location.search;
+                window.location.href = "viewer.html" + targetSuffix;
             }
         }
         window.addEventListener('resize', checkRedirect);
@@ -291,7 +307,7 @@
         // WORKS DATABASE (Exact same order as viewer.html)
         const worksData = [
             {
-                id: 'personas',
+                id: 'personas-que-quiza-conozcas',
                 title: 'PERSONAS QUE QUIZÁ CONOZCAS. 2025',
                 videos: ['kRRLhsWD46s'],
                 desc: 'work-personas-desc',
@@ -302,12 +318,12 @@
                 ]
             },
             {
-                id: 'ebdvp',
-                title: 'IN SEARCH OF THE PERFECT VIDEO. 2025',
+                id: 'en-busca-del-video-perfecto',
+                title: 'EN BUSCA DEL VIDEO PERFECTO. 2025',
                 videos: ['PiDJJbJzv9I', 'f70KsUdA6Fk'],
                 desc: 'work-ebdvp-desc',
                 credits: [
-                    { label: 'TEXT', value: 'Adrián Velasco' },
+                    { label: 'TEXT', value: 'Adri Velasco' },
                     { label: 'VOICE', value: 'Eduardo Velasco' }
                 ]
             },
@@ -317,7 +333,7 @@
                 videos: ['hMIFmIM2tNQ'],
                 desc: 'work-pianogames-desc',
                 credits: [
-                    { label: 'Minigames', value: 'Adrián Velasco' },
+                    { label: 'Minigames', value: 'Adri Velasco' },
                     { label: 'Pianist', value: 'Pablo Gil' }
                 ]
             },
@@ -331,7 +347,7 @@
                 ]
             },
             {
-                id: 'osc',
+                id: 'osc-protocol',
                 title: 'OSC PROTOCOL. 2024',
                 videos: ['SJr9lo4Ses0', 'T-8SwfE1cHs'],
                 desc: 'work-osc-desc',
@@ -341,7 +357,7 @@
                 ]
             },
             {
-                id: 'three-years',
+                id: 'three-years-of-evolution',
                 title: 'THREE YEARS OF EVOLUTION. 2024',
                 videos: ['0w1TvFGLKVU'],
                 desc: 'work-tyoe-desc',
@@ -359,12 +375,12 @@
                 videos: ['9p8PEvWN9Lk', '5JbYX-IOZ_4'],
                 desc: 'work-life-desc',
                 credits: [
-                    { label: 'Design', value: 'Adrián Velasco' },
+                    { label: 'Design', value: 'Adri Velasco' },
                     { label: 'Code', value: 'Fran Escobar' }
                 ]
             },
             {
-                id: 'another-music',
+                id: 'another-music-conservatory',
                 title: 'ANOTHER MUSIC CONSERVATORY. 2024',
                 videos: ['Pp1SH6bG458'],
                 desc: 'work-amc-desc',
@@ -376,13 +392,13 @@
                 videos: ['KumuBWSrm3A'],
                 desc: 'work-espontanea-desc',
                 credits: [
-                    { label: 'Work', value: 'Adrián Velasco' },
+                    { label: 'Work', value: 'Adri Velasco' },
                     { label: 'Text', value: 'Alba Roselló' },
                     { label: 'Voice', value: 'Samuel Sarrión' }
                 ]
             },
             {
-                id: 'minuit',
+                id: 'minuit-toujours-arrive',
                 title: 'MINUIT TOUJOURS ARRIVE. 2023',
                 videos: ['LCkRsxdqyDU'],
                 desc: 'work-minuit-desc',
@@ -392,7 +408,7 @@
                 ]
             },
             {
-                id: 'cisne',
+                id: 'cisne-y-cerdo',
                 title: 'CISNE Y CERDO. 2022',
                 videos: ['3nSSqvQ-25o'],
                 desc: 'work-cisne-desc',
@@ -411,8 +427,8 @@
             if (!work) return;
 
             if (updateURL) {
-                const newPath = '/work/' + work.id;
-                window.history.pushState({ index: index }, '', newPath);
+                const newURL = '/works/' + work.id;
+                window.history.pushState({ index: index }, '', newURL);
             }
 
             const wrapper = document.getElementById('work-content-wrapper');
@@ -493,8 +509,21 @@
         };
 
         window.onload = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const workId = urlParams.get('work');
+            // Check for clean URL first
+            const path = window.location.pathname.replace(/^\/|\/$/g, '');
+            const parts = path.split('/');
+            let workId = null;
+
+            const knownIds = worksData.map(w => w.id);
+            const possibleId = parts[parts.length - 1];
+
+            if (knownIds.includes(possibleId)) {
+                workId = possibleId;
+            } else {
+                const urlParams = new URLSearchParams(window.location.search);
+                workId = urlParams.get('work');
+            }
+
             if (workId) {
                 const found = worksData.findIndex(w => w.id === workId);
                 if (found !== -1) currentIndex = found;

@@ -6,9 +6,34 @@ document.addEventListener("DOMContentLoaded", function () {
     let isInitialHomeAnimation = true; // Solo para el primer arranque en Home
     const sections = document.querySelectorAll('.section');
     const sectionsIds = ['home', 'about', 'works', 'contact'];
+    // --- CHECK INITIAL PATH ---
+    const path = window.location.pathname.replace(/^\/|\/$/g, '');
+    let initSectionIndex = sectionsIds.indexOf(path);
+    if (initSectionIndex === -1) {
+        // Fallback to query param
+        const params = new URLSearchParams(window.location.search);
+        const sectionParam = params.get('section');
+        initSectionIndex = sectionsIds.indexOf(sectionParam);
+    }
+    // --- WORKS DATA ---
+    const worksData = [
+        { id: 'personas-que-quiza-conozcas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'images/PQQC-Thumbnail.png', video: 'videos/compressed/9.mp4', desc: 'work-personas-desc' },
+        { id: 'en-busca-del-video-perfecto', title: 'EN BUSCA DEL VIDEO PERFECTO', year: 2025, category: 'just-sound', thumbnail: 'images/EBDVP-Thumbnail.png', video: 'videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
+        { id: 'pianogames', title: 'PIANOGAMES', year: 2025, category: 'multimedia', thumbnail: 'images/Pianogames-Thumbnail.png', video: 'videos/compressed/2.mp4', desc: 'work-pianogames-desc' },
+        { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'images/Rumble-Thumbnail.png', video: 'videos/compressed/4.mp4', desc: 'work-rumble-desc' },
+        { id: 'osc-protocol', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/OSC-Protocol-Thumbnail.png', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
+        { id: 'three-years-of-evolution', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/TYoE-Thumbnail.png', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
+        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'others', thumbnail: 'images/Game-Of-Life-Thumbnail.png', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
+        { id: 'another-music-conservatory', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/AMC-Thumbnail-1-p-1080.png', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
+        { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'images/lespontanea-Thumbnail.png', video: 'videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
+        { id: 'minuit-toujours-arrive', title: 'MINUIT TOUJOURS ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/Minuit-Toujours-Arrive-Thumbnail.png', video: '', desc: 'work-minuit-desc' },
+        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/Cisne-y-Cerdo-Thumbnail.png', video: '', desc: 'work-cisne-desc' }
+    ];
 
+    const forYouView = document.getElementById('foryou-view');
+    const catalogueGrid = document.querySelector('.catalogue-grid');
     // --- NAVIGATION LOGIC ---
-    function goToSection(index) {
+    function goToSection(index, replace = false) {
         if (index < 0 || index >= sections.length) return;
 
         sections.forEach((s, i) => {
@@ -34,21 +59,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update URL/History if needed
         const sectionId = sectionsIds[index];
-        function updateURL(sectionId) {
-            if (!sectionId) return;
+        const newPath = sectionId === 'home' ? '/' : '/' + sectionId;
 
-            // Clean path logic: /about, /works, /contact
-            const knownSections = ['home', 'about', 'works', 'contact'];
-
-            if (knownSections.includes(sectionId)) {
-                let newPath = '/' + sectionId;
-                if (sectionId === 'home') newPath = '/';
-
-                // Push state visually
-                history.pushState({ section: sectionId }, '', newPath);
-            }
+        if (replace) {
+            window.history.replaceState(null, null, newPath);
+        } else {
+            window.history.pushState(null, null, newPath);
         }
-        updateURL(sectionId);
 
         // Si entramos en Works, asegurar que la vista activa es la preferida
         if (sectionId === 'works') {
@@ -58,9 +75,26 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll('.works-view').forEach(v => {
                 v.classList.toggle('active', v.id === `${preferredWorksView}-view`);
             });
-            if (preferredWorksView === 'foryou') renderForYou();
+            if (preferredWorksView === 'foryou') {
+                renderForYou();
+                // Si el audio está activado, intentar reproducir tras la transición
+                if (!isMuted) {
+                    // Intentos escalonados para cubrir la transición de entrada
+                    setTimeout(() => syncAudioState(false), 100);
+                    setTimeout(() => syncAudioState(false), 600);
+                }
+            }
             else renderCatalogue();
         }
+    }
+
+    // --- INITIALIZE SECTION ---
+    if (initSectionIndex !== -1) {
+        // Run replacement for init (even if 0, to clean URL)
+        goToSection(initSectionIndex, true);
+    } else {
+        // Default to home if nothing found
+        goToSection(0, true);
     }
 
     // --- CLICK HANDLERS (HEADER) ---
@@ -154,8 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-minuit-desc': "Ganador del II Premio de Composición TZ-RCSMM. Estrenado por el Trío Arbós en el Teatro de la Zarzuela.",
             'work-cisne-desc': "Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía basada en textos de Dionisio Cañas.",
             'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
+            'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
             'error-msg': "¡Vaya! Algo ha fallado al enviar el formulario.",
-            cvLink: "CVs/CV_Español.pdf"
+            cvLink: "CVs/CV_Español.pdf"
         }
     };
 
@@ -472,37 +507,21 @@ document.addEventListener("DOMContentLoaded", function () {
         requestAnimationFrame(animate);
     }
 
-    // --- WORKS DATA ---
-    const worksData = [
-        { id: 'personas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'images/PQQC-Thumbnail.png', video: 'videos/compressed/9.mp4', desc: 'work-personas-desc' },
-        { id: 'ebdvp', title: 'IN SEARCH OF THE PERFECT VIDEO', year: 2025, category: 'just-sound', thumbnail: 'images/EBDVP-Thumbnail.png', video: 'videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
-        { id: 'pianogames', title: 'PIANOGAMES', year: 2025, category: 'multimedia', thumbnail: 'images/Pianogames-Thumbnail.png', video: 'videos/compressed/2.mp4', desc: 'work-pianogames-desc' },
-        { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'images/Rumble-Thumbnail.png', video: 'videos/compressed/4.mp4', desc: 'work-rumble-desc' },
-        { id: 'osc', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/OSC-Protocol-Thumbnail.png', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
-        { id: 'three-years', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/TYoE-Thumbnail.png', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
-        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'others', thumbnail: 'images/Game-Of-Life-Thumbnail.png', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
-        { id: 'another-music', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/AMC-Thumbnail-1-p-1080.png', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
-        { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'images/lespontanea-Thumbnail.png', video: 'videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
-        { id: 'minuit', title: 'MINUIT TOUJOURS ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/Minuit-Toujours-Arrive-Thumbnail.png', video: '', desc: 'work-minuit-desc' },
-        { id: 'cisne', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/Cisne-y-Cerdo-Thumbnail.png', video: '', desc: 'work-cisne-desc' }
-    ];
 
-    const forYouView = document.getElementById('foryou-view');
-    const catalogueGrid = document.querySelector('.catalogue-grid');
 
     function renderForYou() {
         if (!forYouView) return;
 
         // Sincronizar con el orden exacto del ordenador
         const forYouOrder = [
-            'three-years',
+            'three-years-of-evolution',
             'pianogames',
             'game-of-life',
             'rumble',
-            'ebdvp',
-            'osc',
+            'en-busca-del-video-perfecto',
+            'osc-protocol',
             'lespontanea',
-            'another-music'
+            'another-music-conservatory'
         ];
 
         // Filtrar y ordenar según la lista anterior
@@ -586,11 +605,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     // 2. PRIORIDAD (Play/Pause basado en visibilidad real)
                     // Iniciamos el vídeo MUCHO antes (10% de visibilidad) para que el motor de audio esté listo
                     if (entry.intersectionRatio > 0.1 && isForYouActive) {
-                        // Siempre empezamos muted para asegurar que el play() sea aceptado por el navegador
-                        video.muted = true;
+                        // Intentar respetar el estado global de mute
+                        // Si el navegador bloquea audio, el catch lo silenciará
+                        video.muted = isMuted;
 
                         if (video.paused) {
-                            video.play().catch(() => { });
+                            video.play().catch(() => {
+                                video.muted = true;
+                                video.play().catch(() => { });
+                            });
                         }
 
                         // Solo mostrar loader si realmente está tardando (readyState < 2)
@@ -626,6 +649,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let scrollTimeout;
         forYouView.addEventListener('scroll', () => {
             const { scrollTop, scrollHeight, clientHeight } = forYouView;
+
+            // Safety check
+            if (clientHeight <= 0) return;
 
             // 1. Lógica de bucle
             if (scrollTop >= scrollHeight - clientHeight) {
@@ -992,18 +1018,8 @@ document.addEventListener("DOMContentLoaded", function () {
         initParticles();
     }
 
-    // Check URL params on load
-    const params = new URLSearchParams(window.location.search);
-    const initialSection = params.get('section');
-    if (initialSection) {
-        const index = sectionsIds.indexOf(initialSection);
-        if (index !== -1) {
-            if (index !== 0) isInitialHomeAnimation = false;
-            goToSection(index);
-        }
-    } else {
-        goToSection(0); // Inicialización para que el resto de secciones estén en 'after'
-    }
+    // Check URL params logic moved to top of file
+    // const params = new URLSearchParams(window.location.search); ...
 
     // Set initial language from local storage or default
     const savedLang = localStorage.getItem('preferredLanguage') || 'en';

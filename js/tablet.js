@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update URL/History if needed
         const sectionId = sectionsIds[index];
-        window.history.pushState(null, null, `?section=${sectionId}`);
+        const newPath = sectionId === 'home' ? '/' : '/' + sectionId;
+        window.history.pushState(null, null, newPath);
 
         // Si entramos en Works, asegurar que la vista activa es la preferida
         if (sectionId === 'works') {
@@ -44,8 +45,15 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll('.works-view').forEach(v => {
                 v.classList.toggle('active', v.id === `${preferredWorksView}-view`);
             });
-            if (preferredWorksView === 'foryou') renderForYou();
-            else renderCatalogue();
+            if (preferredWorksView === 'foryou') {
+                renderForYou();
+                // Si el audio está activado, intentar reproducir tras la transición
+                if (!isMuted) {
+                    // Intentos escalonados para cubrir la transición de entrada
+                    setTimeout(() => syncAudioState(false), 100);
+                    setTimeout(() => syncAudioState(false), 600);
+                }
+            } else renderCatalogue();
         }
     }
 
@@ -456,17 +464,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- WORKS DATA ---
     const worksData = [
-        { id: 'personas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'images/PQQC-Thumbnail.png', video: 'videos/compressed/9.mp4', desc: 'work-personas-desc' },
-        { id: 'ebdvp', title: 'IN SEARCH OF THE PERFECT VIDEO', year: 2025, category: 'just-sound', thumbnail: 'images/EBDVP-Thumbnail.png', video: 'videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
+        { id: 'personas-que-quiza-conozcas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'images/PQQC-Thumbnail.png', video: 'videos/compressed/9.mp4', desc: 'work-personas-desc' },
+        { id: 'en-busca-del-video-perfecto', title: 'EN BUSCA DEL VIDEO PERFECTO', year: 2025, category: 'just-sound', thumbnail: 'images/EBDVP-Thumbnail.png', video: 'videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
         { id: 'pianogames', title: 'PIANOGAMES', year: 2025, category: 'multimedia', thumbnail: 'images/Pianogames-Thumbnail.png', video: 'videos/compressed/2.mp4', desc: 'work-pianogames-desc' },
         { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'images/Rumble-Thumbnail.png', video: 'videos/compressed/4.mp4', desc: 'work-rumble-desc' },
-        { id: 'osc', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/OSC-Protocol-Thumbnail.png', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
-        { id: 'three-years', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/TYoE-Thumbnail.png', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
+        { id: 'osc-protocol', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/OSC-Protocol-Thumbnail.png', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
+        { id: 'three-years-of-evolution', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/TYoE-Thumbnail.png', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
         { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'others', thumbnail: 'images/Game-Of-Life-Thumbnail.png', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
-        { id: 'another-music', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/AMC-Thumbnail-1-p-1080.png', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
+        { id: 'another-music-conservatory', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/AMC-Thumbnail-1-p-1080.png', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
         { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'images/lespontanea-Thumbnail.png', video: 'videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
-        { id: 'minuit', title: 'MINUIT TOUJOURS ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/Minuit-Toujours-Arrive-Thumbnail.png', video: '', desc: 'work-minuit-desc' },
-        { id: 'cisne', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/Cisne-y-Cerdo-Thumbnail.png', video: '', desc: 'work-cisne-desc' }
+        { id: 'minuit-toujours-arrive', title: 'MINUIT TOUJOURS ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/Minuit-Toujours-Arrive-Thumbnail.png', video: '', desc: 'work-minuit-desc' },
+        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/Cisne-y-Cerdo-Thumbnail.png', video: '', desc: 'work-cisne-desc' }
     ];
 
     const forYouView = document.getElementById('foryou-view');
@@ -477,14 +485,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Sincronizar con el orden exacto del ordenador
         const forYouOrder = [
-            'three-years',
+            'three-years-of-evolution',
             'pianogames',
             'game-of-life',
             'rumble',
-            'ebdvp',
-            'osc',
+            'en-busca-del-video-perfecto',
+            'osc-protocol',
             'lespontanea',
-            'another-music'
+            'another-music-conservatory'
         ];
 
         // Filtrar y ordenar según la lista anterior
@@ -508,7 +516,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="foryou-card">
                 <div class="video-loader"></div>
                 <div class="foryou-video-container">
-                    <video data-src="${work.video}" loop ${isMuted ? 'muted' : ''} playsinline preload="auto"></video>
+                    <video data-src="${work.video}" loop muted playsinline webkit-playsinline preload="auto"></video>
                 </div>
                 <div class="foryou-content">
                     <h3 class="foryou-title">${work.title}</h3>
@@ -518,11 +526,22 @@ document.addEventListener("DOMContentLoaded", function () {
         `).join('');
 
         // Posicionar en el primer elemento real al inicio (Solo la primera vez)
+        // Aumentado a 50ms para dar tiempo al renderizado en iPads antiguos
         setTimeout(() => {
-            forYouView.scrollTo({ top: forYouView.clientHeight, behavior: 'instant' });
-        }, 10);
+            if (forYouView.children.length > 0) {
+                forYouView.scrollTo({ top: forYouView.clientHeight, behavior: 'instant' });
+                // Kickstart inicial para el primer video visible
+                setTimeout(() => {
+                    const firstVideo = forYouView.children[1]?.querySelector('video'); // index 1 es el primero real
+                    if (firstVideo && firstVideo.paused) {
+                        firstVideo.muted = true;
+                        firstVideo.play().catch(() => { });
+                    }
+                }, 100);
+            }
+        }, 50);
 
-        // Intersection Observer con rootMargin para pre-carga predictiva
+        // Intersection Observer con rootMargin reducido para no saturar la red
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const video = entry.target.querySelector('video');
@@ -532,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const isForYouActive = isWorksActive && (document.getElementById('foryou-view')?.classList.contains('active'));
 
                 if (entry.isIntersecting) {
-                    // 1. CARGA (Pre-load)
+                    // 1. CARGA (Pre-load) - Solo si no tiene src
                     if (!video.src) {
                         video.onplaying = () => {
                             video.classList.add('playing');
@@ -544,54 +563,66 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
 
                         video.oncanplay = () => {
-                            if (loader) loader.classList.remove('visible');
-                            if (entry.intersectionRatio > 0.6 && isForYouActive) {
-                                video.muted = isMuted;
-                                video.play().catch(() => {
-                                    video.muted = true;
-                                    video.play().catch(() => { });
-                                });
+                            // Cuando esté listo, si sigue siendo el principal, play
+                            const rect = entry.target.getBoundingClientRect();
+                            const container = document.getElementById('foryou-view');
+                            if (container) {
+                                const cRect = container.getBoundingClientRect();
+                                const cp = cRect.top + (cRect.height / 2);
+                                if (rect.top <= cp && rect.bottom >= cp && isForYouActive) {
+                                    video.muted = isMuted;
+                                    video.play().catch(() => {
+                                        video.muted = true;
+                                        video.play().catch(() => { });
+                                    });
+                                }
                             }
                         };
 
                         video.src = video.getAttribute('data-src');
-                        video.load();
                     }
 
-                    // 2. PRIORIDAD (Play)
-                    if (entry.intersectionRatio > 0.6 && isForYouActive) {
+                    // 2. PRIORIDAD (Play/Pause basado en visibilidad real)
+                    // Iniciamos el vídeo MUCHO antes (10% de visibilidad) para que el motor de audio esté listo
+                    if (entry.intersectionRatio > 0.1 && isForYouActive) {
+                        // Intentar respetar el estado global de mute
+                        // Si el navegador bloquea audio, el catch lo silenciará
                         video.muted = isMuted;
-                        const playPromise = video.play();
 
-                        if (playPromise !== undefined) {
-                            playPromise.catch(() => {
-                                if (!video.muted) {
+                        if (video.paused) {
+                            // Timeout pequeño para asegurar que no hay conflicto de promesas
+                            setTimeout(() => {
+                                video.play().catch(() => {
                                     video.muted = true;
                                     video.play().catch(() => { });
-                                }
-                            });
+                                });
+                            }, 0);
                         }
 
-                        if (video.readyState < 3 && !video.classList.contains('playing')) {
+                        // Solo mostrar loader si realmente está tardando (readyState < 2)
+                        if (video.readyState < 2 && entry.intersectionRatio > 0.6) {
                             if (loader) loader.classList.add('visible');
                         }
                     } else {
+                        // Solo pausamos si desaparece casi por completo
                         video.pause();
                         video.muted = true;
+                        if (loader) loader.classList.remove('visible');
                     }
 
-                    if (video.classList.contains('playing') && loader) {
+                    if (video.readyState >= 3 && loader) {
                         loader.classList.remove('visible');
                     }
 
                 } else {
                     video.pause();
                     video.muted = true;
+                    if (loader) loader.classList.remove('visible');
                 }
             });
         }, {
-            threshold: [0, 0.6, 0.9],
-            rootMargin: '100% 0px'
+            threshold: [0, 0.1, 0.6, 1.0], // Umbrales granulares
+            rootMargin: '50% 0px' // Pre-carga generosa
         });
 
         document.querySelectorAll('.foryou-card').forEach(card => observer.observe(card));
@@ -602,6 +633,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let scrollTimeout;
         forYouView.addEventListener('scroll', () => {
             const { scrollTop, scrollHeight, clientHeight } = forYouView;
+
+            // Safety check
+            if (clientHeight <= 0) return;
 
             // 1. Lógica de bucle
             if (scrollTop >= scrollHeight - clientHeight) {
@@ -709,30 +743,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         videos.forEach(v => {
             const rect = v.getBoundingClientRect();
-            const isExactlyVisible = (rect.top <= centerPoint && rect.bottom >= centerPoint);
+            // Determinamos si es el vídeo principal (el que cruza el centro)
+            const isCenterVideo = (rect.top <= centerPoint && rect.bottom >= centerPoint);
 
-            if (isExactlyVisible && isForYouActive) {
-                // El vídeo del centro debe seguir el estado global solo si estamos en For You
+            if (isCenterVideo && isForYouActive) {
+                // Sincronizar mute con la preferencia global
                 if (v.muted !== isMuted) {
                     v.muted = isMuted;
                 }
 
-                // Si el usuario quiere audio y el vídeo está pausado (por el observer o por el navegador), intentar play
-                if (!isMuted && v.paused) {
+                // Fallback de seguridad: si debe sonar pero está pausado por algún motivo, play
+                if (!isMuted && v.paused && v.readyState >= 2) {
                     v.play().catch(() => {
-                        const playMuted = () => {
-                            v.muted = true;
-                            v.play().catch(() => { });
-                        };
-                        playMuted();
+                        v.muted = true;
+                        v.play().catch(() => { });
                     });
                 }
             } else {
-                // Silencio absoluto si no es el vídeo central o no estamos en For You
+                // Todo lo que no esté en el centro DEBE estar silenciado
+                // Pero NO lo pausamos aquí para permitir que el Observer gestione el pre-play
                 v.muted = true;
-                if (!isExactlyVisible || !isForYouActive) {
-                    v.pause(); // Pausar si no es el central o no estamos en la sección para ahorrar recursos
-                }
             }
         });
     }
@@ -742,6 +772,18 @@ document.addEventListener("DOMContentLoaded", function () {
     if (audioToggle) {
         audioToggle.addEventListener('click', (e) => {
             e.stopPropagation();
+
+            // "Bless" all current video elements for future audio playback
+            // (Standard technique for mobile browser audio policies)
+            const videos = document.querySelectorAll('#foryou-view video');
+            videos.forEach(v => {
+                // We don't play() here, just ensure we touch the muted state
+                // under a user interaction event.
+                if (v.paused) {
+                    v.play().then(() => v.pause()).catch(() => { });
+                }
+            });
+
             syncAudioState(!isMuted);
         });
     }

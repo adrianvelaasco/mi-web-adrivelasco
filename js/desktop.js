@@ -16,7 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- CONSTANTS & STATE ---
     const initUrlParams = new URLSearchParams(window.location.search);
-    const initSection = initUrlParams.get('section');
+    let initSection = initUrlParams.get('section');
+
+    const path = window.location.pathname.replace(/^\/|\/$/g, '');
+    if (['about', 'works', 'contact'].includes(path)) {
+        initSection = path;
+    } else if (initSection) {
+        // Cleaning the URL if we arrived with ?section=
+        const newPath = '/' + initSection;
+        window.history.replaceState(null, null, newPath);
+    }
 
     let globalScroll = 0; // The master scroll value (0 -> infinity)
     let targetGlobalScroll = 0;
@@ -1702,14 +1711,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const isIndex = url.pathname.endsWith('index.html') || url.pathname === '/';
 
         if (isInternal && isIndex) {
-            const section = url.searchParams.get('section');
+            let section = url.searchParams.get('section');
+            if (!section && url.pathname !== '/' && !url.pathname.includes('index.html')) {
+                section = url.pathname.replace(/^\/|\/$/g, '');
+            }
             // Only intercept if it's a home link or a section link
             // If it's just '#' we already returned, but if it's external or different page, we let it be.
             e.preventDefault();
             const targetEvent = section ? 'navigateTo' + section.charAt(0).toUpperCase() + section.slice(1) : 'navigateToHome';
 
             // Update URL without reload
-            window.history.pushState({}, '', link.href);
+            // Update URL to clean path without reload
+            const newPath = section ? '/' + section : '/';
+            window.history.pushState({}, '', newPath);
             window.dispatchEvent(new CustomEvent(targetEvent));
         }
     });
@@ -2258,5 +2272,29 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    // --- HISTORY NAVIGATION ---
+    window.addEventListener('popstate', (event) => {
+        // Handle back/forward buttons
+        const path = window.location.pathname.replace(/^\/|\/$/g, '');
+        let targetSection = 'home';
+
+        if (['about', 'works', 'contact'].includes(path)) {
+            targetSection = path;
+        } else if (path === '' || path === 'index.html') {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('section')) {
+                targetSection = params.get('section');
+            }
+        }
+
+        const eventName = 'navigateTo' + targetSection.charAt(0).toUpperCase() + targetSection.slice(1);
+        if (targetSection === 'home') {
+            // Special case for home to ensure clean scroll back
+            window.dispatchEvent(new CustomEvent('navigateToHome'));
+        } else {
+            window.dispatchEvent(new CustomEvent(eventName));
+        }
+    });
 
 });

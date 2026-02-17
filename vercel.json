@@ -1,9 +1,0 @@
-{
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/work/:id", "destination": "/works/viewer.html?work=:id" },
-    { "source": "/about", "destination": "/mobile.html?section=about" },
-    { "source": "/works", "destination": "/mobile.html?section=works" },
-    { "source": "/contact", "destination": "/mobile.html?section=contact" }
-  ]
-}

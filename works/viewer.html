@@ -3,20 +3,42 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Works - Adrián Velasco</title>
+    <title>Works - Adri Velasco</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
+    <script src="../js/router-redirect.js"></script>
     <script>
         function checkRedirect() {
+            // Get clean path (e.g. 'works/three-years')
+            const path = window.location.pathname.replace(/^\/|\/$/g, '');
+            const params = window.location.search;
+            let targetSuffix = params;
+
+            // Extract work ID from path if present (e.g. works/three-years -> three-years)
+            // But we need to be careful not to create a loop.
+            // If path is clean, we pass it.
+
+            if (path && !path.includes('viewer.html')) {
+                // If it's a clean work URL like /works/three-years
+                // We extract the last part
+                const parts = path.split('/');
+                const workId = parts.length > 1 ? parts[parts.length - 1] : null;
+
+                if (workId && !params.includes('work=')) {
+                    targetSuffix = '?work=' + workId + (params ? '&' + params.slice(1) : '');
+                }
+            }
+
             if (window.innerWidth < 768) {
-                window.location.href = "viewer_mobile.html" + window.location.search;
+                window.location.href = "viewer_mobile.html" + targetSuffix;
             } else if (window.innerWidth < 1024) {
-                window.location.href = "viewer_tablet.html" + window.location.search;
+                window.location.href = "viewer_tablet.html" + targetSuffix;
             }
         }
         window.addEventListener('resize', checkRedirect);
         checkRedirect();
     </script>
+
 
     <!-- Global CSS -->
     <link href="../css/normalize.css" rel="stylesheet" type="text/css">
@@ -334,7 +356,7 @@
         // WORKS DATABASE
         const worksData = [
             {
-                id: 'personas',
+                id: 'personas-que-quiza-conozcas',
                 title: 'PERSONAS QUE QUIZÁ CONOZCAS. 2025',
                 videos: ['kRRLhsWD46s'],
                 desc: 'work-personas-desc',
@@ -345,12 +367,12 @@
                 ]
             },
             {
-                id: 'ebdvp',
-                title: 'IN SEARCH OF THE PERFECT VIDEO. 2025',
+                id: 'en-busca-del-video-perfecto',
+                title: 'EN BUSCA DEL VIDEO PERFECTO. 2025',
                 videos: ['PiDJJbJzv9I', 'f70KsUdA6Fk'],
                 desc: 'work-ebdvp-desc',
                 credits: [
-                    { label: 'TEXT', value: 'Adrián Velasco' },
+                    { label: 'TEXT', value: 'Adri Velasco' },
                     { label: 'VOICE', value: 'Eduardo Velasco' }
                 ]
             },
@@ -360,7 +382,7 @@
                 videos: ['hMIFmIM2tNQ'],
                 desc: 'work-pianogames-desc',
                 credits: [
-                    { label: 'Minigames', value: 'Adrián Velasco' },
+                    { label: 'Minigames', value: 'Adri Velasco' },
                     { label: 'Pianist', value: 'Pablo Gil' }
                 ]
             },
@@ -374,7 +396,7 @@
                 ]
             },
             {
-                id: 'osc',
+                id: 'osc-protocol',
                 title: 'OSC PROTOCOL. 2024',
                 videos: ['SJr9lo4Ses0', 'T-8SwfE1cHs'],
                 desc: 'work-osc-desc',
@@ -384,7 +406,7 @@
                 ]
             },
             {
-                id: 'three-years',
+                id: 'three-years-of-evolution',
                 title: 'THREE YEARS OF EVOLUTION. 2024',
                 videos: ['0w1TvFGLKVU'],
                 desc: 'work-tyoe-desc',
@@ -402,12 +424,12 @@
                 videos: ['9p8PEvWN9Lk', '5JbYX-IOZ_4'],
                 desc: 'work-life-desc',
                 credits: [
-                    { label: 'Design', value: 'Adrián Velasco' },
+                    { label: 'Design', value: 'Adri Velasco' },
                     { label: 'Code', value: 'Fran Escobar' }
                 ]
             },
             {
-                id: 'another-music',
+                id: 'another-music-conservatory',
                 title: 'ANOTHER MUSIC CONSERVATORY. 2024',
                 videos: ['Pp1SH6bG458'],
                 desc: 'work-amc-desc',
@@ -419,13 +441,13 @@
                 videos: ['KumuBWSrm3A'],
                 desc: 'work-espontanea-desc',
                 credits: [
-                    { label: 'Work', value: 'Adrián Velasco' },
+                    { label: 'Work', value: 'Adri Velasco' },
                     { label: 'Text', value: 'Alba Roselló' },
                     { label: 'Voice', value: 'Samuel Sarrión' }
                 ]
             },
             {
-                id: 'minuit',
+                id: 'minuit-toujours-arrive',
                 title: 'MINUIT TOUJOURS ARRIVE. 2023',
                 videos: ['LCkRsxdqyDU'],
                 desc: 'work-minuit-desc',
@@ -435,7 +457,7 @@
                 ]
             },
             {
-                id: 'cisne',
+                id: 'cisne-y-cerdo',
                 title: 'CISNE Y CERDO. 2022',
                 videos: ['3nSSqvQ-25o'],
                 desc: 'work-cisne-desc',
@@ -452,12 +474,10 @@
             const work = worksData[index];
             if (!work) return;
 
-            // Update URL cleanly: /work/id
+            // Update URL so refresh works
             if (updateURL) {
-                // Check if we are already using clean path or query param
-                const newPath = '/work/' + work.id;
-                // Use the new path visually
-                window.history.pushState({ index: index }, '', newPath);
+                const newURL = '/works/' + work.id;
+                window.history.pushState({ index: index }, '', newURL);
             }
 
             const wrapper = document.getElementById('work-content-wrapper');
@@ -470,11 +490,11 @@
                 // Update Videos
                 const videoColumn = document.getElementById('display-videos');
                 videoColumn.innerHTML = work.videos.map(id => `
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0" 
-                    allowfullscreen></iframe>
-          </div>
-        `).join('');
+                                <div class="video-wrapper">
+                                    <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0"
+                                        allowfullscreen></iframe>
+                                </div>
+                                `).join('');
 
                 // Update Description (with translation support)
                 const descDiv = document.getElementById('display-desc');
@@ -487,10 +507,10 @@
                 // Update Credits
                 const creditsBox = document.getElementById('display-credits');
                 creditsBox.innerHTML = work.credits.map(c => `
-          <div class="credits-row">
-            <span class="credits-label">${c.label}</span>
-            ${c.value}
-          </div>
+                                <div class="credits-row">
+                                    <span class="credits-label">${c.label}</span>
+                                    ${c.value}
+                                </div>
         `).join('');
 
                 // Trigger translation re-run if script is ready
@@ -553,10 +573,25 @@
             }
         });
 
-        // Initial Load based on URL
         window.addEventListener('load', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const workId = urlParams.get('work');
+            // Check for clean URL first: /works/three-years
+            const path = window.location.pathname.replace(/^\/|\/$/g, '');
+            const parts = path.split('/');
+            let workId = null;
+
+            // If the last part is a work ID (and not 'works' or 'viewer.html')
+            // Works IDs: personas, ebdvp, pianogames, rumble, osc, three-years, game-of-life, another-music, lespontanea, minuit, cisne
+            const knownIds = worksData.map(w => w.id);
+            const possibleId = parts[parts.length - 1];
+
+            if (knownIds.includes(possibleId)) {
+                workId = possibleId;
+            } else {
+                // Fallback to query param
+                const urlParams = new URLSearchParams(window.location.search);
+                workId = urlParams.get('work');
+            }
+
             if (workId) {
                 const found = worksData.findIndex(w => w.id === workId);
                 if (found !== -1) currentIndex = found;

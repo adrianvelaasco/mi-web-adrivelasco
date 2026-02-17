@@ -4,25 +4,49 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Adrián Velasco | Multimedia Artist & Composer</title>
+  <title>Adri Velasco | Multimedia Artist & Composer</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
-  <meta name="description" content="Portfolio of Adri Velasco - Composer, Sound Designer & Multimedia Artist">
+  <meta name="description"
+    content="Portfolio of Adri Velasco (Adrián Velasco) - Composer, Sound Designer & Multimedia Artist">
   <meta name="keywords"
-    content="Adrián Velasco, composer, multimedia artist, sound designer, contemporary music, Hamburg music, multimedia composition, portfolio">
+    content="Adri Velasco, Adrián Velasco, composer, multimedia artist, sound designer, contemporary music, Hamburg music, multimedia composition, portfolio">
   <link rel="canonical" href="https://adrivelasco.com/index.html">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Adri Velasco",
+      "alternateName": "Adrián Velasco",
+      "url": "https://adrivelasco.com",
+      "image": "https://adrivelasco.com/images/Logo.png",
+      "sameAs": [
+        "https://www.instagram.com/adrivelaasco/",
+        "https://www.youtube.com/@adrivelaasco",
+        "https://soundcloud.com/adrivelaasco",
+        "https://www.patreon.com/c/adrivelasco"
+      ],
+      "jobTitle": "Multimedia Artist & Composer",
+      "description": "Portfolio of Adri Velasco (Adrián Velasco) - Composer, Sound Designer & Multimedia Artist based in Hamburg.",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Hochschule für Musik und Theater Hamburg"
+      }
+    }
+  </script>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://adrivelasco.com/">
-  <meta property="og:title" content="Adrián Velasco | Multimedia Artist & Composer">
+  <meta property="og:title" content="Adri Velasco | Multimedia Artist & Composer">
   <meta property="og:description" content="Portfolio of Adri Velasco - Composer, Sound Designer & Multimedia Artist">
   <meta property="og:image" content="https://adrivelasco.com/images/Logo.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://adrivelasco.com/">
-  <meta property="twitter:title" content="Adrián Velasco | Multimedia Artist & Composer">
+  <meta property="twitter:title" content="Adri Velasco | Multimedia Artist & Composer">
   <meta property="twitter:description"
     content="Portfolio of Adri Velasco - Composer, Sound Designer & Multimedia Artist">
   <meta property="twitter:image" content="https://adrivelasco.com/images/Logo.png">
@@ -48,15 +72,31 @@
 
   <link href="css/desktop.css?v=3" rel="stylesheet" type="text/css">
 
+  <script src="js/router-redirect.js"></script>
+
   <script>
     function checkRedirect() {
-      if (window.innerWidth < 768) {
-        window.location.href = "mobile.html" + window.location.search;
-      } else if (window.innerWidth < 1024) {
-        window.location.href = "tablet.html" + window.location.search;
+      // Get clean path (e.g. 'about', 'works')
+      const path = window.location.pathname.replace(/^\/|\/$/g, '');
+      const params = window.location.search;
+      let targetSuffix = params;
+
+      // If we have a clean path that isn't empty, include it in redirect
+      if (path && !path.includes('index.html')) {
+        // If we are redirecting to mobile/tablet, they are files.
+        // We need to pass the section via query param OR if we want clean URL on mobile,
+        // we'd need complex rewriting. For now, pass as section param if not present.
+        if (!params.includes('section=')) {
+          targetSuffix = '?section=' + path + (params ? '&' + params.slice(1) : '');
+        }
       }
-    }
-    window.addEventListener('resize', checkRedirect);
+
+      if (window.innerWidth < 768) {
+        window.location.href = "mobile.html" + targetSuffix;
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        window.location.href = "tablet.html" + targetSuffix;
+      }
+    } window.addEventListener('resize', checkRedirect);
     checkRedirect();
   </script>
 </head>
@@ -169,14 +209,14 @@
         <div class="w-layout-blockcontainer catalogue_container w-container">
           <div class="mix-container">
             <h2 class="year-header">2025</h2>
-            <a href="works/viewer.html?work=personas" class="mix full-lenght w-inline-block">
+            <a href="works/viewer.html?work=personas-que-quiza-conozcas" class="mix full-lenght w-inline-block">
               <div data-w-id="2a316905-0aea-de7f-f879-5910eb4b32fe" class="title">PERSONAS QUE QUIZÁ CONOZCAS
               </div><img src="images/PQQC-Thumbnail.png" loading="lazy" sizes="100vw"
                 srcset="images/PQQC-Thumbnail-p-500.png 500w, images/PQQC-Thumbnail-p-800.png 800w, images/PQQC-Thumbnail-p-1080.png 1080w, images/PQQC-Thumbnail.png 3450w"
                 alt="Personas que quizá conozcas Thumbnail" class="thumbnail">
             </a>
-            <a href="works/viewer.html?work=ebdvp" class="mix just-sound w-inline-block">
-              <div data-w-id="4f429ba7-1f25-1bc8-de4e-7d678bef23be" class="title">IN SEARCH OF THE PERFECT VIDEO</div>
+            <a href="works/viewer.html?work=en-busca-del-video-perfecto" class="mix just-sound w-inline-block">
+              <div data-w-id="4f429ba7-1f25-1bc8-de4e-7d678bef23be" class="title">EN BUSCA DEL VIDEO PERFECTO</div>
               <img src="images/EBDVP-Thumbnail.png" loading="lazy" sizes="100vw"
                 srcset="images/EBDVP-Thumbnail-p-500.png 500w, images/EBDVP-Thumbnail-p-800.png 800w, images/EBDVP-Thumbnail.png 1080w"
                 alt="In Search of the Perfect Video Thumbnail" class="thumbnail">
@@ -195,13 +235,13 @@
             </a>
 
             <h2 class="year-header">2024</h2>
-            <a href="works/viewer.html?work=osc" class="mix just-sound w-inline-block">
+            <a href="works/viewer.html?work=osc-protocol" class="mix just-sound w-inline-block">
               <div data-w-id="636dcfa6-0094-d297-1e6c-116e0f9fce69" class="title">OSC PROTOCOL</div><img
                 src="images/OSC-Protocol-Thumbnail.png" loading="lazy" sizes="100vw"
                 srcset="images/OSC-Protocol-Thumbnail-p-500.png 500w, images/OSC-Protocol-Thumbnail-p-800.png 800w, images/OSC-Protocol-Thumbnail.png 1662w"
                 alt="OSC Protocol Thumbnail" class="thumbnail">
             </a>
-            <a href="works/viewer.html?work=three-years" class="mix multimedia w-inline-block">
+            <a href="works/viewer.html?work=three-years-of-evolution" class="mix multimedia w-inline-block">
               <div data-w-id="c4a38e20-646f-a425-0e5d-d5a16c32ae09" class="title">THREE YEARS OF EVOLUTION</div><img
                 src="images/TYoE-Thumbnail.png" loading="lazy" sizes="100vw"
                 srcset="images/TYoE-Thumbnail-p-500.png 500w, images/TYoE-Thumbnail-p-800.png 800w, images/TYoE-Thumbnail-p-1080.png 1080w, images/TYoE-Thumbnail-p-1600.png 1600w, images/TYoE-Thumbnail.png 3432w"
@@ -213,7 +253,7 @@
                 srcset="images/Game-Of-Life-Thumbnail-p-500.png 500w, images/Game-Of-Life-Thumbnail-p-800.png 800w, images/Game-Of-Life-Thumbnail-p-1080.png 1080w, images/Game-Of-Life-Thumbnail.png 2246w"
                 alt="Game of Life Thumbnail" class="thumbnail">
             </a>
-            <a href="works/viewer.html?work=another-music" class="mix multimedia w-inline-block">
+            <a href="works/viewer.html?work=another-music-conservatory" class="mix multimedia w-inline-block">
               <div data-w-id="c1363c77-56a7-2c23-b25a-1c971a9c1d78" class="title">ANOTHER MUSIC CONSERVATORY</div><img
                 src="images/AMC-Thumbnail-1-p-1080.png" loading="lazy" sizes="100vw"
                 srcset="images/AMC-Thumbnail-1-p-500.png 500w, images/AMC-Thumbnail-1-p-800.png 800w, images/AMC-Thumbnail-1-p-1080.png 1080w, images/AMC-Thumbnail-1-p-1600.png 1600w, images/AMC-Thumbnail-1-p-2000.png 2000w"
@@ -227,7 +267,7 @@
                 srcset="images/lespontanea-Thumbnail-p-500.png 500w, images/lespontanea-Thumbnail-p-800.png 800w, images/lespontanea-Thumbnail-p-1080.png 1080w, images/lespontanea-Thumbnail-p-1600.png 1600w, images/lespontanea-Thumbnail-p-2000.png 2000w, images/lespontanea-Thumbnail.png 3452w"
                 alt="lespontanea Thumbnail" class="thumbnail">
             </a>
-            <a href="works/viewer.html?work=minuit" class="mix just-sound w-inline-block">
+            <a href="works/viewer.html?work=minuit-toujours-arrive" class="mix just-sound w-inline-block">
               <div data-w-id="05af8f5d-2631-e8be-9b8e-1093e55bb0a1" class="title">MINUIT TOUJOURS ARRIVE</div><img
                 src="images/Minuit-Toujours-Arrive-Thumbnail.png" loading="lazy" sizes="100vw"
                 srcset="images/Minuit-Toujours-Arrive-Thumbnail-p-500.png 500w, images/Minuit-Toujours-Arrive-Thumbnail-p-800.png 800w, images/Minuit-Toujours-Arrive-Thumbnail-p-1080.png 1080w, images/Minuit-Toujours-Arrive-Thumbnail-p-1600.png 1600w, images/Minuit-Toujours-Arrive-Thumbnail.png 3336w"
@@ -235,7 +275,7 @@
             </a>
 
             <h2 class="year-header">2022</h2>
-            <a href="works/viewer.html?work=cisne" class="mix just-sound w-inline-block">
+            <a href="works/viewer.html?work=cisne-y-cerdo" class="mix just-sound w-inline-block">
               <div data-w-id="7e7c0539-6d6d-ceb4-306c-aa135b7496c1" class="title">CISNE Y CERDO</div><img
                 src="images/Cisne-y-Cerdo-Thumbnail.png" loading="lazy" sizes="100vw"
                 srcset="images/Cisne-y-Cerdo-Thumbnail-p-500.png 500w, images/Cisne-y-Cerdo-Thumbnail-p-800.png 800w, images/Cisne-y-Cerdo-Thumbnail-p-1080.png 1080w, images/Cisne-y-Cerdo-Thumbnail-p-1600.png 1600w, images/Cisne-y-Cerdo-Thumbnail-p-2000.png 2000w, images/Cisne-y-Cerdo-Thumbnail.png 3450w"
@@ -254,8 +294,8 @@
               <div class="w-slide">
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
-                    <a href="works/viewer.html?work=three-years" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title threeyears_pos">THREE YEARS OF EVOLUTION</h1>
+                    <a href="works/viewer.html?work=three-years-of-evolution" class="tiktok-titlelink w-inline-block">
+                      <h2 class="tiktok-title threeyears_pos">THREE YEARS OF EVOLUTION</h2>
                     </a>
                     <div class="tiktok-videocontainer">
                       <div data-poster-url="videos/1-TYoE_CRF25-poster-00001.jpg"
@@ -267,7 +307,8 @@
                           playsinline="" data-wf-ignore="true" data-object-fit="cover">
                           <source src="videos/compressed/1.mp4" type="video/mp4">
                         </video></div>
-                      <a href="works/viewer.html?work=three-years" class="tiktok-linkstopieces w-inline-block"></a>
+                      <a href="works/viewer.html?work=three-years-of-evolution"
+                        class="tiktok-linkstopieces w-inline-block"></a>
                     </div>
                     <div class="tiktok-description">
                       <p class="tiktok-paragraphs" data-t="work-tyoe-desc">“Three Years of Evolution” showcases the
@@ -291,7 +332,7 @@
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
                     <a href="works/viewer.html?work=pianogames" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title">PIANOGAMES</h1>
+                      <h2 class="tiktok-title">PIANOGAMES</h2>
                     </a>
                     <div class="tiktok-videocontainer">
                       <a href="works/viewer.html?work=pianogames" class="tiktok-linkstopieces w-inline-block"></a>
@@ -324,7 +365,7 @@
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
                     <a href="works/viewer.html?work=game-of-life" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title">GAME OF LIFE</h1>
+                      <h2 class="tiktok-title">GAME OF LIFE</h2>
                     </a>
                     <div class="tiktok-videocontainer">
                       <a href="works/viewer.html?work=game-of-life" class="tiktok-linkstopieces w-inline-block"></a>
@@ -343,7 +384,7 @@
                         cellular automaton evolves deterministically according to its initial configuration, without
                         requiring further intervention.<br><br>In this musical recreation, as the board progresses, the
                         sound system responds to the player’s instructions—whether timbral, harmonic, or related to
-                        tempo.<br><br>3D Modelling, Sound Design and Software Communication by Adrián
+                        tempo.<br><br>3D Modelling, Sound Design and Software Communication by Adri
                         Velasco<br><br>Python
                         and Game Code by Fran Escobar</p>
                     </div>
@@ -354,7 +395,7 @@
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
                     <a href="works/viewer.html?work=rumble" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title">RUMBLE</h1>
+                      <h2 class="tiktok-title">RUMBLE</h2>
                     </a>
                     <div class="tiktok-videocontainer">
                       <a href="works/viewer.html?work=rumble" class="tiktok-linkstopieces w-inline-block"></a>
@@ -384,10 +425,11 @@
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
                     <a href="works/viewer.html?work=three-years" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title ebdvp_pos">IN SEARCH OF THE PERFECT VIDEO</h1>
+                      <h2 class="tiktok-title ebdvp_pos">EN BUSCA DEL VIDEO PERFECTO</h2>
                     </a>
                     <div class="tiktok-videocontainer">
-                      <a href="works/viewer.html?work=ebdvp" class="tiktok-linkstopieces w-inline-block"></a>
+                      <a href="works/viewer.html?work=en-busca-del-video-perfecto"
+                        class="tiktok-linkstopieces w-inline-block"></a>
                       <div data-poster-url="videos/5-EBDVP_CRF25-poster-00001.jpg"
                         data-video-urls="videos/compressed/5.mp4" data-autoplay="true" data-loop="true"
                         data-wf-ignore="true" class="tiktok-video w-background-video w-background-video-atom"><video
@@ -413,11 +455,11 @@
               <div class="w-slide">
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
-                    <a href="works/viewer.html?work=osc" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title">OSC PROTOCOL</h1>
+                    <a href="works/viewer.html?work=osc-protocol" class="tiktok-titlelink w-inline-block">
+                      <h2 class="tiktok-title">OSC PROTOCOL</h2>
                     </a>
                     <div class="tiktok-videocontainer">
-                      <a href="works/viewer.html?work=osc" class="tiktok-linkstopieces w-inline-block"></a>
+                      <a href="works/viewer.html?work=osc-protocol" class="tiktok-linkstopieces w-inline-block"></a>
                       <div data-poster-url="videos/6-OSCPROTOCOL_CRF25-poster-00001.jpg"
                         data-video-urls="videos/compressed/6.mp4" data-autoplay="true" data-loop="true"
                         data-wf-ignore="true" class="tiktok-video w-background-video w-background-video-atom"><video
@@ -439,7 +481,7 @@
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
                     <a href="works/viewer.html?work=lespontanea" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title">lespontanea</h1>
+                      <h2 class="tiktok-title">lespontanea</h2>
                     </a>
                     <div class="tiktok-videocontainer">
                       <a href="works/viewer.html?work=lespontanea" class="tiktok-linkstopieces w-inline-block"></a>
@@ -468,11 +510,12 @@
               <div class="w-slide">
                 <div class="tikflow-slide">
                   <div class="tikflow-slide-content">
-                    <a href="works/viewer.html?work=another-music" class="tiktok-titlelink w-inline-block">
-                      <h1 class="tiktok-title">ANOTHER MUSIC CONSERVATORY</h1>
+                    <a href="works/viewer.html?work=another-music-conservatory" class="tiktok-titlelink w-inline-block">
+                      <h2 class="tiktok-title">ANOTHER MUSIC CONSERVATORY</h2>
                     </a>
                     <div class="tiktok-videocontainer">
-                      <a href="works/viewer.html?work=another-music" class="tiktok-linkstopieces w-inline-block"></a>
+                      <a href="works/viewer.html?work=another-music-conservatory"
+                        class="tiktok-linkstopieces w-inline-block"></a>
                       <div data-poster-url="videos/8-AMC_CRF28-poster-00001.jpg"
                         data-video-urls="videos/compressed/8.mp4" data-autoplay="true" data-loop="true"
                         data-wf-ignore="true" class="tiktok-video w-background-video w-background-video-atom"><video
@@ -507,13 +550,13 @@
   <div id="contact-section-container">
     <div class="contact_container2">
       <div class="info_block">
-        <h1 class="contact_title">
+        <h2 class="contact_title">
           CONTACT<span class="contact-title-slot">
             <span></span>
             <span>O</span>
             <span></span>
           </span>
-        </h1>
+        </h2>
         <a href="mailto:adrianvelasco1930@gmail.com" class="email_link">adrianvelasco1930@gmail.com</a>
       </div>
 

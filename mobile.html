@@ -3,7 +3,29 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Adrián Velasco | Portfolio (Mobile)</title>
+    <title>Adri Velasco | Portfolio</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Adri Velasco",
+        "alternateName": "Adrián Velasco",
+        "url": "https://adrivelasco.com",
+        "image": "https://adrivelasco.com/images/Logo.png",
+        "jobTitle": "Multimedia Artist & Composer",
+        "description": "Portfolio of Adri Velasco (Adrián Velasco) - Composer, Sound Designer & Multimedia Artist based in Hamburg.",
+        "sameAs": [
+          "https://www.instagram.com/adrivelaasco/",
+          "https://www.youtube.com/@adrivelaasco",
+          "https://soundcloud.com/adrivelaasco",
+          "https://www.patreon.com/c/adrivelasco"
+        ]
+      }
+    </script>
+    <meta name="description"
+        content="Portfolio of Adri Velasco (Adrián Velasco) - Composer, Sound Designer & Multimedia Artist">
+    <meta name="keywords"
+        content="Adri Velasco, Adrián Velasco, composer, multimedia artist, sound designer, portfolio">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link rel="canonical" href="https://adrivelasco.com/index.html">
 
@@ -16,17 +38,29 @@
         href="https://fonts.googleapis.com/css2?family=Limelight&family=Syne:wght@400..800&family=Climate+Crisis:YEAR@1979..2050&display=swap"
         rel="stylesheet">
 
+    <script src="js/router-redirect.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <script>
         function checkRedirect() {
-            if (window.innerWidth >= 1024) {
-                window.location.href = "index.html" + window.location.search;
-            } else if (window.innerWidth >= 768) {
-                window.location.href = "tablet.html" + window.location.search;
+            // Get clean path (e.g. 'about', 'works')
+            const path = window.location.pathname.replace(/^\/|\/$/g, '');
+            const params = window.location.search;
+            let targetSuffix = params;
+
+            // If we have a clean path that isn't empty, include it in redirect
+            if (path && !path.includes('mobile.html')) {
+                if (!params.includes('section=')) {
+                    targetSuffix = '?section=' + path + (params ? '&' + params.slice(1) : '');
+                }
             }
-        }
-        window.addEventListener('resize', checkRedirect);
+
+            if (window.innerWidth >= 1024) {
+                window.location.href = "index.html" + targetSuffix;
+            } else if (window.innerWidth >= 768) {
+                window.location.href = "tablet.html" + targetSuffix;
+            }
+        } window.addEventListener('resize', checkRedirect);
         checkRedirect();
     </script>
 </head>
@@ -48,6 +82,10 @@
             <div class="lang-option" data-lang="es">ES</div>
         </div>
     </header>
+    <h1
+        style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;">
+        Adri Velasco - Portfolio Mobile
+    </h1>
 
     <!-- Contenedor principal de secciones -->
     <main id="app-container">

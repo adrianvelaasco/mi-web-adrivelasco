@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Adrián Velasco | Portfolio (Tablet)</title>
+    <title>Adri Velasco | Portfolio</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link rel="canonical" href="https://adrivelasco.com/index.html">
 
@@ -16,14 +16,27 @@
         href="https://fonts.googleapis.com/css2?family=Limelight&family=Syne:wght@400..800&family=Climate+Crisis:YEAR@1979..2050&display=swap"
         rel="stylesheet">
 
+    <script src="js/router-redirect.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <script>
         function checkRedirect() {
+            // Get clean path (e.g. 'about', 'works')
+            const path = window.location.pathname.replace(/^\/|\/$/g, '');
+            const params = window.location.search;
+            let targetSuffix = params;
+
+            // If we have a clean path that isn't empty, include it in redirect
+            if (path && !path.includes('tablet.html')) {
+                if (!params.includes('section=')) {
+                    targetSuffix = '?section=' + path + (params ? '&' + params.slice(1) : '');
+                }
+            }
+
             if (window.innerWidth < 768) {
-                window.location.href = "mobile.html" + window.location.search;
+                window.location.href = "mobile.html" + targetSuffix;
             } else if (window.innerWidth >= 1024) {
-                window.location.href = "index.html" + window.location.search;
+                window.location.href = "index.html" + targetSuffix;
             }
         }
         window.addEventListener('resize', checkRedirect);

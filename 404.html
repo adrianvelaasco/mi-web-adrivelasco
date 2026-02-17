@@ -5,54 +5,17 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-        // ROUTER INTELIGENTE PARA GITHUB PAGES
-        // Convierte URLs limpias (/work/id) en URLs reales que el servidor entiende
-
-        (function () {
-            var path = window.location.pathname;
-            var search = window.location.search;
-            var width = window.innerWidth;
-
-            // 1. Detectar si es un TRABAJO (/work/nombre)
-            // Soporta /work/personas, /work/personas/, etc.
-            var workMatch = path.match(/\/work\/([a-zA-Z0-9-_]+)/);
-            if (workMatch && workMatch[1]) {
-                var workId = workMatch[1];
-                // Redirigimos al visor real
-                // El propio visor ya se encargará de "limpiar" la URL de nuevo visualmente
-                window.location.replace("/works/viewer.html?work=" + workId);
-                return;
-            }
-
-            // 2. Detectar SECCIONES (/about, /contact) para Móvil/Tablet
-            // En Escritorio (width >= 1024), estas secciones son scroll en la home, así que mandamos a la home
-            if (path.includes("/about")) {
-                if (width < 1024) window.location.replace("/mobile.html?section=about");
-                else window.location.replace("/index.html");
-                return;
-            }
-            if (path.includes("/contact")) {
-                if (width < 1024) window.location.replace("/mobile.html?section=contact");
-                else window.location.replace("/index.html");
-                return;
-            }
-
-            // 3. Caso especial /works (plural) -> El catálogo
-            if (path.includes("/works") && !path.includes("viewer.html")) {
-                if (width < 1024) window.location.replace("/mobile.html?section=works");
-                else window.location.replace("/index.html"); // En desktop el catálogo está en la home
-                return;
-            }
-
-            // 4. Si no es nada conocido, volver al inicio
-            window.location.replace("/index.html");
-        })();
+        var l = window.location;
+        sessionStorage.redirect = l.pathname + l.search;
+        var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            '/?p=' + encodeURIComponent(l.pathname.slice(1)) +
+            (l.search ? '&q=' + encodeURIComponent(l.search.slice(1)) : '') +
+            l.hash;
+        l.replace(newUrl);
     </script>
 </head>
 
 <body>
-    <!-- Fallback visual por si tarda un momento -->
-    <p>Redirecting to Adri Velasco Portfolio...</p>
 </body>
 
 </html>
