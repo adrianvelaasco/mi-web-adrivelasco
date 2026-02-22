@@ -1,14 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Página Principal -->
   <url>
     <loc>https://adrivelasco.com/</loc>
-    <lastmod>2026-02-17</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Secciones Principales (Clean URLs) -->
   <url>
-    <loc>https://adrivelasco.com/index.html</loc>
-    <lastmod>2026-02-17</lastmod>
+    <loc>https://adrivelasco.com/about</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/contact</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Proyectos / Obras Individuales -->
+  <url>
+    <loc>https://adrivelasco.com/works/another-music-conservatory.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/cisne-y-cerdo.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/game-of-life.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/in-search-of-the-perfect-video.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/lespontanea.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/minuit-toujours-arrive.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/osc-protocol.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/personas-que-quiza-conozcas.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/pianogames.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/rumble.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adrivelasco.com/works/three-years-of-evolution.html</loc>
+    <lastmod>2026-02-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
