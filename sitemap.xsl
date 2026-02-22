@@ -59,14 +59,13 @@
         </style>
       </head>
       <body>
-        <div class="robot-emoji">🤖</div>
-        <h1>¡Pillado/a!</h1>
+        <h1>oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops!</h1>
         <p>
-          Acabas de encontrar el Sitemap. Esta página aburrida es solo un mapa para que los robots de Google no se pierdan leyendo mi web.
+          oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops!
           <br/><br/>
-          Si eres humano (eso espero), deberías ver la versión bonita:
+          oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops! oops!
         </p>
-        <a href="https://adrivelasco.com/" class="btn">Regresar al Inicio</a>
+        <a href="https://adrivelasco.com/" class="btn">adrivelaasco.com</a>
       </body>
     </html>
   </xsl:template>
