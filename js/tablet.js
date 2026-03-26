@@ -680,7 +680,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 html += `
                     <a href="${link}" class="catalogue-item">
                         <div class="catalogue-thumb">
-                            <img src="${work.thumbnail}" alt="${work.title}">
+                            <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
                         </div>
                         <span class="catalogue-title">${work.title}</span>
                     </a>

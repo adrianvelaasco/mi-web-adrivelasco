@@ -405,9 +405,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Definimos las 3 capas: 0 (principal), 1 y 2 (fondo)
         const layers = [
-            { step: 4, alpha: 0.5, factor: 0 },    // Capa principal nítida
-            { step: 10, alpha: 0.15, factor: 0.2 }, // Fondo 1: menos denso y más transparente
-            { step: 18, alpha: 0.08, factor: 0.4 }  // Fondo 2: muy disperso y casi invisible
+            { step: 8, alpha: 0.5, factor: 0 },    // Increased step from 4 to 8: 4x fewer particles
+            { step: 16, alpha: 0.15, factor: 0.2 }, // Increased step from 10 to 16
+            { step: 24, alpha: 0.08, factor: 0.4 }  // Increased step from 18 to 24
         ];
 
         layers.forEach(layer => {
@@ -555,7 +555,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="foryou-card">
                 <div class="video-loader"></div>
                 <div class="foryou-video-container">
-                    <video data-src="${work.video}" loop ${isMuted ? 'muted' : ''} playsinline preload="auto"></video>
+                    <video data-src="${work.video}" loop ${isMuted ? 'muted' : ''} playsinline preload="none"></video>
                 </div>
                 <div class="foryou-content">
                     <h3 class="foryou-title">${work.title}</h3>
@@ -696,7 +696,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 html += `
                     <a href="${link}" class="catalogue-item">
                         <div class="catalogue-thumb">
-                            <img src="${work.thumbnail}" alt="${work.title}">
+                            <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
                         </div>
                         <span class="catalogue-title">${work.title}</span>
                     </a>
