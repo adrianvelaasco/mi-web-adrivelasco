@@ -526,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="foryou-card">
                 <div class="video-loader"></div>
                 <div class="foryou-video-container">
-                    <video data-src="${work.video}" loop muted playsinline webkit-playsinline preload="auto"></video>
+                    <video data-src="${work.video}" loop muted playsinline webkit-playsinline preload="none"></video>
                 </div>
                 <div class="foryou-content">
                     <h3 class="foryou-title">${work.title}</h3>
