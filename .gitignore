@@ -1,0 +1,6 @@
+.DS_Store
+._*
+__MACOSX/
+*.pyc
+node_modules/
+.vscode/
