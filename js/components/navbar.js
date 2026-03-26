@@ -40,7 +40,13 @@
       'work-personas-title': 'Personas Que Quizá Conozcas',
       'work-personas-desc': 'A collaborative composition by Adri Velasco, Fran Escobar, Alejandro Mondragón, and Alberto Hijón.<br><br>This piece explores the connections and disconnections in the digital age, represented through a multi-layered acoustic and electronic performance.',
       'work-minuit-desc': 'Winner of the II Composition Prize TZ-RCSMM. Premiered by Trio Arbós at Teatro de la Zarzuela. A work that explores the threshold of dawn and the inevitable arrival of midnight.',
-      'work-cisne-desc': 'A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas, exploring the duality between the sublime and the grotesque.'
+      'work-cisne-desc': 'A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas, exploring the duality between the sublime and the grotesque.',
+      'work-meinzuhause-gmbh-desc': 'MeineZuhause GmbH is an immersive theatrical experience. In this play, the audience abandons its role as spectator to become the protagonist of the story.<br><br>Set in a very familiar present, the desperate search for an apartment brings together a group of strangers.',
+      'btn-score': 'SCORE',
+      'btn-score-close': 'CLOSE',
+      'btn-sign-in': 'SIGN IN',
+      'loading-score': 'LOADING SCORE...',
+      'overlay-close': 'CLOSE'
     },
     es: {
       'nav-about': 'BIO',
@@ -63,8 +69,8 @@
       'work-tyoe-desc': '“Three Years of Evolution” muestra la relación íntima y dinámica establecida entre un individuo, representado por el trombonista, y la exigente ciudad que lo acogerá durante los próximos tres años.<br><br>La independencia no es un estado absoluto, sino una negociación continua con las estructuras existentes. El trombonista presenta una experiencia personal, donde el individuo madura a través del aprendizaje que surge de la interacción con las expectativas.',
       'work-pianogames-desc': 'Querido pianista:<br><br>Esta pieza musical, si es que eso es lo que es, pretende ser un divertimento para tus sesiones de estudio. Tres minijuegos han sido delicadamente diseñados para perfeccionar ciertos aspectos de tu técnica de una manera inusual, quizá más amena, en tu camino hacia el virtuoso que siempre has deseado ser.<br><br>Pianogames vive en dos versiones. Está la acogedora versión doméstica y luego está la versión de concierto: los mismos minijuegos ahora enmarcados por una introducción, un intermezzo y un gesto de cierre digno del escenario.',
       'work-life-desc': 'Game of Life es una adaptación del juego tradicional de John Conway. Este autómata celular evoluciona de forma determinista según su configuración inicial, sin requerir intervención posterior.<br><br>En esta recreación musical, a medida que el tablero progresa, el sistema de sonido responde a las instrucciones del intérprete, ya sean tímbricas, armónicas o relacionadas con el tempo.',
-      'work-rumble-desc': 'Rumble es una pieza para orquesta sinfónica, cuyo título proviene del cuarto track de Quest For Fire de Skrillex. Un bucle constante recorre toda la obra, adoptando múltiples formas en sus diversas iteraciones. Este bucle busca una evolución lineal a lo largo de los 113 compases de la obra, pero ocasionalmente se ve interrumpido por “pop-ups” musicales que distorsionan el discurso principal.',
-      'work-ebdvp-desc': 'Vale, espera, escucha esto: hay un momento. Un momento en el que todo encaja. La luz. Las sombras. La música. Las palabras. Estás ahí, frente a la pantalla, y por un instante diminuto pero infinito, sientes... algo. No satisfacción. Algo mucho mejor.<br><br>Una chispa de electricidad subiendo por tus dedos hasta la nuca. El vídeo perfecto. Lo lograste. Es real. Aquí y ahora.<br><br>Pero, ¿puede durar la magia?',
+      'work-rumble-desc': 'Rumble es una pieza para orquesta sinfónica, cuyo título proviene del cuarto track de Quest For Fire by Skrillex. Un bucle constante recorre toda la obra, adoptando múltiples formas en sus diversas iteraciones. Este bucle busca una evolución lineal a lo largo de los 113 compases de la obra, pero ocasionalmente se ve interrumpido por “pop-ups” musicales que distorsionan el discurso principal.',
+      'work-ebdvp-desc': 'Vale, espera, escucha esto: hay un momento. Un momento en el que todo encaja. La luz. Fuegos artificiales. El vídeo perfecto. Es real. Aquí y ahora.<br><br>Pero, ¿puede durar la magia?',
       'work-espontanea-desc': 'Algunos pies de foto publicados en una cuenta privada de Instagram verbalizaban muchos pensamientos que yo aún no había sido capaz de formular.<br><br>Esta pieza recoge algunos escritos de @rosello.alba, intentando encontrar ese punto curioso en sus textos donde la naturaleza caótica de lo micro consigue equilibrarse con la naturaleza coherente de lo macro, sin quitarle la virtud de la espontaneidad a la obra.',
       'work-amc-desc': 'Esto se trata simplemente de destruir un poco el Real Conservatorio Superior de Música de Madrid.',
       'work-osc-desc': 'I. Encoded<br>II. 192.168.20.1<br>III. Nodo con errores internos<br>IV. Recibido',
@@ -77,7 +83,13 @@
       'work-personas-title': 'Personas Que Quizá Conozcas',
       'work-personas-desc': 'Una composición colaborativa de Adri Velasco, Fran Escobar, Alejandro Mondragón y Alberto Hijón.<br><br>Esta pieza explora las conexiones y desconexiones en la era digital, representadas a través de una interpretación acústica y electrónica multicapa.',
       'work-minuit-desc': 'Ganador del II Premio de Composición TZ-RCSMM. Estrenado por el Trío Arbós en el Teatro de la Zarzuela. Una obra que explora el umbral del alba y la inevitable llegada de la medianoche.',
-      'work-cisne-desc': 'Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía. Basada en textos de Dionisio Cañas, explora la dualidad entre lo sublime y lo grotesco.'
+      'work-cisne-desc': 'Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía. Basada en textos de Dionisio Cañas, explora la dualidad entre lo sublime y lo grotesco.',
+      'work-meinzuhause-gmbh-desc': 'MeineZuhause GmbH es una experiencia teatral inmersiva. En esta obra, el público abandona su papel de espectador para convertirse en el protagonista de la historia.<br><br>Ambientada en un presente muy familiar, la búsqueda desesperada de un apartamento reúne a un grupo de desconocidos.',
+      'btn-score': 'PARTITURA',
+      'btn-score-close': 'CERRAR',
+      'btn-sign-in': 'REGISTRARSE',
+      'loading-score': 'CARGANDO PARTITURA...',
+      'overlay-close': 'CERRAR'
     }
   };
 
@@ -110,7 +122,7 @@
       <div class="navbar_container2">
         <div class="navbar_logo" style="position: relative; z-index: 2;">
           <a href="${root}index.html?section=home" class="brand-logo-link w-nav-brand ${currentPage === 'index.html' ? 'w--current' : ''}">
-            <img loading="lazy" src="${root}images/Logo.png" alt="Adrian Velasco Logo" class="logo">
+            <img loading="lazy" src="${root}images/branding/Logo.png" alt="Adrian Velasco Logo" class="logo">
           </a>
         </div>
         <canvas id="headerArrowCanvas"></canvas>
@@ -176,11 +188,6 @@
                 </g>
               </svg>
             </a>
-            <a href="https://www.patreon.com/c/adrivelaasco" target="_blank" class="social-medias w-nav-brand">
-              <svg class="navbar_links" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M512 194.8c0 101.3-82.4 183.8-183.8 183.8-101.7 0-184.4-82.4-184.4-183.8 0-101.6 82.7-184.3 184.4-184.3C429.6 10.5 512 93.2 512 194.8zM0 501.5h90v-491H0v491z" />
-              </svg>
-            </a>
           </div>
         </nav>
         
@@ -223,11 +230,6 @@
                         <path d="M-175.9,368.1c-1.5,0-2.8,1.2-2.8,2.8l-1.5,56.7l1.5,26.5c0,1.6,1.3,2.8,2.8,2.8s2.8-1.2,2.8-2.8l1.7-26.5l-1.7-56.7C-173.1,369.3-174.3,368.1-175.9,368.1z" />
                         <path d="M-165.2,369.9c-1.7,0-3,1.3-3,3l-1.4,54.7l1.4,26.3c0,1.7,1.4,3,3,3c1.7,0,3-1.3,3-3l1.5-26.3l-1.5-54.7C-162.2,371.3-163.5,369.9-165.2,369.9z" />
                     </g>
-                    </svg>
-                </a>
-                <a href="https://www.patreon.com/c/adrivelaasco" target="_blank" class="social-medias w-nav-brand">
-                    <svg class="navbar_links" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                    <path d="M512 194.8c0 101.3-82.4 183.8-183.8 183.8-101.7 0-184.4-82.4-184.4-183.8 0-101.6 82.7-184.3 184.4-184.3C429.6 10.5 512 93.2 512 194.8zM0 501.5h90v-491H0v491z" />
                     </svg>
                 </a>
             </div>
@@ -598,6 +600,7 @@
   }
 
   // Global Exposed API
+  window.navTranslations = translations;
   window.navComponent = {
     updatePageTranslations: (animate = false) => {
       if (internalUpdateLanguage) {

@@ -104,13 +104,17 @@
             width: 100%;
         }
 
+        .title-nowrap {
+            white-space: nowrap;
+        }
+
         /* Content Layout */
         .content-layout {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1.8fr 1.2fr;
             gap: 40px;
             width: 100%;
-            align-items: start;
+            align-items: stretch;
             flex: 1;
             min-height: 0;
             /* Allow inner scroll */
@@ -119,9 +123,12 @@
         /* Video Column */
         .video-column {
             display: flex;
-            flex-direction: column;
-            gap: 30px;
+            flex-flow: row wrap;
+            gap: 20px;
             width: 100%;
+            justify-content: center;
+            align-items: flex-start; /* Alignment within rows */
+            align-content: flex-start; /* Row grouping at the top - Fixes gap issue */
             max-height: calc(100vh - 220px);
             overflow-y: auto;
             padding-bottom: 100px;
@@ -135,14 +142,95 @@
 
         /* Video Wrapper */
         .video-wrapper {
-            width: 100%;
+            flex: 1 1 calc(50% - 20px);
+            min-width: 300px;
             aspect-ratio: 16 / 9;
+            height: auto;
             background: #000;
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0, 0, 255, 0.15);
             position: relative;
             flex-shrink: 0;
+        }
+
+        /* Specific sizing for projects with smaller video requirements */
+        .compact-audio-layout .video-wrapper,
+        .compact-audio-layout #audio-player-container,
+        .compact-audio-layout .audio-player-card {
+            max-width: 720px;
+            margin-inline: auto;
+        }
+
+        .compact-audio-layout .audio-player-card {
+            padding: 10px 18px; /* Slightly more compact internal space */
+        }
+
+        .compact-audio-layout {
+            gap: 16px !important; /* Restored gap between videos */
+        }
+
+        /* Specific rule FOR OSC PROTOCOL ONLY - Keep it tight */
+        .video-column.id-osc-protocol #audio-player-container {
+            margin-top: -20px !important; /* Touch the videos */
+        }
+
+        .compact-audio-layout.double-video #audio-player-container {
+            max-width: none !important;
+            width: 100% !important;
+            margin-top: 0px !important; /* Revert others to natural gap */
+        }
+
+        .compact-audio-layout.double-video .audio-player-card {
+            max-width: none !important;
+            width: 100% !important;
+        }
+
+        .compact-audio-layout .audio-header {
+            margin-bottom: 5px;
+            display: flex; /* Allow CC button on right */
+            align-items: center;
+        }
+
+        .cc-btn {
+            background: none;
+            border: 1px solid #0050ff;
+            border-radius: 3px;
+            color: #0050ff;
+            font-size: 10px;
+            padding: 1px 5px; /* Less tall */
+            cursor: pointer;
+            margin-left: auto;
+            transition: all 0.2s ease;
+            font-weight: 700;
+            display: none;
+            flex-shrink: 0;
+            line-height: 1; /* More compact */
+        }
+
+        .cc-btn.active {
+            color: #fff;
+            border-color: #0050ff;
+            background: #0050ff;
+        }
+
+        .subtitle-overlay {
+            width: 100%;
+            text-align: center;
+            height: 2.2rem; /* Adjusted height for better balance */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8px;
+            font-size: 1.1rem;
+            color: #0050ff;
+            font-weight: 500;
+            line-height: 1.3;
+            display: none;
+            background: rgba(0, 80, 255, 0.05);
+            padding: 4px 15px;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
         .video-wrapper iframe {
@@ -155,13 +243,18 @@
         .info-column {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 0;
+            /* Control gap via margins of children */
+            height: 100%;
+        }
+
+        .info-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
             padding: 30px;
             border-radius: 6px;
             border: 1px solid rgba(0, 0, 255, 0.1);
-            height: fit-content;
+            margin-bottom: 20px;
         }
 
         .info-text p {
@@ -257,6 +350,646 @@
             fill: currentColor;
         }
 
+        /* Login Button */
+        .login-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .login-btn {
+            display: inline-block;
+            padding: 12px 36px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #ffffff;
+            background: #0000ff;
+            border: 2px solid #0000ff;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background: transparent;
+            color: #0000ff;
+        }
+
+        /* Meinzuhause Overlay (Backdrop) */
+        #mzuhause-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            background: rgba(255, 255, 255, 0.05);
+            /* Very subtle tint */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+
+            /* Fluid transition */
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.6s;
+        }
+
+        #mzuhause-overlay.active {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Embed Container */
+        .mzuhause-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 85vh;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(30px) scale(0.96);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #mzuhause-overlay.active .mzuhause-container {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Generic Overlay Styles */
+        .score-overlay-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10001;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+        }
+
+        .score-overlay-backdrop.active {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .score-container {
+            width: 100%;
+            max-width: 1500px;
+            height: 95vh;
+            background: #222;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+            transform: translateY(30px) scale(0.96);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .score-overlay-backdrop.active .score-container {
+            transform: translateY(0) scale(1);
+        }
+
+        #score-iframe {
+            width: 100%;
+            flex: 1;
+            border: none;
+        }
+
+        #score-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
+            color: #fff;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #score-close:hover {
+            background: rgba(0, 0, 0, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Flipbook Styles */
+        #book-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #222;
+        }
+
+        .page {
+            background-color: #fdfdfd;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas.pdf-canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #book-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #222;
+            overflow: hidden;
+            /* Use translate instead of scroll */
+            cursor: grab;
+            position: relative;
+        }
+
+        #book-wrapper:active {
+            cursor: grabbing;
+        }
+
+        #book-container {
+            width: 800px;
+            height: 600px;
+            background: transparent;
+            transition: transform 0.1s ease-out;
+            transform-origin: center center;
+            will-change: transform;
+        }
+
+        .st-pageflip {
+            /* Selector for the canvas/wrapper lib creates */
+            filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.5));
+        }
+
+        /* Prevent manual flipping with mouse when zoomed */
+        .zoomed-mode #book-container {
+            pointer-events: none;
+        }
+
+        /* Book Bottom Controls */
+        .book-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            /* Above book */
+        }
+
+        .book-nav-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            transition: transform 0.2s ease, color 0.2s;
+        }
+
+        .book-nav-btn:hover {
+            transform: scale(1.2);
+            color: #0000ff;
+        }
+
+        .book-nav-btn.active {
+            color: #0000ff;
+        }
+
+        .book-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .book-slider-wrapper {
+            flex: 1;
+            max-width: 250px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .zoom-slider-wrapper {
+            flex: 0 0 180px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 20px;
+        }
+
+        #book-slider,
+        #zoom-slider {
+            flex: 1;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        #book-slider::-webkit-slider-thumb,
+        #zoom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #0000ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+        }
+
+        #page-counter,
+        #zoom-level {
+            color: white;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.75rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        #score-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 5;
+        }
+
+        /* Score Button Style */
+        .score-btn-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: auto;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .score-btn {
+            display: inline-block;
+            padding: 12px 48px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+            background: #0000ff;
+            border: 2px solid #0000ff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .score-btn:hover {
+            background: transparent;
+            color: #0000ff;
+        }
+
+        #flip-shield {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            /* Middle 50% blocked */
+            z-index: 1000;
+            /* Over the flipbook canvas */
+            pointer-events: auto;
+            /* Catch clicks */
+        }
+
+        /* Unified Book Controls Footer */
+        .book-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 40px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 65px;
+        }
+
+        /* Distribution */
+        .score-audio-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 350px;
+        }
+
+        .book-nav-section {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            /* Force center by taking more space and centering internals */
+        }
+
+        .zoom-slider-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+            max-width: 350px;
+        }
+
+        .score-play-btn {
+            background: #0000ff;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+            fill: white;
+        }
+
+        .score-play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .score-play-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        #score-waveform {
+            flex: 1;
+            height: 26px;
+            min-width: 60px;
+        }
+
+        .score-audio-timer {
+            color: #888;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            min-width: 35px;
+            white-space: nowrap;
+        }
+
+        .book-slider-wrapper {
+            width: 100%;
+            max-width: 250px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Removed old separate audio footer styles */
+        #mzuhause-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            z-index: 10003;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 18px 8px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 100px;
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        #mzuhause-close.hide {
+            display: none !important;
+        }
+
+        #mzuhause-close.blue {
+            background: #ffffff;
+            border-color: rgba(0, 80, 255, 0.4);
+            color: #0050ff;
+        }
+
+        #mzuhause-close.black {
+            background: #000000 !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+        }
+
+        #mzuhause-close svg {
+            width: 14px;
+            height: 14px;
+            fill: #fff;
+            flex-shrink: 0;
+        }
+
+        #mzuhause-close.blue svg {
+            fill: #0050ff;
+        }
+
+        #mzuhause-close.black svg {
+            fill: #ffffff;
+        }
+
+        #mzuhause-close:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: scale(1.04);
+        }
+
+        #mzuhause-close:active {
+            transform: scale(0.97);
+        }
+
+        #mzuhause-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .audio-player-card {
+            background: rgba(0, 0, 255, 0.05);
+            /* Slight blue tint */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 255, 0.2);
+            border-radius: 16px;
+            padding: 15px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .audio-player-card:hover {
+            border-color: rgba(0, 0, 255, 0.5);
+            background: rgba(0, 0, 255, 0.08);
+        }
+
+        .audio-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .play-btn {
+            background: #0000ff;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 0, 255, 0.4);
+        }
+
+        .play-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
+        }
+
+        .audio-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: #0000ff;
+            font-weight: 700;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .audio-label::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 1px;
+            background-color: #0000ff;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .audio-label:hover::after {
+            width: 100%;
+        }
+
+        .audio-label:hover {
+            opacity: 0.7;
+        }
+
+        /* Disable hover underline for specific cases */
+        .audio-label.no-underline::after {
+            display: none !important;
+        }
+
+        .audio-timer {
+            font-size: 0.65rem;
+            color: rgba(0, 0, 255, 0.6);
+            margin-top: 5px;
+            text-align: right;
+            font-family: 'Syne', sans-serif;
+        }
+
+        #waveform {
+            cursor: pointer;
+        }
+
+        /* Ensure info column has space */
+        .info-column {
+            padding-bottom: 50px;
+        }
+
         /* Responsive */
         @media (max-width: 1023px) {
             body {
@@ -304,6 +1037,10 @@
     <script type="text/javascript">
         WebFont.load({ google: { families: ["Syne:400,500,600,700,800"] } });
     </script>
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <!-- PDF.js & PageFlip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 </head>
 
 <body>
@@ -328,18 +1065,123 @@
         <div id="work-content-wrapper">
             <h1 class="work-title" id="display-title">LOADING...</h1>
             <div class="content-layout">
-                <!-- Videos Container -->
-                <div class="video-column" id="display-videos">
-                    <!-- Videos will be injected here -->
+                <div class="video-column">
+                    <div id="display-videos" style="display: contents;">
+                        <!-- Videos will be injected here -->
+                    </div>
+                    <!-- Audio Player for EBDVP -->
+                    <div id="audio-player-container" style="display: none; width: 100%;">
+                        <div class="audio-player-card">
+                            <div class="audio-header">
+                                <button id="playPauseBtn" class="play-btn">
+                                    <svg viewBox="0 0 24 24" id="playIcon">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                    <svg viewBox="0 0 24 24" id="pauseIcon" style="display: none;">
+                                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                                    </svg>
+                                </button>
+                                <a href="https://soundcloud.com/adrivelaasco/en-busca-del-video-perfecto"
+                                    target="_blank" class="audio-label" id="display-audio-title">EN BUSCA DEL VIDEO
+                                    PERFECTO</a>
+                                <button id="ccBtn" class="cc-btn">CC</button>
+                            </div>
+                            <div id="waveform"></div>
+                            <div class="subtitle-overlay" id="subtitleOverlay"></div>
+                            <div class="audio-timer">
+                                <span id="currentTime">0:00</span> / <span id="totalDuration">0:00</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Info Column -->
                 <div class="info-column" id="display-info">
-                    <div class="info-text" id="display-desc">
-                        <!-- Description injected -->
+                    <div class="info-card">
+                        <div class="info-text" id="display-desc">
+                            <!-- Description injected -->
+                        </div>
+                        <div class="credits-box" id="display-credits">
+                            <!-- Credits injected -->
+                        </div>
                     </div>
-                    <div class="credits-box" id="display-credits">
-                        <!-- Credits injected -->
+                    <!-- Score Button placeholder -->
+                    <div id="score-button-container" style="display: contents;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meinzuhause Overlay -->
+    <div id="mzuhause-overlay">
+        <div class="mzuhause-container">
+            <button id="mzuhause-close" data-t="overlay-close" onclick="closeMZOverlay()">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+                CLOSE
+            </button>
+            <iframe id="mzuhause-iframe" src="" allow="microphone" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Score Overlay -->
+    <div id="score-overlay" class="score-overlay-backdrop">
+        <div id="score-loading" data-t="loading-score" style="display: none;">LOADING SCORE...</div>
+        <div class="score-container">
+            <button id="score-close" data-t="btn-score-close" onclick="closeScoreOverlay()">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="white" style="margin-right:5px;">
+                    <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+                CLOSE
+            </button>
+            <div id="book-wrapper">
+                <div id="book-container"></div>
+                <!-- Standardized Unified Controls -->
+                <div class="book-controls">
+                    <!-- Left: Audio Center -->
+                    <div class="score-audio-section" id="score-audio-section" style="visibility: hidden;">
+                        <button id="scorePlayPauseBtn" class="score-play-btn">
+                            <svg viewBox="0 0 24 24" class="play-icon">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                            <svg viewBox="0 0 24 24" class="pause-icon" style="display:none;">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            </svg>
+                        </button>
+                        <div id="score-waveform"></div>
+                        <div class="score-audio-timer">
+                            <span id="scoreCurrentTime">0:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Center: Navigation -->
+                    <div class="book-nav-section">
+                        <button class="book-nav-btn" id="book-prev">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                            </svg>
+                        </button>
+                        <div class="book-slider-wrapper">
+                            <input type="range" id="book-slider" min="0" value="0" step="1">
+                            <div id="page-counter">1 / 1</div>
+                        </div>
+                        <button class="book-nav-btn" id="book-next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Right: Zoom Center -->
+                    <div class="zoom-slider-wrapper">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
+                        </svg>
+                        <input type="range" id="zoom-slider" min="1" max="4" value="1" step="0.1">
+                        <div id="zoom-level">x1.0</div>
                     </div>
                 </div>
             </div>
@@ -353,8 +1195,376 @@
     <script src="../js/components/background-waves.js" defer></script>
 
     <script>
+        function openMZOverlay() {
+            const iframe = document.getElementById('mzuhause-iframe');
+            iframe.src = '../meinzuhause/index.html?embedded=1';
+            document.getElementById('mzuhause-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMZOverlay() {
+            const iframe = document.getElementById('mzuhause-iframe');
+            iframe.src = ''; // Stops audio
+            document.getElementById('mzuhause-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        let flipBook = null;
+        let currentPDF = null;
+        let currentLoadingTask = null;
+        let currentLoadedScoreUrl = null;
+        let isScoreLoading = false;
+        let currentScoreRequestId = 0;
+
+        let sharedAudio = null; // Single audio element shared between WaveSurfers
+        let scoreWavesurfer = null;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        async function openScoreOverlay(url, audioUrl = '') {
+            console.log("Score Request:", url);
+            const overlay = document.getElementById('score-overlay');
+            const loadingIndicator = document.getElementById('score-loading');
+
+            // Handle Score Audio Section Visibility
+            const audioSection = document.getElementById('score-audio-section');
+            if (audioUrl) {
+                audioSection.style.visibility = 'visible';
+                initScoreWaveform(audioUrl);
+            } else {
+                audioSection.style.visibility = 'hidden';
+            }
+
+            // IF ALREADY LOADED OR CURRENTLY LOADING THE SAME ONE, JUST SHOW
+            if (url === currentLoadedScoreUrl) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                loadingIndicator.style.display = 'none'; // Ensure hidden if done
+                return;
+            }
+
+            const requestId = ++currentScoreRequestId;
+            isScoreLoading = true;
+            currentLoadedScoreUrl = null;
+
+            let container = document.getElementById('book-container');
+            if (!container) {
+                console.warn("book-container not found! Recreating...");
+                const wrapper = document.getElementById('book-wrapper');
+                if (wrapper) {
+                    container = document.createElement('div');
+                    container.id = 'book-container';
+                    wrapper.prepend(container);
+                } else {
+                    console.error("Critical: book-wrapper missing!");
+                    return;
+                }
+            }
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            loadingIndicator.style.display = 'block';
+
+            const curLang = localStorage.getItem('preferredLanguage') || 'en';
+            loadingIndicator.textContent = window.navTranslations ? window.navTranslations[curLang]['loading-score'] : "Loading Score...";
+
+            container.innerHTML = '';
+            container.style.transform = 'translate(0,0) scale(1)';
+
+            // Cancel any previous PDF loading
+            if (currentLoadingTask) {
+                try { currentLoadingTask.destroy(); } catch (e) {}
+                currentLoadingTask = null;
+            }
+            if (flipBook) {
+                try { flipBook.destroy(); } catch (e) { }
+                flipBook = null;
+            }
+            if (currentPDF) {
+                try { currentPDF.destroy(); } catch (e) { }
+                currentPDF = null;
+            }
+
+            try {
+                currentLoadingTask = pdfjsLib.getDocument(url);
+                currentPDF = await currentLoadingTask.promise;
+                if (requestId !== currentScoreRequestId) return;
+
+                const totalPages = currentPDF.numPages;
+                const firstPage = await currentPDF.getPage(1);
+                if (requestId !== currentScoreRequestId) return;
+
+                const viewport = firstPage.getViewport({ scale: 1.5 });
+                const bookW = viewport.width;
+                const bookH = viewport.height;
+
+                // Create pages
+                for (let i = 1; i <= totalPages; i++) {
+                    if (requestId !== currentScoreRequestId) return;
+
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'page';
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'page-content';
+                    const canvas = document.createElement('canvas');
+                    canvas.className = 'pdf-canvas';
+
+                    contentDiv.appendChild(canvas);
+                    pageDiv.appendChild(contentDiv);
+                    container.appendChild(pageDiv);
+
+                    const page = await currentPDF.getPage(i);
+                    if (requestId !== currentScoreRequestId) return;
+
+                    const context = canvas.getContext('2d');
+                    const pageViewport = page.getViewport({ scale: 2 });
+                    canvas.width = pageViewport.width;
+                    canvas.height = pageViewport.height;
+
+                    await page.render({ canvasContext: context, viewport: pageViewport }).promise;
+                    if (requestId !== currentScoreRequestId) return;
+                }
+
+                // Final check before initializing the book widget
+                if (requestId !== currentScoreRequestId) return;
+
+                // Calculate responsive container dimensions
+                const maxW = window.innerWidth * 0.8;
+                const maxH = window.innerHeight * 0.72;
+                const aspect = bookH / (bookW * 2);
+
+                let targetW = maxW;
+                let targetH = targetW * aspect;
+
+                if (targetH > maxH) {
+                    targetH = maxH;
+                    targetW = targetH / aspect;
+                }
+
+                container.style.width = `${targetW}px`;
+                container.style.height = `${targetH}px`;
+
+                flipBook = new St.PageFlip(container, {
+                    width: bookW, height: bookH,
+                    size: 'stretch', minWidth: 200, maxWidth: 3000,
+                    minHeight: 200, maxHeight: 3000,
+                    showCover: true, mobileScrollSupport: false,
+                    usePortrait: false, startPage: 0, flippingTime: 300
+                });
+
+                if (requestId !== currentScoreRequestId) return;
+                flipBook.loadFromHTML(container.querySelectorAll('.page'));
+
+                // Add the flip shield to restrict interaction to edges
+                const shield = document.createElement('div');
+                shield.id = 'flip-shield';
+                container.appendChild(shield);
+
+                // Success!
+                currentLoadedScoreUrl = url;
+                loadingIndicator.style.display = 'none';
+                setupScoreControls(totalPages, bookW, bookH);
+
+            } catch (err) {
+                console.log("Score Load (Req " + requestId + "):", err.name || "Error", err.message || err);
+                // Only show error if this is still the current request
+                if (requestId === currentScoreRequestId) {
+                    loadingIndicator.textContent = "Error loading PDF";
+                    loadingIndicator.style.display = 'block';
+                }
+            } finally {
+                if (requestId === currentScoreRequestId) {
+                    isScoreLoading = false;
+                }
+            }
+        }
+
+        function setupScoreControls(totalPages, bookW, bookH) {
+            const slider = document.getElementById('book-slider');
+            const prevBtn = document.getElementById('book-prev');
+            const nextBtn = document.getElementById('book-next');
+            const zoomSlider = document.getElementById('zoom-slider');
+            const zoomValue = document.getElementById('zoom-level');
+            const counter = document.getElementById('page-counter');
+            const wrapper = document.getElementById('book-wrapper');
+            const bookContainer = document.getElementById('book-container');
+
+            slider.max = totalPages - 1;
+            slider.value = 0;
+            counter.textContent = `1 / ${totalPages}`;
+            prevBtn.disabled = true;
+            nextBtn.disabled = totalPages <= 1;
+
+            // Internal state for zoom/pan
+            let currentZoom = 1;
+            let transX = 0;
+            let transY = 0;
+            let isDragging = false;
+            let lastX, lastY;
+
+            const updateTransform = () => {
+                const limitX = (currentZoom - 1) * (bookW / 2);
+                const limitY = (currentZoom - 1) * (bookH / 2);
+
+                // Calculate cover shift (if double page mode)
+                let shiftX = 0;
+                if (flipBook) {
+                    const page = flipBook.getCurrentPageIndex();
+                    const total = flipBook.getPageCount();
+
+                    // Critical: Calculate the ACTUAL rendered width of a single page 
+                    // based on the container's current height and the PDF's aspect ratio.
+                    const actualPageW = bookContainer.offsetHeight * (bookW / bookH);
+
+                    if (page === 0) {
+                        // Center the right-hand cover page
+                        shiftX = - (actualPageW / 2);
+                    } else if (page === total - 1 && total % 2 === 0) {
+                        // Center the left-hand back cover page
+                        shiftX = (actualPageW / 2);
+                    }
+                }
+
+                if (currentZoom === 1) {
+                    transX = 0; transY = 0;
+                    wrapper.classList.remove('zoomed-mode');
+                } else {
+                    wrapper.classList.add('zoomed-mode');
+                    transX = Math.max(-limitX - 400, Math.min(limitX + 400, transX));
+                    transY = Math.max(-limitY - 400, Math.min(limitY + 400, transY));
+                }
+
+                bookContainer.style.transform = `translate(${transX + shiftX}px, ${transY}px) scale(${currentZoom})`;
+                zoomSlider.value = currentZoom;
+                zoomValue.textContent = `x${currentZoom.toFixed(1)}`;
+            };
+
+            const changeZoom = (newZ) => {
+                const oldZoom = currentZoom;
+                currentZoom = Math.max(1, Math.min(4, newZ));
+                if (oldZoom > 1) {
+                    const ratio = (currentZoom - 1) / (oldZoom - 1);
+                    transX *= ratio; transY *= ratio;
+                }
+                updateTransform();
+            };
+
+            // Overwrite existing handlers to ensure fresh closure
+            zoomSlider.oninput = (e) => changeZoom(parseFloat(e.target.value));
+            prevBtn.onclick = () => flipBook.flipPrev();
+            nextBtn.onclick = () => flipBook.flipNext();
+            slider.oninput = (e) => flipBook.flip(parseInt(e.target.value));
+
+            // Wheel handler (Clean up old then add new)
+            const wheelHandler = (e) => {
+                e.preventDefault();
+                const scaleFactor = e.ctrlKey ? 0.01 : 0.005;
+                changeZoom(currentZoom - e.deltaY * scaleFactor);
+            };
+            wrapper.onwheel = wheelHandler; // Use onwheel to easily overwrite
+
+            // Mousedown for Pan
+            wrapper.onmousedown = (e) => {
+                if (currentZoom <= 1 || e.target.closest('.book-controls')) return;
+                isDragging = true;
+                window.isDraggingScore = true;
+                lastX = e.pageX; lastY = e.pageY;
+            };
+
+            // Global move/up (One-time registration outside if preferred, but here we can scope)
+            if (!window.scoreEventRegistered) {
+                window.addEventListener('mouseup', () => window.isDraggingScore = false);
+                window.addEventListener('mousemove', (e) => {
+                    if (!window.isDraggingScore || !window.updateScoreTransform) return;
+                    e.preventDefault();
+                    window.updateScoreTransform(e.pageX, e.pageY);
+                });
+                window.scoreEventRegistered = true;
+            }
+
+            // Bridge to global listeners
+            window.isDraggingScore = false;
+            window.updateScoreTransform = (pageX, pageY) => {
+                if (!isDragging) return;
+                const dx = pageX - lastX;
+                const dy = pageY - lastY;
+                transX += dx; transY += dy;
+                lastX = pageX; lastY = pageY;
+                updateTransform();
+            };
+            // Ensure mouseup sets OUR local isDragging to false
+            const globalMouseUp = () => isDragging = false;
+            window.addEventListener('mouseup', globalMouseUp, { once: true });
+
+            flipBook.on('flip', (e) => {
+                const currentPage = e.data + 1;
+                slider.value = e.data;
+                counter.textContent = `${currentPage} / ${totalPages}`;
+                prevBtn.disabled = e.data === 0;
+                nextBtn.disabled = e.data === totalPages - 1;
+
+                // Recalculate transform to handle cover centering
+                updateTransform();
+            });
+
+            // Initial center transform
+            setTimeout(() => updateTransform(), 250);
+        }
+
+        async function closeScoreOverlay() {
+            // Cancel any current loading
+            currentScoreRequestId++;
+            isScoreLoading = false;
+
+            if (scoreWavesurfer) {
+                scoreWavesurfer.destroy();
+                scoreWavesurfer = null;
+            }
+            document.getElementById('score-overlay').classList.remove('active');
+            document.getElementById('book-wrapper').classList.remove('zoomed-mode');
+            document.body.style.overflow = '';
+        }
+
+        async function clearScoreData() {
+            // Cancel any pending
+            currentScoreRequestId++;
+            currentLoadedScoreUrl = null;
+            isScoreLoading = false;
+
+            if (currentLoadingTask) {
+                try { currentLoadingTask.destroy(); } catch (e) { }
+                currentLoadingTask = null;
+            }
+            if (flipBook) {
+                try { flipBook.destroy(); } catch (e) { }
+                flipBook = null;
+            }
+            if (currentPDF) {
+                try { currentPDF.destroy(); } catch (e) { }
+                currentPDF = null;
+            }
+            const loadingIndicator = document.getElementById('score-loading');
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+
+            const container = document.getElementById('book-container');
+            if (container) {
+                container.innerHTML = '';
+                container.style.transform = 'translate(0,0) scale(1)';
+            }
+        }
+
         // WORKS DATABASE
         const worksData = [
+            {
+                id: 'meinzuhause-gmbh',
+                title: 'MEIN ZUHAUSE GMBH. 2026',
+                videos: ['tQVKnYp8i80'],
+                desc: 'work-meinzuhause-gmbh-desc',
+                credits: [
+                    { label: 'Work', value: 'Adri Velasco' },
+                    { label: 'Performer', value: 'Gustav Bloéb' },
+                    { label: 'Live Sound', value: 'Giovanni Dinello' },
+                    { label: 'Technical Assistance', value: 'Ian Whillock' },
+                    { label: 'Video Recording', value: 'Goran Lazarevic & Tong Khanh Ha<br>Hamburg Open Online University' }
+                ]
+            },
             {
                 id: 'personas-que-quiza-conozcas',
                 title: 'PERSONAS QUE QUIZÁ CONOZCAS. 2025',
@@ -372,7 +1582,7 @@
                 videos: ['PiDJJbJzv9I', 'f70KsUdA6Fk'],
                 desc: 'work-ebdvp-desc',
                 credits: [
-                    { label: 'TEXT', value: 'Adri Velasco' },
+                    { label: 'Work', value: 'Adri Velasco' },
                     { label: 'VOICE', value: 'Eduardo Velasco' }
                 ]
             },
@@ -391,6 +1601,7 @@
                 title: 'RUMBLE. 2025',
                 videos: ['QhXVTFkVde4'],
                 desc: 'work-rumble-desc',
+                score: '../pdfs/rumble.pdf',
                 credits: [
                     { label: 'Dates', value: '1 FEB. Auditorio Nacional de España<br>7 MAR. Centro Cultural Villa de Nerja' }
                 ]
@@ -400,6 +1611,7 @@
                 title: 'OSC PROTOCOL. 2024',
                 videos: ['SJr9lo4Ses0', 'T-8SwfE1cHs'],
                 desc: 'work-osc-desc',
+                score: '../pdfs/oscprotocol.pdf',
                 credits: [
                     { label: 'Piano', value: 'Pablo Gil' },
                     { label: 'Dates', value: '9 MAY. Ateneo de Madrid<br>18 MAY. Real Conservatorio Superior de Música de Madrid' }
@@ -410,12 +1622,13 @@
                 title: 'THREE YEARS OF EVOLUTION. 2024',
                 videos: ['0w1TvFGLKVU'],
                 desc: 'work-tyoe-desc',
+                score: '../pdfs/threeyears.pdf',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
                     { label: 'Performer', value: 'Paula Ortega' },
                     { label: 'Stylist', value: 'Alba Roselló' },
-                    { label: 'Filmed by', value: 'Iris Casilari<br>Into' },
-                    { label: 'Edited by', value: 'Iris Casilari<br>Adri Velasco' }
+                    { label: 'Filmed by', value: 'Iris Casilari, Into' },
+                    { label: 'Edited by', value: 'Iris Casilari, Adri Velasco' }
                 ]
             },
             {
@@ -451,6 +1664,7 @@
                 title: 'MINUIT TOUJOURS ARRIVE. 2023',
                 videos: ['LCkRsxdqyDU'],
                 desc: 'work-minuit-desc',
+                score: '../pdfs/minuit.pdf',
                 credits: [
                     { label: 'Premiered by', value: 'Trio Arbós<br>at Teatro de la Zarzuela' },
                     { label: 'Awards', value: 'II PREMIO DE COMPOSICIÓN TZ-RCSMM' }
@@ -461,6 +1675,7 @@
                 title: 'CISNE Y CERDO. 2022',
                 videos: ['3nSSqvQ-25o'],
                 desc: 'work-cisne-desc',
+                score: '../pdfs/cisneycerdo.pdf',
                 credits: [
                     { label: 'Text', value: 'Dionisio Cañas' },
                     { label: 'Dates', value: '21 JUN. Sala 400 Museo Reina Sofía, Madrid' }
@@ -469,6 +1684,52 @@
         ];
 
         let currentIndex = 0;
+
+        const audioConfigs = {
+            'en-busca-del-video-perfecto': {
+                file: '../audios/EBDVP.mp3',
+                title: 'EN BUSCA DEL VIDEO PERFECTO',
+                link: 'https://soundcloud.com/adrivelaasco/en-busca-del-video-perfecto',
+                subtitleSrc: '../subs/ebdvp.srt',
+                waveformHeight: 25
+            },
+            'lespontanea': {
+                file: '../audios/lespontanea.mp3',
+                title: 'LESPONTANEA',
+                link: 'https://soundcloud.com/adrivelaasco/lespontanea',
+                waveformHeight: 25
+            },
+            'rumble': {
+                file: '../audios/rumble.mp3',
+                title: 'RUMBLE',
+                link: 'https://soundcloud.com/adrivelaasco/rumble',
+                waveformHeight: 25
+            },
+            'osc-protocol': {
+                file: '../audios/oscprotocol.mp3',
+                title: 'OSC PROTOCOL',
+                link: '',
+                waveformHeight: 25
+            },
+            'minuit-toujours-arrive': {
+                file: '../audios/minuit.mp3',
+                title: 'MINUIT TOUJOURS ARRIVE',
+                link: '',
+                waveformHeight: 25
+            },
+            'cisne-y-cerdo': {
+                file: '../audios/cisneycerdo.mp3',
+                title: 'CISNE Y CERDO',
+                link: '',
+                waveformHeight: 25
+            },
+            'three-years-of-evolution': {
+                file: '../audios/threeyears.mp3',
+                title: 'THREE YEARS OF EVOLUTION',
+                link: '',
+                waveformHeight: 25
+            }
+        };
 
         function renderWork(index, updateURL = true) {
             const work = worksData[index];
@@ -480,22 +1741,58 @@
                 window.history.pushState({ index: index }, '', newURL);
             }
 
+            if (sharedAudio) {
+                sharedAudio.pause();
+                sharedAudio.currentTime = 0;
+            }
+            // Reset icons
+            if (document.getElementById('playIcon')) {
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
+            }
+            const sPlay = document.querySelector('#scorePlayPauseBtn .play-icon');
+            const sPause = document.querySelector('#scorePlayPauseBtn .pause-icon');
+            if (sPlay) sPlay.style.display = 'block';
+            if (sPause) sPause.style.display = 'none';
+
+            clearScoreData();
+            closeScoreOverlay();
             const wrapper = document.getElementById('work-content-wrapper');
             wrapper.classList.add('fade-out');
 
             setTimeout(() => {
                 // Update Title
-                document.getElementById('display-title').textContent = work.title;
+                const titleEl = document.getElementById('display-title');
+                titleEl.textContent = work.title;
+                titleEl.className = 'work-title' + (work.id === 'minuit-toujours-arrive' ? ' title-nowrap' : '');
 
                 // Update Videos
-                const videoColumn = document.getElementById('display-videos');
-                videoColumn.innerHTML = work.videos.map(id => `
+                const videoColumnInner = document.getElementById('display-videos');
+                const videoColumnOuter = videoColumnInner.parentElement;
+                const isCompact = ['lespontanea', 'rumble', 'en-busca-del-video-perfecto', 'osc-protocol', 'cisne-y-cerdo', 'minuit-toujours-arrive', 'three-years-of-evolution'].includes(work.id);
+                const isDouble = (work.videos && work.videos.length > 1);
+                videoColumnOuter.className = 'video-column' + 
+                    (isCompact ? ' compact-audio-layout' : '') +
+                    (isDouble ? ' double-video' : '') +
+                    ' id-' + work.id;
+
+                videoColumnInner.innerHTML = work.videos.map(id => `
                                 <div class="video-wrapper">
                                     <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0"
                                         allowfullscreen></iframe>
                                 </div>
                                 `).join('');
 
+                // Add Login button for meinzuhause-gmbh
+                if (work.id === 'meinzuhause-gmbh') {
+                    const currentLang = localStorage.getItem('preferredLanguage') || 'en';
+                    const signText = window.navTranslations ? window.navTranslations[currentLang]['btn-sign-in'] : 'SIGN IN';
+                    videoColumnInner.innerHTML += `
+                        <div class="login-btn-wrapper">
+                            <button class="login-btn" data-t="btn-sign-in" onclick="openMZOverlay()">${signText}</button>
+                        </div>
+                    `;
+                }
                 // Update Description (with translation support)
                 const descDiv = document.getElementById('display-desc');
                 if (work.desc) {
@@ -511,15 +1808,212 @@
                                     <span class="credits-label">${c.label}</span>
                                     ${c.value}
                                 </div>
-        `).join('');
+                                `).join('');
 
                 // Trigger translation re-run if script is ready
                 if (window.navComponent && window.navComponent.updatePageTranslations) {
                     window.navComponent.updatePageTranslations();
                 }
 
+                // Handle Audio Player
+                const audioContainer = document.getElementById('audio-player-container');
+                const config = audioConfigs[work.id];
+
+                if (config) {
+                    audioContainer.style.display = 'block';
+                    // Update audio label/link
+                    const audioTitleEl = document.getElementById('display-audio-title');
+                    audioTitleEl.textContent = config.title;
+                    if (config.link) {
+                        audioTitleEl.href = config.link;
+                        audioTitleEl.classList.remove('no-underline');
+                        audioTitleEl.style.cursor = 'pointer';
+                    } else {
+                        audioTitleEl.removeAttribute('href');
+                        audioTitleEl.classList.add('no-underline');
+                        audioTitleEl.style.cursor = 'default';
+                    }
+                    // Ensure no native browser underline
+                    audioTitleEl.style.textDecoration = 'none';
+
+                    initWaveform(config.file, config.subtitleSrc, config.waveformHeight || 40);
+                } else {
+                    audioContainer.style.display = 'none';
+                    if (window.wavesurfer) {
+                        window.wavesurfer.destroy();
+                        window.wavesurfer = null;
+                    }
+                }
+
+                // Handle Score Button
+                const scoreBtnContainer = document.getElementById('score-button-container');
+                if (work.score) {
+                    const currentLang = localStorage.getItem('preferredLanguage') || 'en';
+                    const scoreText = window.navTranslations ? window.navTranslations[currentLang]['btn-score'] : 'SCORE';
+                    // Pre-check for audio for this score
+                    const audioConfig = audioConfigs[work.id];
+                    scoreBtnContainer.innerHTML = `
+                        <div class="score-btn-wrapper">
+                            <button class="score-btn" data-t="btn-score" onclick="openScoreOverlay('${work.score}', '${audioConfig ? audioConfig.file : ''}')">${scoreText}</button>
+                        </div>
+                    `;
+                    scoreBtnContainer.style.display = 'block';
+                } else {
+                    scoreBtnContainer.style.display = 'none';
+                }
+
                 wrapper.classList.remove('fade-out');
             }, 400);
+        }
+        
+        // --- Centralized Audio Sync ---
+        function updateAllAudioIcons() {
+            if (!sharedAudio) return;
+            const isPlaying = !sharedAudio.paused;
+
+            // Update main page icons
+            const mainPlay = document.getElementById('playIcon');
+            const mainPause = document.getElementById('pauseIcon');
+            if (mainPlay) mainPlay.style.display = isPlaying ? 'none' : 'block';
+            if (mainPause) mainPause.style.display = isPlaying ? 'block' : 'none';
+
+            // Update overlay icons
+            const scoreBtn = document.getElementById('scorePlayPauseBtn');
+            if (scoreBtn) {
+                const sPlay = scoreBtn.querySelector('.play-icon');
+                const sPause = scoreBtn.querySelector('.pause-icon');
+                if (sPlay) sPlay.style.display = isPlaying ? 'none' : 'block';
+                if (sPause) sPause.style.display = isPlaying ? 'block' : 'none';
+            }
+        }
+
+        function formatTime(time) {
+            return [
+                Math.floor(time / 60),
+                Math.floor(time % 60).toString().padStart(2, '0')
+            ].join(':');
+        }
+
+        // WaveSurfer Initialization (Main)
+        function initWaveform(url, subSrc = null, height = 40) {
+            if (window.wavesurfer) window.wavesurfer.destroy();
+
+            // Reset Subtitles
+            currentSubtitles = [];
+            document.getElementById('ccBtn').style.display = 'none';
+            document.getElementById('ccBtn').classList.remove('active');
+            document.getElementById('subtitleOverlay').style.display = 'none';
+            document.getElementById('subtitleOverlay').innerHTML = '';
+
+            // Create shared audio element if not exists or URL changed
+            if (!sharedAudio || sharedAudio.src.indexOf(url.replace('../', '')) === -1) {
+                sharedAudio = new Audio();
+                sharedAudio.src = url;
+                
+                // Add centralized listeners to the shared audio element itself
+                sharedAudio.addEventListener('play', updateAllAudioIcons);
+                sharedAudio.addEventListener('pause', updateAllAudioIcons);
+                sharedAudio.addEventListener('playing', updateAllAudioIcons);
+                sharedAudio.addEventListener('ended', updateAllAudioIcons);
+            }
+
+            window.wavesurfer = WaveSurfer.create({
+                container: '#waveform',
+                waveColor: '#ffffff',
+                progressColor: 'rgba(0, 0, 255, 0.7)',
+                cursorColor: '#0000ff',
+                barWidth: 2,
+                barRadius: 3,
+                responsive: true,
+                height: height,
+                normalize: true,
+                media: sharedAudio, // Use the shared element
+            });
+
+            const playBtn = document.getElementById('playPauseBtn');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const ccBtn = document.getElementById('ccBtn');
+            const subOverlay = document.getElementById('subtitleOverlay');
+
+            playBtn.onclick = () => window.wavesurfer.playPause();
+
+            // Load Subtitles
+            if (subSrc) {
+                fetch(subSrc)
+                    .then(r => r.text())
+                    .then(data => {
+                        currentSubtitles = parseSRT(data);
+                        ccBtn.style.display = 'block';
+                    });
+            }
+
+            ccBtn.onclick = () => {
+                const isActive = ccBtn.classList.toggle('active');
+                subOverlay.style.display = isActive ? 'flex' : 'none';
+            };
+
+            // Wavesurfer events will still trigger relative to the media 
+            // but the icon sync is now handled by the sharedAudio element itself.
+            window.wavesurfer.on('play', updateAllAudioIcons);
+            window.wavesurfer.on('pause', updateAllAudioIcons);
+
+            const timeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('totalDuration');
+
+            window.wavesurfer.on('decode', (duration) => {
+                durationEl.textContent = formatTime(duration);
+            });
+
+            window.wavesurfer.on('timeupdate', (currentTime) => {
+                timeEl.textContent = formatTime(currentTime);
+
+                // Update Subtitles
+                if (ccBtn.classList.contains('active')) {
+                    const activeSub = currentSubtitles.find(s => currentTime >= s.start && currentTime <= s.end);
+                    subOverlay.innerHTML = activeSub ? activeSub.text : '';
+                }
+            });
+        }
+
+        function initScoreWaveform(url) {
+            if (scoreWavesurfer) scoreWavesurfer.destroy();
+
+            scoreWavesurfer = WaveSurfer.create({
+                container: '#score-waveform',
+                waveColor: 'rgba(255,255,255,0.25)',
+                progressColor: '#00ccff', // Light Blue
+                cursorColor: '#ffffff',
+                barWidth: 2,
+                barRadius: 2,
+                responsive: true,
+                height: 26,
+                normalize: true,
+                media: sharedAudio,
+            });
+
+            const scorePlayBtn = document.getElementById('scorePlayPauseBtn');
+            const scorePlayIcon = scorePlayBtn.querySelector('.play-icon');
+            const scorePauseIcon = scorePlayBtn.querySelector('.pause-icon');
+
+            scorePlayBtn.onclick = () => scoreWavesurfer.playPause();
+
+            // Sync icons to current audio state immediately
+            updateAllAudioIcons();
+
+            scoreWavesurfer.on('play', updateAllAudioIcons);
+            scoreWavesurfer.on('pause', updateAllAudioIcons);
+
+            const scoreTimeEl = document.getElementById('scoreCurrentTime');
+            const scoreDurationEl = document.getElementById('scoreTotalDuration');
+
+            scoreWavesurfer.on('decode', (duration) => {
+                if (scoreDurationEl) scoreDurationEl.textContent = formatTime(duration);
+            });
+
+            scoreWavesurfer.on('timeupdate', (currentTime) => {
+                if (scoreTimeEl) scoreTimeEl.textContent = formatTime(currentTime);
+            });
         }
 
         // Navigation logic
@@ -535,14 +2029,26 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
+            const isScoreActive = document.getElementById('score-overlay').classList.contains('active');
+
             if (e.key === 'ArrowLeft') {
-                document.getElementById('prevWork').classList.add('active');
-                currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
-                renderWork(currentIndex);
+                if (isScoreActive && flipBook) {
+                    flipBook.flipPrev();
+                } else {
+                    document.getElementById('prevWork').classList.add('active');
+                    currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+                    renderWork(currentIndex);
+                }
             } else if (e.key === 'ArrowRight') {
-                document.getElementById('nextWork').classList.add('active');
-                currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
-                renderWork(currentIndex);
+                if (isScoreActive && flipBook) {
+                    flipBook.flipNext();
+                } else {
+                    document.getElementById('nextWork').classList.add('active');
+                    currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+                    renderWork(currentIndex);
+                }
+            } else if (e.key === 'Escape' && isScoreActive) {
+                closeScoreOverlay();
             }
         });
 
@@ -597,6 +2103,61 @@
                 if (found !== -1) currentIndex = found;
             }
             renderWork(currentIndex, true);
+        });
+
+        // Subtitle Helpers
+        let currentSubtitles = [];
+
+        function parseSRT(data) {
+            const subs = [];
+            const blocks = data.trim().split(/\n\s*\n/);
+            const srtRegex = new RegExp("(\\d{2}:\\d{2}:\\d{2},\\d{2,3}) --> (\\d{2}:\\d{2}:\\d{2},\\d{2,3})");
+            blocks.forEach(block => {
+                const lines = block.split(/\n/);
+                if (lines.length >= 2) {
+                    const timeRange = block.match(srtRegex);
+                    if (timeRange) {
+                        // Filter out numeric sequence line and the timing line itself
+                        const filteredLines = lines.filter(line => {
+                            const trimmed = line.trim();
+                            if (/^\d+$/.test(trimmed)) return false; // sequence number
+                            if (srtRegex.test(trimmed)) return false; // timing line
+                            return true;
+                        });
+                        const textLines = filteredLines.join('<br>');
+                        subs.push({
+                            start: srtTimeToSeconds(timeRange[1]),
+                            end: srtTimeToSeconds(timeRange[2]),
+                            text: textLines
+                        });
+                    }
+                }
+            });
+            return subs;
+        }
+
+        function srtTimeToSeconds(timeStr) {
+            const parts = timeStr.replace(',', '.').split(':');
+            return parseFloat(parts[0]) * 3600 + parseFloat(parts[1]) * 60 + parseFloat(parts[2]);
+        }
+
+        // Listener for iframe events (e.g. Mein Zuhause state changes)
+        window.addEventListener('message', (e) => {
+            const mzBtn = document.getElementById('mzuhause-close');
+            if (!mzBtn) return;
+            if (e.data === 'hide-close') mzBtn.classList.add('hide');
+            if (e.data === 'show-close') mzBtn.classList.remove('hide');
+            if (e.data === 'blue-close') {
+                mzBtn.classList.remove('black');
+                mzBtn.classList.add('blue');
+            }
+            if (e.data === 'black-close') {
+                mzBtn.classList.remove('blue');
+                mzBtn.classList.add('black');
+            }
+            if (e.data === 'white-close') {
+                mzBtn.classList.remove('blue', 'black');
+            }
         });
     </script>
 
