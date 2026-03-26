@@ -17,18 +17,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     // --- WORKS DATA ---
     const worksData = [
-        { id: 'meinzuhause-gmbh', title: 'Mein Zuhause GmbH', year: 2026, category: 'full-lenght', thumbnail: 'images/thumbnails/finals-p480/Meinzuhause-Thumbnail.png', video: 'videos/compressed/9.mp4', desc: 'work-meinzuhause-gmbh-desc' },
-        { id: 'personas-que-quiza-conozcas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'images/thumbnails/finals-p480/PQQC-Thumbnail.png', video: 'videos/compressed/9.mp4', desc: 'work-personas-desc' },
-        { id: 'en-busca-del-video-perfecto', title: 'EN BUSCA DEL VIDEO PERFECTO', year: 2025, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/EBDVP-Thumbnail.png', video: 'videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
-        { id: 'pianogames', title: 'PIANOGAMES', year: 2025, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/Pianogames-Thumbnail.png', video: 'videos/compressed/2.mp4', desc: 'work-pianogames-desc' },
-        { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Rumble-Thumbnail.png', video: 'videos/compressed/4.mp4', desc: 'work-rumble-desc' },
-        { id: 'osc-protocol', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/OSC-Protocol-Thumbnail.png', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
-        { id: 'three-years-of-evolution', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/TYoE-Thumbnail.png', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
-        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'others', thumbnail: 'images/thumbnails/finals-p480/Game-Of-Life-Thumbnail.png', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
-        { id: 'another-music-conservatory', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/AMC-Thumbnail.png', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
-        { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/lespontanea-Thumbnail.png', video: 'videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
-        { id: 'minuit-toujours-arrive', title: 'MINUIT TOUJOURS<br>ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Minuit-Toujours-Arrive-Thumbnail.png', video: '', desc: 'work-minuit-desc' },
-        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Cisne-y-Cerdo-Thumbnail.png', video: '', desc: 'work-cisne-desc' }
+        { id: 'meinzuhause-gmbh', title: 'Mein Zuhause GmbH', year: 2026, category: 'full-lenght', thumbnail: 'images/thumbnails/finals-p480/Meinzuhause-Thumbnail.webp', video: 'videos/compressed/9.mp4', desc: 'work-meinzuhause-gmbh-desc' },
+        { id: 'personas-que-quiza-conozcas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'images/thumbnails/finals-p480/PQQC-Thumbnail.webp', video: 'videos/compressed/9.mp4', desc: 'work-personas-desc' },
+        { id: 'en-busca-del-video-perfecto', title: 'EN BUSCA DEL VIDEO PERFECTO', year: 2025, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/EBDVP-Thumbnail.webp', video: 'videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
+        { id: 'pianogames', title: 'PIANOGAMES', year: 2025, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/Pianogames-Thumbnail.webp', video: 'videos/compressed/2.mp4', desc: 'work-pianogames-desc' },
+        { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Rumble-Thumbnail.webp', video: 'videos/compressed/4.mp4', desc: 'work-rumble-desc' },
+        { id: 'osc-protocol', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/OSC-Protocol-Thumbnail.webp', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
+        { id: 'three-years-of-evolution', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/TYoE-Thumbnail.webp', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
+        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'others', thumbnail: 'images/thumbnails/finals-p480/Game-Of-Life-Thumbnail.webp', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
+        { id: 'another-music-conservatory', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/AMC-Thumbnail.webp', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
+        { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/lespontanea-Thumbnail.webp', video: 'videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
+        { id: 'minuit-toujours-arrive', title: 'MINUIT TOUJOURS<br>ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Minuit-Toujours-Arrive-Thumbnail.webp', video: '', desc: 'work-minuit-desc' },
+        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Cisne-y-Cerdo-Thumbnail.webp', video: '', desc: 'work-cisne-desc' }
     ];
 
     const forYouView = document.getElementById('foryou-view');
@@ -914,18 +914,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const keyContainer = document.getElementById('key-carousel');
     if (keyContainer) {
         const keyAssets = [
-            { src: 'fotos/500x500 (normales)/q.png' },
-            { src: 'fotos/500x500 (normales)/w.png' },
-            { src: 'fotos/500x500 (normales)/a.png' },
-            { src: 'fotos/500x500 (normales)/s.png' },
-            { src: 'fotos/500x500 (normales)/p.png' },
+            { src: 'fotos/500x500 (normales)/q.webp' },
+            { src: 'fotos/500x500 (normales)/w.webp' },
+            { src: 'fotos/500x500 (normales)/a.webp' },
+            { src: 'fotos/500x500 (normales)/s.webp' },
+            { src: 'fotos/500x500 (normales)/p.webp' },
             { src: 'fotos/500x500 (normales)/F1.mp4' },
-            { src: 'fotos/500x500 (normales)/x.png' },
+            { src: 'fotos/500x500 (normales)/x.webp' },
             { src: 'fotos/500x500 (normales)/ctrl.mp4' },
             { src: 'fotos/500x500 (normales)/z.mp4' },
             { src: 'fotos/500x500 (normales)/F3.mp4' },
-            { src: 'fotos/500x500 (normales)/option right.png' },
-            { src: 'fotos/500x500 (normales)/F5.png' },
+            { src: 'fotos/500x500 (normales)/option right.webp' },
+            { src: 'fotos/500x500 (normales)/F5.webp' },
             { src: 'fotos/500x500 (normales)/F11.mp4' }
         ];
 
