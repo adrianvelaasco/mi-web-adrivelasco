@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.isDirectHomeWork = false;
     window.directProgress = 0;
     let targetDirectProgress = 0;
+    let lastW = 0, lastH = 0;
 
 
     // --- 3D MODEL TEXTURE LOGIC ---
@@ -49,8 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
     modelViewer.addEventListener("load", async () => {
         const material = modelViewer.model.materials[0];
         modelCanvas = document.createElement("canvas");
-        modelCanvas.width = 1024;
-        modelCanvas.height = 1024;
+        modelCanvas.width = 512;
+        modelCanvas.height = 512;
         modelCtx = modelCanvas.getContext("2d", { willReadFrequently: true });
 
         // Background: White
@@ -68,19 +69,16 @@ document.addEventListener("DOMContentLoaded", function () {
         material.pbrMetallicRoughness.setMetallicFactor(0.1);
 
         // Initial Animation: Suave Fade In (No rotation)
-        const duration = 10000;
+        const duration = 2000;
         const initialDelay = 2000;
         const startTime = performance.now();
         modelViewer.orientation = `0deg 0deg 0deg`;
 
         function animateModel(time) {
             const elapsed = time - startTime;
-
-            // Wait for initialDelay before starting fade
-            if (elapsed < initialDelay && !initSection) {
+            
+            if (elapsed < initialDelay) {
                 introAlpha = 0;
-            } else if (initSection) {
-                introAlpha = 1;
             } else {
                 introAlpha = Math.min((elapsed - initialDelay) / duration, 1);
             }
@@ -120,21 +118,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Interactive Painting
-    let lastTextureUpdate = 0;
+    let lastTextureUpdate = Date.now();
     modelViewer.addEventListener('mousemove', (event) => {
-        if (globalScroll > 0.1) return;
+        // Optimization: Skip if page scrolled or if still in initial fade
+        if (globalScroll > 0.1 || introAlpha < 0.9) return;
+        
         const now = Date.now();
-        if (now - lastTextureUpdate < 100) return;
+        if (now - lastTextureUpdate < 250) return; 
+        lastTextureUpdate = now;
 
         const hit = modelViewer.positionAndNormalFromPoint(event.clientX, event.clientY);
         if (hit) {
-            lastTextureUpdate = now;
-            addRandomTriangles(10);
+            addRandomTriangles(15);
             requestAnimationFrame(async () => {
-                const newTexture = await modelViewer.createTexture(modelCanvas.toDataURL());
-                if (modelViewer.model && modelViewer.model.materials[0]) {
-                    modelViewer.model.materials[0].pbrMetallicRoughness.baseColorTexture.setTexture(newTexture);
-                }
+                try {
+                    const dataUrl = modelCanvas.toDataURL("image/webp", 0.7);
+                    const newTexture = await modelViewer.createTexture(dataUrl);
+                    if (modelViewer.model && modelViewer.model.materials[0]) {
+                        modelViewer.model.materials[0].pbrMetallicRoughness.baseColorTexture.setTexture(newTexture);
+                    }
+                } catch (e) { }
             });
         }
     });
@@ -145,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
             modelCtx.beginPath();
             const x = Math.random() * modelCanvas.width;
             const y = Math.random() * modelCanvas.height;
-            const size = (Math.random() * 150 + 20) * sizeMultiplier;
+            const size = (Math.random() * 75 + 10) * sizeMultiplier;
 
             modelCtx.moveTo(x, y);
             modelCtx.lineTo(x + (Math.random() - 0.5) * size, y + (Math.random() - 0.5) * size);
@@ -648,10 +651,17 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    let _lastParticlesW = 0, _lastParticlesH = 0;
     function _generateParticles() {
-        particlesArray = [];
         const w = window.innerWidth;
         const h = window.innerHeight;
+
+        // Final guard: avoid re-generating if dimensions are essentially the same
+        if (Math.abs(w - _lastParticlesW) < 10 && Math.abs(h - _lastParticlesH) < 10) return;
+        _lastParticlesW = w;
+        _lastParticlesH = h;
+
+        particlesArray = [];
         // Create temp canvas
         const tCanvas = document.createElement('canvas');
         tCanvas.width = w; tCanvas.height = h;
@@ -1636,24 +1646,21 @@ document.addEventListener("DOMContentLoaded", function () {
         requestAnimationFrame(animate);
     }
 
-    let lastWidthDesktop = window.innerWidth;
-    let lastHeightDesktop = window.innerHeight;
-
     // --- INITIALIZATION ---
     function setupCanvases() {
         const w = window.innerWidth;
         const h = window.innerHeight;
-
-        // Solo resetear si las dimensiones han cambiado REALMENTE
-        if (Math.abs(lastWidthDesktop - w) < 10 && Math.abs(lastHeightDesktop - h) < 10) {
-            return;
-        }
         
-        lastWidthDesktop = w;
-        lastHeightDesktop = h;
+        // Prevent resets due to fake resizes or small shifts (e.g. scrollbar appearing)
+        // We use a small tolerance (10px) to avoid sensitivity issues in some browsers
+        const dW = Math.abs(w - lastW);
+        const dH = Math.abs(h - lastH);
+        if (lastW !== 0 && dW < 10 && dH < 10) return;
+        
+        lastW = w;
+        lastH = h;
 
         dpr = window.devicePixelRatio || 1;
-        
         particleCanvas.width = w * dpr;
         particleCanvas.height = h * dpr;
         particleCanvas.style.width = `${w}px`;

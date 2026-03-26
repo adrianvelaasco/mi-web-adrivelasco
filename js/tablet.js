@@ -4,6 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let isMuted = true; // El audio empieza silenciado
     let preferredWorksView = 'foryou'; // Vista predeterminada
     let isInitialHomeAnimation = true; // Solo para el primer arranque en Home
+    let introAlpha = 0;
+    const modelViewer = document.getElementById('logo3d');
+    let modelStartTime = 0;
+
+    if (modelViewer) {
+        modelViewer.addEventListener('load', () => {
+            modelStartTime = performance.now();
+        });
+    }
     const sections = document.querySelectorAll('.section');
     const sectionsIds = ['home', 'about', 'works', 'contact'];
 
@@ -380,7 +389,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // --- 3D MODEL TEXTURE ---
-    const modelViewer = document.getElementById('logo3d');
     if (modelViewer) modelViewer.orientation = "0deg 0deg 80deg";
 
     function applyModelTexture() {
@@ -466,6 +474,20 @@ document.addEventListener("DOMContentLoaded", function () {
             p.update();
             p.draw();
         });
+
+        // Update 3D Model Entrance Fade
+        if (modelViewer && modelStartTime > 0) {
+            const elapsed = performance.now() - modelStartTime;
+            const initialDelay = 2000;
+            const duration = 2000;
+
+            if (elapsed < initialDelay) {
+                introAlpha = 0;
+            } else {
+                introAlpha = Math.min((elapsed - initialDelay) / duration, 1);
+            }
+            modelViewer.style.opacity = introAlpha;
+        }
 
         requestAnimationFrame(animate);
     }
@@ -953,24 +975,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const bgCtx = bgCanvas ? bgCanvas.getContext('2d') : null;
     let particlesArray = [];
     let dpr = window.devicePixelRatio || 1;
-    let lastWidth = window.innerWidth;
-    let lastHeight = window.innerHeight;
+    let lastW = 0, lastH = 0;
 
     function resizeCanvas() {
         if (!bgCanvas || !bgCtx) return;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        
+        if (w === lastW && h === lastH) return;
+        lastW = w;
+        lastH = h;
 
-        // Solo resetear si las dimensiones realmente han cambiado significativamente
-        if (Math.abs(lastWidth - window.innerWidth) < 10 && Math.abs(lastHeight - window.innerHeight) < 10) {
-            return;
-        }
-
-        lastWidth = window.innerWidth;
-        lastHeight = window.innerHeight;
-
-        bgCanvas.width = window.innerWidth * dpr;
-        bgCanvas.height = window.innerHeight * dpr;
-        bgCanvas.style.width = window.innerWidth + 'px';
-        bgCanvas.style.height = window.innerHeight + 'px';
+        bgCanvas.width = w * dpr;
+        bgCanvas.height = h * dpr;
+        bgCanvas.style.width = w + 'px';
+        bgCanvas.style.height = h + 'px';
         bgCtx.setTransform(1, 0, 0, 1, 0, 0);
         bgCtx.scale(dpr, dpr);
         bgCtx.imageSmoothingEnabled = false;
