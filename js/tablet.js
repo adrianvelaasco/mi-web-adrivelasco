@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-life-desc': "Game of Life is an adaptation of John Conway’s traditional game. This cellular automaton evolves deterministically according to its initial configuration.",
             'work-amc-desc': "This is simply about messing with the Madrid Royal Conservatory of Music.",
             'work-espontanea-desc': "Some captions published on a private Instagram account were verbalizing many thoughts that I hadn't yet been able to formulate.",
-            'work-meinzuhause-gmbh-desc': "MeineZuhause GmbH is an immersive theatrical experience. In this play, the audience abandons its role as spectator to become the protagonist of the story.<br><br>Set in a very familiar present, the desperate search for an apartment brings together a group of strangers.",
+            'work-meinzuhause-gmbh-desc': "Mein Zuhause GmbH is an immersive theatrical experience. In this play, the audience abandons its role as spectator to become the protagonist of the story.<br><br>Set in a very familiar present, the desperate search for an apartment brings together a group of strangers.",
             'work-minuit-desc': "Winner of the II Composition Prize TZ-RCSMM. Premiered by Trio Arbós at Teatro de la Zarzuela.",
             'work-cisne-desc': "A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas.",
             cvLink: "CVs/CV_Ingles.pdf"
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-life-desc': "Game of Life es una adaptación del juego tradicional de John Conway. Este autómata celular evoluciona de forma determinista.",
             'work-amc-desc': "Esto se trata simplemente de destruir un poco el Real Conservatorio Superior de Música de Madrid.",
             'work-espontanea-desc': "Algunos pies de foto publicados en una cuenta privada de Instagram verbalizaban muchos pensamientos que yo aún no había sido capaz de formular.",
-            'work-meinzuhause-gmbh-desc': "MeineZuhause GmbH es una experiencia teatral inmersiva. En esta obra, el público abandona su papel de espectador para convertirse en el protagonista de la historia.<br><br>Ambientada en un presente muy familiar, la búsqueda desesperada de un apartamento reúne a un grupo de desconocidos.",
+            'work-meinzuhause-gmbh-desc': "Mein Zuhause GmbH es una experiencia teatral inmersiva. En esta obra, el público abandona su papel de espectador para convertirse en el protagonista de la historia.<br><br>Ambientada en un presente muy familiar, la búsqueda desesperada de un apartamento reúne a un grupo de desconocidos.",
             'work-minuit-desc': "Ganador del II Premio de Composición TZ-RCSMM. Estrenado por el Trío Arbós en el Teatro de la Zarzuela.",
             'work-cisne-desc': "Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía basada en textos de Dionisio Cañas.",
             cvLink: "CVs/CV_Español.pdf"

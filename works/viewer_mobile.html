@@ -207,6 +207,37 @@
             border: 0;
         }
 
+        .video-soon-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 15px,
+                rgba(0, 0, 255, 0.03) 15px,
+                rgba(0, 0, 255, 0.03) 30px
+            );
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 255, 0.1);
+            position: relative;
+            border: 2px solid #0000ff;
+            box-sizing: border-box;
+        }
+
+        .video-soon-placeholder::after {
+            content: "SOON";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0000ff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: 0.3em;
+        }
+
         .info-column {
             display: flex;
             flex-direction: column;
@@ -961,7 +992,7 @@
                 'work-espontanea-desc': "Some captions published on a private Instagram account were verbalizing many thoughts that I hadn't yet been able to formulate.<br><br>This piece collects some writings by @rosello.alba, attempting to find that curious point in her texts where the chaotic nature of the micro manages to balance with the coherent nature of the macro, without taking away the work's virtue of spontaneity.",
                 'work-minuit-desc': "Winner of the II Composition Prize TZ-RCSMM. Premiered by Trio Arbós at Teatro de la Zarzuela. A work that explores the threshold of dawn and the inevitable arrival of midnight.",
                 'work-cisne-desc': "A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas, exploring the duality between the sublime and the grotesque.",
-                'work-meinzuhause-gmbh-desc': "MeineZuhause GmbH is an immersive theatrical experience. In this play, the audience abandons its role as spectator to become the protagonist of the story. Set in a very familiar present, the desperate search for an apartment brings together a group of strangers. Just when everyone believes they have found an apartment to rent, a real estate agent receives them in a group viewing, ready to choose the ideal tenant."
+                'work-meinzuhause-gmbh-desc': "Mein Zuhause GmbH is an immersive theatrical experience. In this play, the audience abandons its role as spectator to become the protagonist of the story. Set in a very familiar present, the desperate search for an apartment brings together a group of strangers. Just when everyone believes they have found an apartment to rent, a real estate agent receives them in a group viewing, ready to choose the ideal tenant."
             },
             es: {
                 'btn-score': "PARTITURA",
@@ -980,7 +1011,7 @@
                 'work-espontanea-desc': "Algunos pies de foto publicados en una cuenta privada de Instagram verbalizaban muchos pensamientos que yo aún no había sido capaz de formular.<br><br>Esta pieza recoge algunos escritos de @rosello.alba, intentando encontrar ese punto curioso en sus textos donde la naturaleza caótica de lo micro consigue equilibrarse con la naturaleza coherente de lo macro, sin quitarle la virtud de la espontaneidad a la obra.",
                 'work-minuit-desc': "Ganador del II Premio de Composición TZ-RCSMM. Estrenado por el Trío Arbós en el Teatro de la Zarzuela. Una obra que explora el umbral del alba y la inevitable llegada de la medianoche.",
                 'work-cisne-desc': "Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía. Basada en textos de Dionisio Cañas, explora la dualidad entre lo sublime y lo grotesco.",
-                'work-meinzuhause-gmbh-desc': "MeineZuhause GmbH es una experiencia teatral inmersiva. En esta obra, el público abandona su papel de espectador para convertirse en el protagonista de la historia. Ambientada en un presente muy familiar, la búsqueda desesperada de un apartamento reúne a un grupo de desconocidos. Justo cuando todos creen haber encontrado un apartamento para alquilar, un agente inmobiliario los recibe en una visita grupal, listo para elegir al inquilino ideal."
+                'work-meinzuhause-gmbh-desc': "Mein Zuhause GmbH es una experiencia teatral inmersiva. En esta obra, el público abandona su papel de espectador para convertirse en el protagonista de la historia. Ambientada en un presente muy familiar, la búsqueda desesperada de un apartamento reúne a un grupo de desconocidos. Justo cuando todos creen haber encontrado un apartamento para alquilar, un agente inmobiliario los recibe en una visita grupal, listo para elegir al inquilino ideal."
             }
         };
 
@@ -989,7 +1020,7 @@
             {
                 id: 'meinzuhause-gmbh',
                 title: 'MEIN ZUHAUSE GMBH. 2026',
-                videos: ['tQVKnYp8i80'],
+                videos: ['soon'],
                 desc: 'work-meinzuhause-gmbh-desc',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
@@ -1191,11 +1222,16 @@
                     (isDouble ? ' double-video' : '') +
                     ' id-' + work.id;
 
-                videoColumn.innerHTML = work.videos.map(id => `
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0" allowfullscreen></iframe>
-                    </div>
-                `).join('');
+                videoColumn.innerHTML = work.videos.map(id => {
+                    if (id === 'soon') {
+                        return `<div class="video-soon-placeholder"></div>`;
+                    }
+                    return `
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0" allowfullscreen></iframe>
+                        </div>
+                    `;
+                }).join('');
 
                 if (work.id === 'meinzuhause-gmbh') {
                     const signText = translations[currentLang]['btn-sign-in'];

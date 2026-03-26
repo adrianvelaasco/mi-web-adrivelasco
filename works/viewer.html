@@ -239,6 +239,37 @@
             border: 0;
         }
 
+        .video-soon-placeholder {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            width: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 15px,
+                rgba(0, 0, 255, 0.03) 15px,
+                rgba(0, 0, 255, 0.03) 30px
+            );
+            border: 2px solid #0000ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .video-soon-placeholder::after {
+            content: "SOON";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0000ff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            letter-spacing: 0.3em;
+        }
+
         /* Info Column */
         .info-column {
             display: flex;
@@ -1555,7 +1586,7 @@
             {
                 id: 'meinzuhause-gmbh',
                 title: 'MEIN ZUHAUSE GMBH. 2026',
-                videos: ['tQVKnYp8i80'],
+                videos: ['soon'],
                 desc: 'work-meinzuhause-gmbh-desc',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
@@ -1776,12 +1807,17 @@
                     (isDouble ? ' double-video' : '') +
                     ' id-' + work.id;
 
-                videoColumnInner.innerHTML = work.videos.map(id => `
-                                <div class="video-wrapper">
-                                    <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0"
-                                        allowfullscreen></iframe>
-                                </div>
-                                `).join('');
+                videoColumnInner.innerHTML = work.videos.map(id => {
+                    if (id === 'soon') {
+                        return `<div class="video-soon-placeholder"></div>`;
+                    }
+                    return `
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0"
+                                allowfullscreen></iframe>
+                        </div>
+                    `;
+                }).join('');
 
                 // Add Login button for meinzuhause-gmbh
                 if (work.id === 'meinzuhause-gmbh') {
