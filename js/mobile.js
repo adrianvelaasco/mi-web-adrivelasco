@@ -33,11 +33,26 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Rumble-Thumbnail.webp', video: 'videos/compressed/4.mp4', desc: 'work-rumble-desc' },
         { id: 'osc-protocol', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/OSC-Protocol-Thumbnail.webp', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
         { id: 'three-years-of-evolution', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/TYoE-Thumbnail.webp', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
-        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'others', thumbnail: 'images/thumbnails/finals-p480/Game-Of-Life-Thumbnail.webp', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
+        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/Game-Of-Life-Thumbnail.webp', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
         { id: 'another-music-conservatory', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/AMC-Thumbnail.webp', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
         { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/lespontanea-Thumbnail.webp', video: 'videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
         { id: 'minuit-toujours-arrive', title: 'MINUIT TOUJOURS<br>ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Minuit-Toujours-Arrive-Thumbnail.webp', video: '', desc: 'work-minuit-desc' },
-        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Cisne-y-Cerdo-Thumbnail.webp', video: '', desc: 'work-cisne-desc' }
+        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Cisne-y-Cerdo-Thumbnail.webp', video: '', desc: 'work-cisne-desc' },
+        { 
+            id: 'spotify-desilusion', 
+            title: 'DESILUSIÓN', 
+            category: 'others', 
+            subCategory: 'music producer', 
+            embed: '<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/0fqHkjPLCr8bCBafTSszoa?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>' 
+        },
+        { 
+            id: 'performer-aparition', 
+            title: 'APARICION - Luciano Correa', 
+            category: 'others', 
+            subCategory: 'performer', 
+            thumbnail: 'images/others/aparition.png',
+            link: 'https://youtu.be/I7Euya2zfg8'
+        }
     ];
 
     const forYouView = document.getElementById('foryou-view');
@@ -524,13 +539,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Update 3D Model Entrance Fade
         if (modelViewer && modelStartTime > 0) {
             const elapsed = performance.now() - modelStartTime;
-            const initialDelay = 2000;
+            const initialDelay = 1000;
             const duration = 2000;
 
             if (elapsed < initialDelay) {
                 introAlpha = 0;
             } else {
-                introAlpha = Math.min((elapsed - initialDelay) / duration, 1);
+                const t = Math.min((elapsed - initialDelay) / duration, 1);
+                introAlpha = 1 - Math.pow(1 - t, 3); // Cubic Ease Out
             }
             modelViewer.style.opacity = introAlpha;
         }
@@ -708,24 +724,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const filtered = filter === 'all' ? worksData : worksData.filter(w => w.category === filter);
 
-        // Agrupar por año
-        const years = [...new Set(filtered.map(w => w.year))].sort((a, b) => b - a);
-
         let html = '';
-        years.forEach(year => {
-            html += `<h2 class="year-header">${year}</h2>`;
-            filtered.filter(w => w.year === year).forEach(work => {
-                const link = work.id === 'meinzuhause' ? 'meinzuhause.html' : `works/viewer_mobile.html?work=${work.id}`;
-                html += `
-                    <a href="${link}" class="catalogue-item">
-                        <div class="catalogue-thumb">
-                            <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
-                        </div>
-                        <span class="catalogue-title">${work.title}</span>
-                    </a>
-                `;
+
+        if (filter === 'others') {
+            const subCategories = ['music producer', 'video design', 'performer'];
+            subCategories.forEach(sc => {
+                const subItems = filtered.filter(w => w.subCategory === sc);
+                if (subItems.length > 0) {
+                    html += `<h2 class="year-header" style="grid-column: 1/-1;">${sc.toUpperCase()}</h2>`;
+                    subItems.forEach(work => {
+                        if (work.embed) {
+                            html += `<div class="catalogue-item-embed" style="grid-column: 1 / -1; width: 100%; margin: 10px 0 20px 0;">${work.embed}</div>`;
+                        } else {
+                            const link = work.link ? work.link : `works/viewer_mobile.html?work=${work.id}`;
+                            const target = work.link ? 'target="_blank"' : '';
+                            html += `
+                                <a href="${link}" ${target} class="catalogue-item">
+                                    <div class="catalogue-thumb">
+                                        <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
+                                    </div>
+                                    <span class="catalogue-title">${work.title}</span>
+                                </a>
+                            `;
+                        }
+                    });
+                }
             });
-        });
+        } else {
+            const years = [...new Set(filtered.map(w => w.year))].filter(y => y).sort((a, b) => b - a);
+            years.forEach(year => {
+                html += `<h2 class="year-header">${year}</h2>`;
+                filtered.filter(w => w.year === year).forEach(work => {
+                    const link = work.link ? work.link : (work.id === 'meinzuhause' ? 'meinzuhause.html' : `works/viewer_mobile.html?work=${work.id}`);
+                    const target = work.link ? 'target="_blank"' : '';
+                    html += `
+                        <a href="${link}" ${target} class="catalogue-item">
+                            <div class="catalogue-thumb">
+                                <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
+                            </div>
+                            <span class="catalogue-title">${work.title}</span>
+                        </a>
+                    `;
+                });
+            });
+        }
         catalogueGrid.innerHTML = html;
     }
 

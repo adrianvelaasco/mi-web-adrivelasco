@@ -584,7 +584,7 @@
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         const lang = localStorage.getItem('preferredLanguage') || 'en';
-        updateLanguage(lang, true); // Re-apply current language (isInitial=true to avoid transition triggers)
+        internalUpdateLanguage(lang, true); // Re-apply current language (isInitial=true to avoid transition triggers)
       }, 100);
     });
 

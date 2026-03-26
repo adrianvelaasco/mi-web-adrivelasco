@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Initial Animation: Suave Fade In (No rotation)
         const duration = 2000;
-        const initialDelay = 2000;
+        const initialDelay = 1000;
         const startTime = performance.now();
         modelViewer.orientation = `0deg 0deg 0deg`;
 
@@ -80,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (elapsed < initialDelay) {
                 introAlpha = 0;
             } else {
-                introAlpha = Math.min((elapsed - initialDelay) / duration, 1);
+                const t = Math.min((elapsed - initialDelay) / duration, 1);
+                introAlpha = 1 - Math.pow(1 - t, 3); // Cubic Ease Out
             }
 
             if (introAlpha < 1) {
@@ -1575,20 +1576,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Only show if we are in Home range or in a direct transition
             // Multiply by introAlpha to prevent flicker on load
-            const baseOpacity = (globalScroll < 1.1 || isDirect) ? alpha : 0;
-            modelViewer.style.opacity = baseOpacity * introAlpha;
+            const baseOpacity = (globalScroll < 3.1 || isDirect) ? alpha : 0;
+            
+            // --- FADE OUT DURING LAST 45 DEGREES OF ROTATION ---
+            // 45 deg / 360 deg = 0.125 progress. So fade starts at 0.875.
+            const rotationProgress = Math.max(0, Math.min(1, globalScroll / 3.0));
+            const rotationFade = Math.max(0, Math.min(1, (1 - rotationProgress) / 0.125));
+            
+            modelViewer.style.opacity = baseOpacity * introAlpha * rotationFade;
 
             const mvShift = exitProgress * 100;
             modelViewer.style.transform = `translate3d(-${mvShift}vw, 0, 0) scale(1)`;
 
-            // Model Rotation (360 turnover from Home to About)
-            const rotationProgress = Math.max(0, Math.min(1, globalScroll / 3.0));
-            const modelRotation = rotationProgress * 360;
-            // Eje Z (giro plano como un reloj)
-            modelViewer.setAttribute('orientation', `0deg 0deg ${modelRotation}deg`);
+            // --- 3D MODEL ROTATION & INTERACTION HANDOVER ---
 
-            // Enable interaction ONLY when solidly in Home and not transitioning
-            modelViewer.style.pointerEvents = (globalScroll < 0.1 && !isDirect) ? 'auto' : 'none';
+            // Capture the exact starting camera state when the transition begins.
+            // We compensate for the initial rotationProgress to keep the transition 100% seamless.
+            if ((globalScroll > 0.01 || isDirect) && (window.startTheta === undefined || window.startTheta === null)) {
+                if (typeof modelViewer.getCameraOrbit === 'function') {
+                    const orbit = modelViewer.getCameraOrbit();
+                    const currentThetaDeg = (orbit.theta * 180 / Math.PI);
+                    // Base theta is current angle minus what we've already "contributed" via scroll progress
+                    window.startTheta = currentThetaDeg - (rotationProgress * 360);
+                    
+                    // Capture Phi and Radius as well to prevent snapping on other axes
+                    window.startPhi = (orbit.phi * 180 / Math.PI);
+                    window.startRadius = orbit.radius; 
+                } else {
+                    window.startTheta = -90;
+                    window.startPhi = 80;
+                    window.startRadius = "auto";
+                }
+            }
+
+            // Use the captured values for a truly seamless multi-axis transition
+            const baseTheta = (window.startTheta !== undefined && window.startTheta !== null) ? window.startTheta : -90;
+            const basePhi = (window.startPhi !== undefined && window.startPhi !== null) ? window.startPhi : 80;
+            const baseRadius = (window.startRadius !== undefined && window.startRadius !== null) ? (typeof window.startRadius === 'number' ? `${window.startRadius}m` : window.startRadius) : "auto";
+            
+            const modelRotation = baseTheta + (rotationProgress * 360);
+            const targetOrbit = `${modelRotation}deg ${basePhi}deg ${baseRadius}`;
+
+            // Only take control if we are transitioning (scrolling or direct)
+            if (globalScroll > 0.01 || isDirect) {
+                // Optimization: Only update if the target orbit has changed to avoid renderer stress
+                if (window.lastAppliedOrbit !== targetOrbit) {
+                    modelViewer.setAttribute('camera-orbit', targetOrbit);
+                    window.lastAppliedOrbit = targetOrbit;
+                }
+            } else {
+                // HOME SECTION: Full User Interaction
+                window.startTheta = null; 
+                window.startPhi = null;
+                window.startRadius = null;
+                window.hasJumpedThisScroll = false;
+                window.lastAppliedOrbit = null;
+            }
+
+            // Interaction is enabled ONLY in the very top of Home
+            modelViewer.style.pointerEvents = (globalScroll < 0.01 && !isDirect) ? 'auto' : 'none';
         }
 
         // Determine if keyboard is in a visible range. 
@@ -1937,26 +1983,42 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         callbacks: {
             onMixEnd: function (state) {
+                const isOthers = state.activeFilter.selector === '.others';
                 const yearHeaders = document.querySelectorAll('.year-header');
-                yearHeaders.forEach(header => {
-                    // Find all siblings until the next header or end of container
-                    let hasVisibleItems = false;
-                    let sibling = header.nextElementSibling;
+                const roleHeaders = document.querySelectorAll('.role-header');
 
-                    while (sibling && !sibling.classList.contains('year-header')) {
-                        if (sibling.classList.contains('mix') && sibling.style.display !== 'none') {
-                            hasVisibleItems = true;
-                            break;
+                if (isOthers) {
+                    // Hide Years, Show Roles
+                    yearHeaders.forEach(h => h.style.setProperty('display', 'none', 'important'));
+                    roleHeaders.forEach(header => {
+                        const roleClass = header.getAttribute('data-role');
+                        let hasVisibleItems = false;
+                        let sibling = header.nextElementSibling;
+                        while (sibling && !sibling.classList.contains('role-header')) {
+                            if (sibling.classList.contains('mix') && sibling.classList.contains(roleClass) && sibling.style.display !== 'none') {
+                                hasVisibleItems = true;
+                                break;
+                            }
+                            sibling = sibling.nextElementSibling;
                         }
-                        sibling = sibling.nextElementSibling;
-                    }
-
-                    if (hasVisibleItems) {
-                        header.style.display = 'block';
-                    } else {
-                        header.style.display = 'none';
-                    }
-                });
+                        header.style.setProperty('display', hasVisibleItems ? 'block' : 'none', 'important');
+                    });
+                } else {
+                    // Hide Roles, Show Years
+                    roleHeaders.forEach(h => h.style.setProperty('display', 'none', 'important'));
+                    yearHeaders.forEach(header => {
+                        let hasVisibleItems = false;
+                        let sibling = header.nextElementSibling;
+                        while (sibling && !sibling.classList.contains('year-header') && !sibling.classList.contains('role-header')) {
+                            if (sibling.classList.contains('mix') && sibling.style.display !== 'none') {
+                                hasVisibleItems = true;
+                                break;
+                            }
+                            sibling = sibling.nextElementSibling;
+                        }
+                        header.style.setProperty('display', hasVisibleItems ? 'block' : 'none', 'important');
+                    });
+                }
             }
         }
     });
