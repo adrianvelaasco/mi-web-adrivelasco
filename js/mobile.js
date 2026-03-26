@@ -405,9 +405,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Definimos las 3 capas: 0 (principal), 1 y 2 (fondo)
         const layers = [
-            { step: 6, alpha: 0.5, factor: 0 },    // Reduced from 8 to 6: 2x more particles than the last opt
-            { step: 14, alpha: 0.15, factor: 0.2 }, 
-            { step: 25, alpha: 0.08, factor: 0.4 }  
+            { step: 6, alpha: 0.5, factor: 0 },    // ~50% of original density (original: 4)
+            { step: 13, alpha: 0.15, factor: 0.2 }, // ~50% of original density (original: 10)
+            { step: 21, alpha: 0.08, factor: 0.4 }  // ~50% of original density (original: 18)
         ];
 
         layers.forEach(layer => {
