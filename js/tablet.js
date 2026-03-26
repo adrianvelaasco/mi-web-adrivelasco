@@ -526,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="foryou-card">
                 <div class="video-loader"></div>
                 <div class="foryou-video-container">
-                    <video data-src="${work.video}" loop muted playsinline webkit-playsinline preload="none"></video>
+                    <video data-src="${work.video}" loop muted playsinline webkit-playsinline preload="metadata"></video>
                 </div>
                 <div class="foryou-content">
                     <h3 class="foryou-title">${work.title}</h3>
@@ -590,6 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
 
                         video.src = video.getAttribute('data-src');
+                        video.load(); // Explicitly start loading
                     }
 
                     // 2. PRIORIDAD (Play/Pause basado en visibilidad real)
@@ -632,7 +633,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }, {
             threshold: [0, 0.1, 0.6, 1.0], // Umbrales granulares
-            rootMargin: '50% 0px' // Pre-carga generosa
+            rootMargin: '250% 0px' // Load MUCH earlier to ensure they are ready before arrival
         });
 
         document.querySelectorAll('.foryou-card').forEach(card => observer.observe(card));
