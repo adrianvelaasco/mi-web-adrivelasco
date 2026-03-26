@@ -722,7 +722,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderCatalogue(filter = 'all') {
         if (!catalogueGrid) return;
 
-        const filtered = filter === 'all' ? worksData : worksData.filter(w => w.category === filter);
+        const filtered = filter === 'all' ? worksData.filter(w => w.category !== 'others') : worksData.filter(w => w.category === filter);
 
         let html = '';
 
