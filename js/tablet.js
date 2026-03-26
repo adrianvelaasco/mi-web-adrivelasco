@@ -953,9 +953,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const bgCtx = bgCanvas ? bgCanvas.getContext('2d') : null;
     let particlesArray = [];
     let dpr = window.devicePixelRatio || 1;
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
 
     function resizeCanvas() {
         if (!bgCanvas || !bgCtx) return;
+
+        // Solo resetear si las dimensiones realmente han cambiado significativamente
+        if (Math.abs(lastWidth - window.innerWidth) < 10 && Math.abs(lastHeight - window.innerHeight) < 10) {
+            return;
+        }
+
+        lastWidth = window.innerWidth;
+        lastHeight = window.innerHeight;
+
         bgCanvas.width = window.innerWidth * dpr;
         bgCanvas.height = window.innerHeight * dpr;
         bgCanvas.style.width = window.innerWidth + 'px';

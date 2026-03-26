@@ -1636,12 +1636,24 @@ document.addEventListener("DOMContentLoaded", function () {
         requestAnimationFrame(animate);
     }
 
+    let lastWidthDesktop = window.innerWidth;
+    let lastHeightDesktop = window.innerHeight;
+
     // --- INITIALIZATION ---
     function setupCanvases() {
-        dpr = window.devicePixelRatio || 1;
         const w = window.innerWidth;
         const h = window.innerHeight;
 
+        // Solo resetear si las dimensiones han cambiado REALMENTE
+        if (Math.abs(lastWidthDesktop - w) < 10 && Math.abs(lastHeightDesktop - h) < 10) {
+            return;
+        }
+        
+        lastWidthDesktop = w;
+        lastHeightDesktop = h;
+
+        dpr = window.devicePixelRatio || 1;
+        
         particleCanvas.width = w * dpr;
         particleCanvas.height = h * dpr;
         particleCanvas.style.width = `${w}px`;
