@@ -1976,6 +1976,9 @@ document.addEventListener("DOMContentLoaded", function () {
         selectors: {
             target: '.mix'
         },
+        load: {
+            filter: '.mix:not(.others)'
+        },
         animation: {
             duration: 200,
             effects: 'fade scale(0.95)',
@@ -2085,7 +2088,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const filterButtons = document.querySelectorAll('#works-section-container .filter-button');
 
     // Select 'ALL' by default
-    const allButton = document.querySelector('.filter-button[data-filter="all"]');
+    const allButton = document.querySelector('.filter-button[data-t="filter-all"]');
     if (allButton) {
         allButton.setAttribute('aria-selected', 'true');
     }
