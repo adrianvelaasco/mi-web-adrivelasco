@@ -1021,6 +1021,59 @@
             padding-bottom: 50px;
         }
 
+        /* Responsive adjustments for 13-inch and smaller desktop screens */
+        @media (max-width: 1440px), (max-height: 900px) {
+            .work-detail-container {
+                padding-top: 10px;
+                padding-bottom: 25px;
+                gap: 12px;
+            }
+
+            .work-title {
+                font-size: clamp(1.1rem, 2.8vw, 2.4rem);
+                margin-bottom: 2px;
+            }
+
+            .content-layout {
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .info-card {
+                padding: 18px 22px;
+                margin-bottom: 12px;
+            }
+
+            .info-text p {
+                font-size: 0.92rem;
+                margin-bottom: 12px;
+                line-height: 1.5;
+            }
+
+            .credits-box {
+                gap: 15px;
+                padding-top: 12px;
+            }
+
+            .credits-label {
+                font-size: 0.75rem;
+            }
+
+            .video-column {
+                max-height: calc(100vh - 150px);
+                gap: 12px;
+            }
+
+            .video-wrapper {
+                min-width: 260px;
+            }
+
+            .score-btn {
+                padding: 10px 32px;
+                font-size: 0.85rem;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 1023px) {
             body {
