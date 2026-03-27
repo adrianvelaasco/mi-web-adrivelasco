@@ -182,6 +182,12 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-cisne-desc': "A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas.",
             'success-msg': "Thank you! Your submission has been received",
             'error-msg': "Oops! Something went wrong while submitting the form.",
+            'role-producer': "MUSIC PRODUCER",
+            'role-video': "VIDEO DESIGN",
+            'role-performer': "PERFORMER",
+            'audio-on': "sound on",
+            'audio-off': "sound off",
+            'success-msg': "Thank you! Your submission has been received",
             cvLink: "CVs/CV_Ingles.pdf"
         },
         es: {
@@ -223,6 +229,12 @@ document.addEventListener("DOMContentLoaded", function () {
             'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
             'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
             'error-msg': "¡Vaya! Algo ha fallado al enviar el formulario.",
+            'role-producer': "PRODUCTOR MUSICAL",
+            'role-video': "DISEÑO DE VÍDEO",
+            'role-performer': "PERFORMER",
+            'audio-on': "sonido on",
+            'audio-off': "sonido off",
+            'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
             cvLink: "CVs/CV_Español.pdf"
         }
     };
@@ -731,7 +743,14 @@ document.addEventListener("DOMContentLoaded", function () {
             subCategories.forEach(sc => {
                 const subItems = filtered.filter(w => w.subCategory === sc);
                 if (subItems.length > 0) {
-                    html += `<h2 class="year-header" style="grid-column: 1/-1;">${sc.toUpperCase()}</h2>`;
+                    const roleMap = {
+                        'music producer': 'role-producer',
+                        'video design': 'role-video',
+                        'performer': 'role-performer'
+                    };
+                    const roleKey = roleMap[sc] || sc;
+                    const translatedRole = translations[currentLang][roleKey] || sc.toUpperCase();
+                    html += `<h2 class="year-header" style="grid-column: 1/-1;">${translatedRole}</h2>`;
                     subItems.forEach(work => {
                         if (work.embed) {
                             html += `<div class="catalogue-item-embed" style="grid-column: 1 / -1; width: 100%; margin: 10px 0 20px 0;">${work.embed}</div>`;

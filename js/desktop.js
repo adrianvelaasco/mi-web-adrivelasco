@@ -2144,11 +2144,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateAudioUI() {
         if (!audioBtn) return;
+        const currentLang = localStorage.getItem('preferredLanguage') || 'en';
         if (audioEnabled) {
-            audioBtn.textContent = "SOUND ON";
+            audioBtn.setAttribute('data-t', 'audio-on');
+            if (window.navTranslations && window.navTranslations[currentLang]) {
+                audioBtn.textContent = window.navTranslations[currentLang]['audio-on'];
+            } else {
+                audioBtn.textContent = "SOUND ON";
+            }
             audioBtn.classList.remove('is-muted');
         } else {
-            audioBtn.textContent = "SOUND OFF";
+            audioBtn.setAttribute('data-t', 'audio-off');
+            if (window.navTranslations && window.navTranslations[currentLang]) {
+                audioBtn.textContent = window.navTranslations[currentLang]['audio-off'];
+            } else {
+                audioBtn.textContent = "SOUND OFF";
+            }
             audioBtn.classList.add('is-muted');
         }
     }

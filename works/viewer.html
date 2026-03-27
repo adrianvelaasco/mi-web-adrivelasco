@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Works - Adri Velasco</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
     <script src="../js/router-redirect.js"></script>
     <script>
@@ -55,6 +55,7 @@
             font-family: 'Syne', sans-serif;
             margin: 0;
             -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: 100%;
         }
 
         /* Page Container */
@@ -171,6 +172,48 @@
             box-shadow: 0 10px 40px rgba(0, 0, 255, 0.15);
             position: relative;
             flex-shrink: 0;
+        }
+
+        .image-wrapper {
+            cursor: none !important;
+        }
+
+        /* Custom Animated Eye Cursor */
+        #custom-eye-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            pointer-events: none;
+            z-index: 100000;
+            display: none;
+            transform: translate(-50%, -50%);
+        }
+
+        #custom-eye-cursor svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        #custom-eye-cursor.active {
+            display: block;
+            animation: eye-blink 2s infinite;
+        }
+
+        @keyframes eye-blink {
+            0%, 92%, 100% { transform: translate(-50%, -50%) scaleY(1); }
+            96% { transform: translate(-50%, -50%) scaleY(0.1); }
+        }
+
+        #custom-eye-cursor circle {
+            animation: eye-look 6s infinite ease-in-out;
+        }
+
+        @keyframes eye-look {
+            0%, 10%, 40%, 60%, 90%, 100% { transform: translateX(0); }
+            20%, 30% { transform: translateX(-3px); }
+            70%, 80% { transform: translateX(3px); }
         }
 
         .work-img {
@@ -543,6 +586,12 @@
             .id-meinzuhause-gmbh .login-btn-wrapper {
                 flex: 1 1 100%;
                 margin-top: 20px;
+            }
+
+            /* Prevent preview photos from wrapping when resizing desktop window */
+            .id-meinzuhause-gmbh .image-wrapper,
+            .id-meinzuhause-gmbh .video-soon-placeholder {
+                min-width: 0 !important;
             }
         }
 
@@ -950,6 +999,7 @@
             flex: 1;
             height: 4px;
             -webkit-appearance: none;
+            appearance: none;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
             outline: none;
@@ -958,6 +1008,7 @@
         #book-slider::-webkit-slider-thumb,
         #zoom-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
+            appearance: none;
             width: 14px;
             height: 14px;
             background: #0000ff;
@@ -1406,7 +1457,13 @@
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 </head>
 
-<body>
+<body style="overflow: hidden;">
+    <div id="custom-eye-cursor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3" fill="white"></circle>
+        </svg>
+    </div>
 
     <!-- Unified Navbar -->
     <div id="navbar-placeholder"></div>
@@ -1952,7 +2009,7 @@
                     { label: 'Live Sound', value: 'Giovanni Dinello' },
                     { label: 'Technical Assistance', value: 'Ian Whillock' },
                     { label: 'Video Recording', value: 'Goran Lazarevic & Tong Khanh Ha<br>Hamburg Open Online University' },
-                    { label: 'Photography', value: '<a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a>' }
+                    { label: 'Photography', value: 'Marc Bernard' }
                 ]
             },
             {
@@ -2171,7 +2228,7 @@
                 // Render asymmetrical distribution for meinzuhause
                 if (work.id === 'meinzuhause-gmbh') {
                     const pic = (idx) => `
-                        <div class="image-wrapper pic-${idx + 1}" onclick="openLightbox(${idx})" style="cursor: zoom-in;">
+                        <div class="image-wrapper pic-${idx + 1}" onclick="openLightbox(${idx})">
                             <img src="../images/meinzuhause/${work.images[idx]}" alt="Project Image" class="work-img">
                             ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
                         </div>
@@ -2185,7 +2242,7 @@
                     // Render Images
                     if (work.images) {
                         contentHTML += work.images.map((img, idx) => `
-                            <div class="image-wrapper" onclick="openLightbox(${idx})" style="cursor: zoom-in;">
+                            <div class="image-wrapper" onclick="openLightbox(${idx})">
                                 <img src="../images/meinzuhause/${img}" alt="Project Image" class="work-img">
                                 ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
                             </div>
@@ -2230,12 +2287,39 @@
 
                 // Update Credits
                 const creditsBox = document.getElementById('display-credits');
-                creditsBox.innerHTML = work.credits.map(c => `
-                                <div class="credits-row">
-                                    <span class="credits-label">${c.label}</span>
-                                    ${c.value}
-                                </div>
-                                `).join('');
+                const labelMap = {
+                    'Work': 'label-work',
+                    'Performer': 'label-performer',
+                    'Photography': 'label-photography',
+                    'Live Sound': 'label-livesound',
+                    'Technical Assistance': 'label-techassist',
+                    'Video Recording': 'label-videorec',
+                    'Composers': 'label-composers',
+                    'Musicians': 'label-musicians',
+                    'VOICE': 'label-voice',
+                    'Voice': 'label-voice',
+                    'Minigames': 'label-minigames',
+                    'Pianist': 'label-pianist',
+                    'Dates': 'label-dates',
+                    'Stylist': 'label-stylist',
+                    'Filmed by': 'label-filmedby',
+                    'Edited by': 'label-editedby',
+                    'Design': 'label-design',
+                    'Code': 'label-code',
+                    'Text': 'label-text',
+                    'Premiered by': 'label-premiered',
+                    'Awards': 'label-awards'
+                };
+
+                creditsBox.innerHTML = work.credits.map(c => {
+                    const tKey = labelMap[c.label] || 'label-work';
+                    return `
+                        <div class="credits-row">
+                            <span class="credits-label" data-t="${tKey}">${c.label}</span>
+                            ${c.value}
+                        </div>
+                    `;
+                }).join('');
 
                 // Trigger translation re-run if script is ready
                 if (window.navComponent && window.navComponent.updatePageTranslations) {
@@ -2292,6 +2376,37 @@
                 wrapper.classList.remove('fade-out');
             }, 400);
         }
+
+        // --- Global Keyboard Controls ---
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                // If we have audio, toggle it regardless of focus or container visibility
+                if (sharedAudio && sharedAudio.src) {
+                    e.preventDefault();
+                    if (sharedAudio.paused) {
+                        sharedAudio.play();
+                    } else {
+                        sharedAudio.pause();
+                    }
+                }
+            }
+            if (e.code === 'ArrowLeft') {
+                const lb = document.getElementById('lightbox');
+                if (lb && lb.style.display === 'flex') {
+                    changeImg(-1);
+                } else {
+                    document.getElementById('prevWork').click();
+                }
+            }
+            if (e.code === 'ArrowRight') {
+                const lb = document.getElementById('lightbox');
+                if (lb && lb.style.display === 'flex') {
+                    changeImg(1);
+                } else {
+                    document.getElementById('nextWork').click();
+                }
+            }
+        });
 
         // --- Centralized Audio Sync ---
         function updateAllAudioIcons() {
@@ -2510,6 +2625,24 @@
                         renderWork(currentIndex, false);
                     }
                 }
+            }
+        });
+
+        // --- EYE CURSOR LOGIC ---
+        document.addEventListener('mousemove', (e) => {
+            const eye = document.getElementById('custom-eye-cursor');
+            if (eye) {
+                eye.style.left = e.clientX + 'px';
+                eye.style.top = e.clientY + 'px';
+            }
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            const wrapper = e.target.closest('.image-wrapper');
+            const eye = document.getElementById('custom-eye-cursor');
+            if (eye) {
+                if (wrapper) eye.classList.add('active');
+                else eye.classList.remove('active');
             }
         });
 

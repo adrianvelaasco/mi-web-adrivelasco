@@ -27,7 +27,7 @@
       'work-pianogames-desc': 'Dear pianist:<br><br>This musical piece, if that’s what it is, aims to be an amusement for your study sessions. Three minigames have been gently crafted to refine certain aspects of your technique in an unusual, perhaps more enjoyable way, on your path toward the virtuoso you have always wished to become.<br><br>Pianogames lives in two versions. There’s the cozy home version and then there’s the concert version: same mini-games now framed by an introduction, an intermezzo, and a closing gesture worthy of the stage.',
       'work-life-desc': 'Game of Life is an adaptation of John Conway’s traditional game. This cellular automaton evolves deterministically according to its initial configuration, without requiring further intervention.<br><br>In this musical recreation, as the board progresses, the sound system responds to the player’s instructions—whether timbral, harmonic, or related to tempo.',
       'work-rumble-desc': 'Rumble, is a piece for symphony orchestra, its title borrowed from the fourth track of Quest For Fire by Skrillex. A constant loop runs throughout, taking on multiple shapes in its various iterations. This loop aims for a linear evolution over the course of the work’s 113 measures, yet it is occasionally disrupted by musical “pop-ups” that interrupt the main discourse.',
-      'work-ebdvp-desc': 'Ok, wait, listen to this: there’s a moment. A moment when everything fits. The light. The shadows. The music. The words. You’re there, in front of the screen, and for one tiny yet infinite instant, you feel… something. Not satisfaction. Something much better.<br><br>A spark of electricity rising from your fingers to the back of your head. The perfect video. You did it. It’s real. Here and now.<br><br>But can the magic lasts?',
+      'work-ebdvp-desc': 'Ok, wait, listen to this: there’s a moment. A moment when everything fits. The light. The shadows. The music. The words. You’re there, in front of the screen, and for one tiny yet infinite instant, you feel… something. Not satisfaction. Something much better.<br><br>A spark of electricity rising from your fingers to the back of your head. The perfect video. You did it. It’s real. Here and now.<br><br>But can the magic last?',
       'work-espontanea-desc': 'Some captions published on a private Instagram account were verbalizing many thoughts that I hadn\'t yet been able to formulate.<br><br>This piece collects some writings by @rosello.alba, attempting to find that curious point in her texts where the chaotic nature of the micro manages to balance with the coherent nature of the macro, without taking away the work\'s virtue of spontaneity.',
       'work-amc-desc': 'This is simply about messing with the Madrid Royal Conservatory of Music.',
       'work-osc-desc': 'I. Encoded<br>II. 192.168.20.1<br>III. Node with errors inside<br>IV. Received',
@@ -46,7 +46,38 @@
       'btn-score-close': 'CLOSE',
       'btn-sign-in': 'SIGN IN',
       'loading-score': 'LOADING SCORE...',
-      'overlay-close': 'CLOSE'
+      'overlay-close': 'CLOSE',
+      // Credits Labels
+      'label-work': 'Work',
+      'label-performer': 'Performer',
+      'label-photography': 'Photography',
+      'label-livesound': 'Live Sound',
+      'label-techassist': 'Technical Assistance',
+      'label-videorec': 'Video Recording',
+      'label-composers': 'Composers',
+      'label-musicians': 'Musicians',
+      'label-voice': 'Voice',
+      'label-minigames': 'Minigames',
+      'label-pianist': 'Pianist',
+      'label-dates': 'Dates',
+      'label-stylist': 'Stylist',
+      'label-filmedby': 'Filmed by',
+      'label-editedby': 'Edited by',
+      'label-design': 'Design',
+      'label-code': 'Code',
+      'label-text': 'Text',
+      'label-awards': 'Awards',
+      'label-premiered': 'Premiered by',
+      // Roles
+      'role-producer': 'MUSIC PRODUCER',
+      'role-video': 'VIDEO DESIGN',
+      'role-performer': 'PERFORMER',
+      // Audio
+      'audio-on': 'sound on',
+      'audio-off': 'sound off',
+      // Form
+      'success-msg': 'Thank you! Your submission has been received',
+      'error-msg': 'Oops! Something went wrong while submitting the form.'
     },
     es: {
       'nav-about': 'BIO',
@@ -70,7 +101,7 @@
       'work-pianogames-desc': 'Querido pianista:<br><br>Esta pieza musical, si es que eso es lo que es, pretende ser un divertimento para tus sesiones de estudio. Tres minijuegos han sido delicadamente diseñados para perfeccionar ciertos aspectos de tu técnica de una manera inusual, quizá más amena, en tu camino hacia el virtuoso que siempre has deseado ser.<br><br>Pianogames vive en dos versiones. Está la acogedora versión doméstica y luego está la versión de concierto: los mismos minijuegos ahora enmarcados por una introducción, un intermezzo y un gesto de cierre digno del escenario.',
       'work-life-desc': 'Game of Life es una adaptación del juego tradicional de John Conway. Este autómata celular evoluciona de forma determinista según su configuración inicial, sin requerir intervención posterior.<br><br>En esta recreación musical, a medida que el tablero progresa, el sistema de sonido responde a las instrucciones del intérprete, ya sean tímbricas, armónicas o relacionadas con el tempo.',
       'work-rumble-desc': 'Rumble es una pieza para orquesta sinfónica, cuyo título proviene del cuarto track de Quest For Fire by Skrillex. Un bucle constante recorre toda la obra, adoptando múltiples formas en sus diversas iteraciones. Este bucle busca una evolución lineal a lo largo de los 113 compases de la obra, pero ocasionalmente se ve interrumpido por “pop-ups” musicales que distorsionan el discurso principal.',
-      'work-ebdvp-desc': 'Vale, espera, escucha esto: hay un momento. Un momento en el que todo encaja. La luz. Fuegos artificiales. El vídeo perfecto. Es real. Aquí y ahora.<br><br>Pero, ¿puede durar la magia?',
+      'work-ebdvp-desc': 'Vale, espera, escucha esto: hay un momento. Un momento en el que todo encaja. La luz. La sombra. La música. Las palabras. Estás ahí, frente a la pantalla, y por un instante diminuto pero infinito, sientes… algo. No es satisfacción. Es algo mucho mejor.<br><br>Una chispa de electricidad que sube desde tus dedos hasta la parte trasera de la cabeza. El vídeo perfecto. Lo hiciste. Es real. Aquí y ahora.<br><br>Pero ¿puede durar la magia?',
       'work-espontanea-desc': 'Algunos pies de foto publicados en una cuenta privada de Instagram verbalizaban muchos pensamientos que yo aún no había sido capaz de formular.<br><br>Esta pieza recoge algunos escritos de @rosello.alba, intentando encontrar ese punto curioso en sus textos donde la naturaleza caótica de lo micro consigue equilibrarse con la naturaleza coherente de lo macro, sin quitarle la virtud de la espontaneidad a la obra.',
       'work-amc-desc': 'Esto se trata simplemente de destruir un poco el Real Conservatorio Superior de Música de Madrid.',
       'work-osc-desc': 'I. Encoded<br>II. 192.168.20.1<br>III. Nodo con errores internos<br>IV. Recibido',
@@ -89,7 +120,38 @@
       'btn-score-close': 'CERRAR',
       'btn-sign-in': 'REGISTRARSE',
       'loading-score': 'CARGANDO PARTITURA...',
-      'overlay-close': 'CERRAR'
+      'overlay-close': 'CERRAR',
+      // Credits Labels
+      'label-work': 'Obra',
+      'label-performer': 'Intérprete',
+      'label-photography': 'Fotografía',
+      'label-livesound': 'Sonido en vivo',
+      'label-techassist': 'Asistencia técnica',
+      'label-videorec': 'Grabación de vídeo',
+      'label-composers': 'Compositores',
+      'label-musicians': 'Músicos',
+      'label-voice': 'Voz',
+      'label-minigames': 'Minijuegos',
+      'label-pianist': 'Pianista',
+      'label-dates': 'Fechas',
+      'label-stylist': 'Estilista',
+      'label-filmedby': 'Filmado por',
+      'label-editedby': 'Editado por',
+      'label-design': 'Diseño',
+      'label-code': 'Código',
+      'label-text': 'Texto',
+      'label-awards': 'Premio',
+      'label-premiered': 'Estrenado por',
+      // Roles
+      'role-producer': 'PRODUCTOR MUSICAL',
+      'role-video': 'DISEÑO DE VÍDEO',
+      'role-performer': 'PERFORMER',
+      // Audio
+      'audio-on': 'sonido on',
+      'audio-off': 'sonido off',
+      // Form
+      'success-msg': '¡Gracias! Tu mensaje ha sido enviado correctamente',
+      'error-msg': '¡Vaya! Algo ha fallado al enviar el formulario.'
     }
   };
 

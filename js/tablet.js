@@ -124,6 +124,13 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-meinzuhause-gmbh-desc': "Mein Zuhause GmbH is an immersive theatrical experience. In this play, the audience abandons its role as spectator to become the protagonist of the story.<br><br>Set in a very familiar present, the desperate search for an apartment brings together a group of strangers.",
             'work-minuit-desc': "Winner of the II Composition Prize TZ-RCSMM. Premiered by Trio Arbós at Teatro de la Zarzuela.",
             'work-cisne-desc': "A performance piece premiered at Sala 400 Museo Reina Sofía. Based on the text by Dionisio Cañas.",
+            'error-msg': "Oops! Something went wrong while submitting the form.",
+            'success-msg': "Thank you! Your submission has been received",
+            'role-producer': "MUSIC PRODUCER",
+            'role-video': "VIDEO DESIGN",
+            'role-performer': "PERFORMER",
+            'audio-on': "sound on",
+            'audio-off': "sound off",
             cvLink: "CVs/CV_Ingles.pdf"
         },
         es: {
@@ -162,6 +169,13 @@ document.addEventListener("DOMContentLoaded", function () {
             'work-meinzuhause-gmbh-desc': "Mein Zuhause GmbH es una experiencia teatral inmersiva. En esta obra, el público abandona su papel de espectador para convertirse en el protagonista de la historia.<br><br>Ambientada en un presente muy familiar, la búsqueda desesperada de un apartamento reúne a un grupo de desconocidos.",
             'work-minuit-desc': "Ganador del II Premio de Composición TZ-RCSMM. Estrenado por el Trío Arbós en el Teatro de la Zarzuela.",
             'work-cisne-desc': "Una pieza de performance estrenada en la Sala 400 del Museo Reina Sofía basada en textos de Dionisio Cañas.",
+            'error-msg': "¡Vaya! Algo ha fallado al enviar el formulario.",
+            'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
+            'role-producer': "PRODUCTOR MUSICAL",
+            'role-video': "DISEÑO DE VÍDEO",
+            'role-performer': "PERFORMER",
+            'audio-on': "sonido on",
+            'audio-off': "sonido off",
             cvLink: "CVs/CV_Español.pdf"
         }
     };
@@ -715,7 +729,14 @@ document.addEventListener("DOMContentLoaded", function () {
             subCategories.forEach(sc => {
                 const subItems = filtered.filter(w => w.subCategory === sc);
                 if (subItems.length > 0) {
-                    html += `<h2 class="year-header" style="grid-column: 1/-1;">${sc.toUpperCase()}</h2>`;
+                    const roleMap = {
+                        'music producer': 'role-producer',
+                        'video design': 'role-video',
+                        'performer': 'role-performer'
+                    };
+                    const roleKey = roleMap[sc] || sc;
+                    const translatedRole = translations[currentLang][roleKey] || sc.toUpperCase();
+                    html += `<h2 class="year-header" style="grid-column: 1/-1;">${translatedRole}</h2>`;
                     subItems.forEach(work => {
                         if (work.embed) {
                             html += `<div class="catalogue-item-embed" style="grid-column: 1 / -1; width: 100%; margin: 10px 0 20px 0;">${work.embed}</div>`;
