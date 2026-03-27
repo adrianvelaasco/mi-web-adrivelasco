@@ -128,8 +128,10 @@
             gap: 20px;
             width: 100%;
             justify-content: center;
-            align-items: flex-start; /* Alignment within rows */
-            align-content: flex-start; /* Row grouping at the top - Fixes gap issue */
+            align-items: flex-start;
+            /* Alignment within rows */
+            align-content: flex-start;
+            /* Row grouping at the top - Fixes gap issue */
             max-height: calc(100vh - 220px);
             overflow-y: auto;
             padding-bottom: 100px;
@@ -145,15 +147,20 @@
         .video-column.id-game-of-life {
             flex-direction: column !important;
             align-items: center !important;
-        }
-        .video-column.id-game-of-life .video-wrapper {
-            width: 100% !important;
-            max-width: 1000px !important;
-            flex: 0 0 auto !important;
+            max-height: none !important;
+            overflow: visible !important;
         }
 
-        /* Video Wrapper */
-        .video-wrapper {
+        .video-column.id-game-of-life .video-wrapper {
+            width: 100% !important;
+            max-width: 800px !important;
+            flex: 0 0 auto !important;
+            margin-bottom: 30px;
+        }
+
+        /* Video & Image Wrapper */
+        .video-wrapper,
+        .image-wrapper {
             flex: 1 1 calc(50% - 20px);
             min-width: 300px;
             aspect-ratio: 16 / 9;
@@ -166,6 +173,41 @@
             flex-shrink: 0;
         }
 
+        .work-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+            color: #fff;
+            padding: 20px 15px 10px;
+            font-size: 0.65rem;
+            text-align: right;
+            letter-spacing: 0.05rem;
+            opacity: 0.8;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-wrapper:hover .image-caption {
+            opacity: 1;
+        }
+
+        .image-caption a {
+            color: #fff;
+            text-decoration: underline;
+            pointer-events: auto;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
         /* Specific sizing for projects with smaller video requirements */
         .compact-audio-layout .video-wrapper,
         .compact-audio-layout #audio-player-container,
@@ -174,23 +216,175 @@
             margin-inline: auto;
         }
 
+        /* Lightbox Overlay */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            color: #0000ff;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            z-index: 10003;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        #lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #0000ff14;
+            transition: transform 0.4s ease, opacity 0.3s ease;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            z-index: 10001;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-nav svg {
+            width: 24px;
+            height: 24px;
+            fill: #0000ff;
+            transition: fill 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .lightbox-nav.prev {
+            left: 40px;
+        }
+
+        .lightbox-nav.next {
+            right: 40px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background: none;
+            border: none;
+            color: #0000ff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            opacity: 1;
+            transition: transform 0.3s ease;
+            z-index: 10002;
+            padding: 10px;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.2);
+        }
+
+        .lightbox-description {
+            margin-top: 25px;
+            color: #0000ff;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .lightbox-description a {
+            color: #0000ff;
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1200px) {
+            .lightbox-nav.prev {
+                left: 20px;
+                background: rgba(255, 255, 255, 0.8);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .lightbox-nav.next {
+                right: 20px;
+                background: rgba(255, 255, 255, 0.8);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .lightbox-close {
+                top: 20px;
+                right: 20px;
+            }
+
+            .lightbox-counter {
+                top: 25px;
+                left: 25px;
+                font-size: 0.75rem;
+            }
+        }
+
         .compact-audio-layout .audio-player-card {
-            padding: 10px 18px; /* Slightly more compact internal space */
+            padding: 10px 18px;
+            /* Slightly more compact internal space */
         }
 
         .compact-audio-layout {
-            gap: 16px !important; /* Restored gap between videos */
+            gap: 16px !important;
+            /* Restored gap between videos */
         }
 
         /* Specific rule FOR OSC PROTOCOL ONLY - Keep it tight */
         .video-column.id-osc-protocol #audio-player-container {
-            margin-top: -20px !important; /* Touch the videos */
+            margin-top: -20px !important;
+            /* Touch the videos */
         }
 
         .compact-audio-layout.double-video #audio-player-container {
             max-width: none !important;
             width: 100% !important;
-            margin-top: 0px !important; /* Revert others to natural gap */
+            margin-top: 0px !important;
+            /* Revert others to natural gap */
         }
 
         .compact-audio-layout.double-video .audio-player-card {
@@ -200,7 +394,8 @@
 
         .compact-audio-layout .audio-header {
             margin-bottom: 5px;
-            display: flex; /* Allow CC button on right */
+            display: flex;
+            /* Allow CC button on right */
             align-items: center;
         }
 
@@ -210,14 +405,16 @@
             border-radius: 3px;
             color: #0050ff;
             font-size: 10px;
-            padding: 1px 5px; /* Less tall */
+            padding: 1px 5px;
+            /* Less tall */
             cursor: pointer;
             margin-left: auto;
             transition: all 0.2s ease;
             font-weight: 700;
             display: none;
             flex-shrink: 0;
-            line-height: 1; /* More compact */
+            line-height: 1;
+            /* More compact */
         }
 
         .cc-btn.active {
@@ -229,7 +426,8 @@
         .subtitle-overlay {
             width: 100%;
             text-align: center;
-            height: 2.2rem; /* Adjusted height for better balance */
+            height: 2.2rem;
+            /* Adjusted height for better balance */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -253,16 +451,15 @@
 
         .video-soon-placeholder {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
             height: 0;
             width: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 15px,
-                rgba(0, 0, 255, 0.03) 15px,
-                rgba(0, 0, 255, 0.03) 30px
-            );
+            background: repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 15px,
+                    rgba(0, 0, 255, 0.03) 15px,
+                    rgba(0, 0, 255, 0.03) 30px);
             border: 2px solid #0000ff;
             border-radius: 12px;
             margin-bottom: 20px;
@@ -270,7 +467,7 @@
         }
 
         .video-soon-placeholder::after {
-            content: "SOON";
+            content: "VIDEO SOON";
             position: absolute;
             top: 50%;
             left: 50%;
@@ -278,8 +475,9 @@
             color: #0000ff;
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: 2.5rem;
-            letter-spacing: 0.3em;
+            font-size: 2.2rem;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
         }
 
         .work-detail-container {
@@ -293,6 +491,59 @@
             overflow-y: auto;
             position: relative;
             z-index: 10;
+        }
+
+        /* Specific Layout for Mein Zuhause (Asymmetrical) */
+        @media (min-width: 1024px) {
+            .id-meinzuhause-gmbh .video-column {
+                display: flex;
+                flex-flow: row wrap;
+                align-items: stretch;
+                gap: 20px;
+            }
+
+            .id-meinzuhause-gmbh .image-wrapper,
+            .id-meinzuhause-gmbh .video-soon-placeholder {
+                margin-bottom: 0;
+                /* Handled by gap */
+            }
+
+            /* Distribution: Pic1 (Full) | Pic2 (Small) & Pic3 (Large) | SOON (Full) | Pic4 (Large) & Pic5 (Small) */
+            .id-meinzuhause-gmbh .pic-1 {
+                flex: 1 1 100%;
+                aspect-ratio: 21 / 9;
+            }
+
+            .id-meinzuhause-gmbh .pic-2 {
+                flex: 1 1 35%;
+                aspect-ratio: 4 / 5;
+            }
+
+            .id-meinzuhause-gmbh .pic-3 {
+                flex: 1 1 60%;
+                aspect-ratio: 16 / 9;
+            }
+
+            .id-meinzuhause-gmbh .mz-soon {
+                flex: 1 1 100%;
+                aspect-ratio: 21 / 7;
+            }
+
+            .id-meinzuhause-gmbh .pic-4 {
+                flex: 1 1 60%;
+                aspect-ratio: 16 / 9;
+            }
+
+            .id-meinzuhause-gmbh .pic-5 {
+                flex: 1 1 35%;
+                aspect-ratio: 4 / 5;
+            }
+
+            /* Ensure login button is always full width at the bottom */
+            .id-meinzuhause-gmbh .login-btn-wrapper {
+                flex: 1 1 100%;
+                margin-top: 20px;
+            }
         }
 
         /* Info Column */
@@ -328,11 +579,11 @@
         .credits-box {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 28px 45px;
             font-size: 0.9rem;
             line-height: 1.5;
             border-top: 1px solid rgba(0, 0, 255, 0.2);
-            padding-top: 20px;
+            padding-top: 25px;
         }
 
         .credits-row {
@@ -1047,7 +1298,8 @@
         }
 
         /* Responsive adjustments for 13-inch and smaller desktop screens */
-        @media (max-width: 1440px), (max-height: 900px) {
+        @media (max-width: 1440px),
+        (max-height: 900px) {
             .work-detail-container {
                 padding-top: 10px;
                 padding-bottom: 25px;
@@ -1078,8 +1330,8 @@
             }
 
             .credits-box {
-                gap: 15px;
-                padding-top: 12px;
+                gap: 24px 40px;
+                padding-top: 22px;
             }
 
             .credits-label {
@@ -1159,6 +1411,26 @@
     <!-- Unified Navbar -->
     <div id="navbar-placeholder"></div>
 
+    <!-- Photo Lightbox -->
+    <div id="photo-lightbox" class="lightbox-overlay">
+        <div class="lightbox-counter" id="lightbox-counter">1 / 5</div>
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <div class="lightbox-nav prev" id="lightbox-prev" onclick="changeLightboxImage(-1)">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+        </div>
+        <div class="lightbox-nav next" id="lightbox-next" onclick="changeLightboxImage(1)">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+            </svg>
+        </div>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Full view">
+            <div id="lightbox-caption" class="lightbox-description"></div>
+        </div>
+    </div>
+
     <!-- Navigation Arrows -->
     <div class="nav-arrow prev-arrow" id="prevWork" aria-label="Previous work">
         <svg viewBox="0 0 24 24">
@@ -1215,6 +1487,8 @@
                             <!-- Credits injected -->
                         </div>
                     </div>
+                    <!-- Login Button placeholder -->
+                    <div id="login-button-container" style="display: contents;"></div>
                     <!-- Score Button placeholder -->
                     <div id="score-button-container" style="display: contents;"></div>
                 </div>
@@ -1381,7 +1655,7 @@
 
             // Cancel any previous PDF loading
             if (currentLoadingTask) {
-                try { currentLoadingTask.destroy(); } catch (e) {}
+                try { currentLoadingTask.destroy(); } catch (e) { }
                 currentLoadingTask = null;
             }
             if (flipBook) {
@@ -1659,6 +1933,8 @@
                 container.innerHTML = '';
                 container.style.transform = 'translate(0,0) scale(1)';
             }
+            const loginBtnContainer = document.getElementById('login-button-container');
+            if (loginBtnContainer) loginBtnContainer.innerHTML = '';
         }
 
         // WORKS DATABASE
@@ -1666,14 +1942,17 @@
             {
                 id: 'meinzuhause-gmbh',
                 title: 'MEIN ZUHAUSE GMBH. 2026',
+                images: ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'],
                 videos: ['soon'],
+                imageCaption: '© <a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a>',
                 desc: 'work-meinzuhause-gmbh-desc',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
                     { label: 'Performer', value: 'Gustav Bloéb' },
                     { label: 'Live Sound', value: 'Giovanni Dinello' },
                     { label: 'Technical Assistance', value: 'Ian Whillock' },
-                    { label: 'Video Recording', value: 'Goran Lazarevic & Tong Khanh Ha<br>Hamburg Open Online University' }
+                    { label: 'Video Recording', value: 'Goran Lazarevic & Tong Khanh Ha<br>Hamburg Open Online University' },
+                    { label: 'Photography', value: '<a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a>' }
                 ]
             },
             {
@@ -1724,7 +2003,7 @@
                 desc: 'work-osc-desc',
                 score: '../pdfs/oscprotocol.pdf',
                 credits: [
-                    { label: 'Piano', value: 'Pablo Gil' },
+                    { label: 'Pianist', value: 'Pablo Gil' },
                     { label: 'Dates', value: '9 MAY. Ateneo de Madrid<br>18 MAY. Real Conservatorio Superior de Música de Madrid' }
                 ]
             },
@@ -1882,32 +2161,64 @@
                 const videoColumnOuter = videoColumnInner.parentElement;
                 const isCompact = ['lespontanea', 'rumble', 'en-busca-del-video-perfecto', 'osc-protocol', 'cisne-y-cerdo', 'minuit-toujours-arrive', 'three-years-of-evolution'].includes(work.id);
                 const isDouble = (work.videos && work.videos.length > 1);
-                videoColumnOuter.className = 'video-column' + 
+                videoColumnOuter.className = 'video-column' +
                     (isCompact ? ' compact-audio-layout' : '') +
                     (isDouble ? ' double-video' : '') +
                     ' id-' + work.id;
 
-                videoColumnInner.innerHTML = work.videos.map(id => {
-                    if (id === 'soon') {
-                        return `<div class="video-soon-placeholder"></div>`;
-                    }
-                    return `
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0"
-                                allowfullscreen></iframe>
+                let contentHTML = '';
+
+                // Render asymmetrical distribution for meinzuhause
+                if (work.id === 'meinzuhause-gmbh') {
+                    const pic = (idx) => `
+                        <div class="image-wrapper pic-${idx + 1}" onclick="openLightbox(${idx})" style="cursor: zoom-in;">
+                            <img src="../images/meinzuhause/${work.images[idx]}" alt="Project Image" class="work-img">
+                            ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
                         </div>
                     `;
-                }).join('');
+                    const soon = `<div class="video-soon-placeholder mz-soon"></div>`;
+
+                    // Order: 1, 2, 3, SOON, 4, 5
+                    contentHTML = pic(0) + pic(1) + pic(2) + soon + pic(3) + pic(4);
+                } else {
+                    // Standard Render
+                    // Render Images
+                    if (work.images) {
+                        contentHTML += work.images.map((img, idx) => `
+                            <div class="image-wrapper" onclick="openLightbox(${idx})" style="cursor: zoom-in;">
+                                <img src="../images/meinzuhause/${img}" alt="Project Image" class="work-img">
+                                ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
+                            </div>
+                        `).join('');
+                    }
+                    // Render Videos
+                    contentHTML += work.videos.map(id => {
+                        if (id === 'soon') {
+                            return `<div class="video-soon-placeholder"></div>`;
+                        }
+                        return `
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/${id}?modestbranding=1&rel=0&showinfo=0"
+                                    allowfullscreen></iframe>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                videoColumnInner.innerHTML = contentHTML;
 
                 // Add Login button for meinzuhause-gmbh
+                const loginBtnContainer = document.getElementById('login-button-container');
                 if (work.id === 'meinzuhause-gmbh') {
                     const currentLang = localStorage.getItem('preferredLanguage') || 'en';
                     const signText = window.navTranslations ? window.navTranslations[currentLang]['btn-sign-in'] : 'SIGN IN';
-                    videoColumnInner.innerHTML += `
+                    loginBtnContainer.innerHTML = `
                         <div class="login-btn-wrapper">
                             <button class="login-btn" data-t="btn-sign-in" onclick="openMZOverlay()">${signText}</button>
                         </div>
                     `;
+                } else {
+                    loginBtnContainer.innerHTML = '';
                 }
                 // Update Description (with translation support)
                 const descDiv = document.getElementById('display-desc');
@@ -1981,7 +2292,7 @@
                 wrapper.classList.remove('fade-out');
             }, 400);
         }
-        
+
         // --- Centralized Audio Sync ---
         function updateAllAudioIcons() {
             if (!sharedAudio) return;
@@ -2025,7 +2336,7 @@
             if (!sharedAudio || sharedAudio.src.indexOf(url.replace('../', '')) === -1) {
                 sharedAudio = new Audio();
                 sharedAudio.src = url;
-                
+
                 // Add centralized listeners to the shared audio element itself
                 sharedAudio.addEventListener('play', updateAllAudioIcons);
                 sharedAudio.addEventListener('pause', updateAllAudioIcons);
@@ -2146,9 +2457,13 @@
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             const isScoreActive = document.getElementById('score-overlay').classList.contains('active');
+            const lightbox = document.getElementById('photo-lightbox');
+            const isLightboxActive = lightbox && lightbox.classList.contains('active');
 
             if (e.key === 'ArrowLeft') {
-                if (isScoreActive && flipBook) {
+                if (isLightboxActive) {
+                    changeLightboxImage(-1);
+                } else if (isScoreActive && flipBook) {
                     flipBook.flipPrev();
                 } else {
                     document.getElementById('prevWork').classList.add('active');
@@ -2156,15 +2471,18 @@
                     renderWork(currentIndex);
                 }
             } else if (e.key === 'ArrowRight') {
-                if (isScoreActive && flipBook) {
+                if (isLightboxActive) {
+                    changeLightboxImage(1);
+                } else if (isScoreActive && flipBook) {
                     flipBook.flipNext();
                 } else {
                     document.getElementById('nextWork').classList.add('active');
                     currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
                     renderWork(currentIndex);
                 }
-            } else if (e.key === 'Escape' && isScoreActive) {
-                closeScoreOverlay();
+            } else if (e.key === 'Escape') {
+                if (isLightboxActive) closeLightbox();
+                else if (isScoreActive) closeScoreOverlay();
             }
         });
 
@@ -2256,6 +2574,68 @@
             const parts = timeStr.replace(',', '.').split(':');
             return parseFloat(parts[0]) * 3600 + parseFloat(parts[1]) * 60 + parseFloat(parts[2]);
         }
+
+        // Photo Lightbox logic
+        let currentLightboxImages = [];
+        let currentLightboxIndex = 0;
+
+        function openLightbox(index) {
+            const work = worksData[currentIndex];
+            if (!work.images) return;
+
+            currentLightboxImages = work.images;
+            currentLightboxIndex = index;
+
+            const overlay = document.getElementById('photo-lightbox');
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+
+            updateLightbox();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const overlay = document.getElementById('photo-lightbox');
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.style.display = 'none', 300);
+            document.body.style.overflow = '';
+        }
+
+        function updateLightbox() {
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+            const work = worksData[currentIndex];
+
+            counter.textContent = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
+
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.97)';
+
+            setTimeout(() => {
+                img.src = '../images/meinzuhause/' + currentLightboxImages[currentLightboxIndex];
+                caption.innerHTML = work.imageCaption || '';
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1)';
+            }, 100);
+
+            // Hide nav if only 1 image
+            const showNav = currentLightboxImages.length > 1;
+            document.getElementById('lightbox-prev').style.display = showNav ? 'flex' : 'none';
+            document.getElementById('lightbox-next').style.display = showNav ? 'flex' : 'none';
+        }
+
+        function changeLightboxImage(dir) {
+            currentLightboxIndex += dir;
+            if (currentLightboxIndex < 0) currentLightboxIndex = currentLightboxImages.length - 1;
+            if (currentLightboxIndex >= currentLightboxImages.length) currentLightboxIndex = 0;
+            updateLightbox();
+        }
+
+        // Handle Escape click on background
+        document.getElementById('photo-lightbox').onclick = (e) => {
+            if (e.target.id === 'photo-lightbox') closeLightbox();
+        };
 
         // Listener for iframe events (e.g. Mein Zuhause state changes)
         window.addEventListener('message', (e) => {
