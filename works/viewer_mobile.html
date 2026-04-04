@@ -1244,7 +1244,7 @@
                 title: 'MEIN ZUHAUSE GMBH. 2026',
                 images: ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'],
                 imageCaption: '© <a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a>',
-                videos: ['soon'],
+                videos: ['tQVKnYp8i80'],
                 desc: 'work-meinzuhause-gmbh-desc',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
@@ -1458,9 +1458,15 @@
                             </div>
                         </div>
                     `;
-                    const soon = `<div class="video-soon-placeholder"></div>`;
-                    // Only show first image + soon placeholder for mobile
-                    contentHTML = pic(0) + soon;
+                    const video = work.videos[0] === 'soon' 
+                        ? `<div class="video-soon-placeholder"></div>`
+                        : `
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/${work.videos[0]}?modestbranding=1&rel=0&showinfo=0" allowfullscreen></iframe>
+                            </div>
+                        `;
+                    // Only show first image + video for mobile
+                    contentHTML = pic(0) + video;
                 } else {
                     contentHTML = work.videos.map(id => {
                         if (id === 'soon') {

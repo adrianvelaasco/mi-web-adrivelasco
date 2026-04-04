@@ -581,7 +581,7 @@
 
             .id-meinzuhause-gmbh .mz-soon {
                 flex: 1 1 100%;
-                aspect-ratio: 21 / 7;
+                aspect-ratio: 16 / 9;
             }
 
             .id-meinzuhause-gmbh .pic-4 {
@@ -2012,7 +2012,7 @@
                 id: 'meinzuhause-gmbh',
                 title: 'MEIN ZUHAUSE GMBH. 2026',
                 images: ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'],
-                videos: ['soon'],
+                videos: ['tQVKnYp8i80'],
                 imageCaption: '© <a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a>',
                 desc: 'work-meinzuhause-gmbh-desc',
                 credits: [
@@ -2245,10 +2245,17 @@
                             ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
                         </div>
                     `;
-                    const soon = `<div class="video-soon-placeholder mz-soon"></div>`;
+                    const video = work.videos[0] === 'soon' 
+                        ? `<div class="video-soon-placeholder mz-soon"></div>`
+                        : `
+                            <div class="video-wrapper mz-soon">
+                                <iframe src="https://www.youtube.com/embed/${work.videos[0]}?modestbranding=1&rel=0&showinfo=0"
+                                    allowfullscreen></iframe>
+                            </div>
+                        `;
 
-                    // Order: 1, 2, 3, SOON, 4, 5
-                    contentHTML = pic(0) + pic(1) + pic(2) + soon + pic(3) + pic(4);
+                    // Order: 1, 2, 3, VIDEO, 4, 5
+                    contentHTML = pic(0) + pic(1) + pic(2) + video + pic(3) + pic(4);
                 } else {
                     // Standard Render
                     // Render Images
