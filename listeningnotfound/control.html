@@ -147,6 +147,7 @@
         </div>
 
         <button id="update-btn">ACTUALIZAR EN VIVO</button>
+        <button id="sync-all-btn" style="background: #222; margin-top: 10px; font-size: 0.7rem; padding: 10px;">IMPORTAR TODOS LOS .TXT ACTUALES</button>
         
         <div class="status-bar">
             <div class="indicator">
@@ -179,8 +180,49 @@
         const selector = document.getElementById('profile-selector');
         const textArea = document.getElementById('bio-text');
         const updateBtn = document.getElementById('update-btn');
+        const syncAllBtn = document.getElementById('sync-all-btn');
         const statusText = document.getElementById('status-text');
         const statusDot = document.getElementById('status-dot');
+
+        // Lista de perfiles para la sincronización masiva
+        const allProfileIds = [
+            'bassoon', 'contrabassoon', 'flute', 'piano', 'theremin', 
+            'percussion', 'drumkit', 'violin', 'oscar', 'adri', 'isay',
+            'listeningnotfound', 'ensemble404'
+        ];
+
+        // Sync All Logic
+        syncAllBtn.addEventListener('click', async () => {
+            if (!confirm("Esto sobrescribirá los datos en Firebase con los textos de los archivos .txt. ¿Continuar?")) return;
+            
+            syncAllBtn.innerText = "IMPORTANDO...";
+            syncAllBtn.disabled = true;
+
+            for (const id of allProfileIds) {
+                try {
+                    // Mapeo manual para corregir nombres de archivo si es necesario
+                    let fileName = id;
+                    if (id === 'drumkit') fileName = 'percussion'; // drumkit hereda de percussion
+                    if (id === 'contrabassoon') fileName = 'bassoon';
+
+                    const resp = await fetch('profiles/' + fileName + '.txt');
+                    if (resp.ok) {
+                        const text = await resp.text();
+                        await set(ref(db, 'profiles/' + id), text);
+                        console.log("Sincronizado: " + id);
+                    }
+                } catch (e) {
+                    console.error("Error sincronizando " + id, e);
+                }
+            }
+
+            syncAllBtn.innerText = "¡TODO SINCRONIZADO!";
+            setTimeout(() => {
+                syncAllBtn.disabled = false;
+                syncAllBtn.innerText = "IMPORTAR TODOS LOS .TXT ACTUALES";
+                loadCurrentData();
+            }, 2000);
+        });
 
         // Monitor de conexión
         const connectedRef = ref(db, ".info/connected");
