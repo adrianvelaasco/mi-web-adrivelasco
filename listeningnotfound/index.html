@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimensionador de Espacios | Plano Técnico</title>
-    <meta name="description" content="Visualización técnica interactiva de dimensiones espaciales con medidas precisas de 17.85m x 18.06m.">
+    <meta name="description"
+        content="Visualización técnica interactiva de dimensiones espaciales con medidas precisas de 17.85m x 18.06m.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbhWOj-6nbiEDsXmgcDhXEjI0u1iqZWgE",
+            authDomain: "listening-not-found.firebaseapp.com",
+            databaseURL: "https://listening-not-found-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "listening-not-found",
+            storageBucket: "listening-not-found.firebasestorage.app",
+            messagingSenderId: "659911475972",
+            appId: "1:659911475972:web:561ad1ee64e3b5ccd94651",
+            measurementId: "G-7QKNE3ZM62"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.firebaseDB = getDatabase(app);
+        window.firebaseRef = ref;
+        window.firebaseOnValue = onValue;
+    </script>
 </head>
+
 <body>
     <header class="glitch-header">
         <div class="marquee-track">
@@ -35,19 +60,24 @@
                 <!-- Main Rectangle -->
                 <!-- Main Rectangle -->
                 <div class="rectangle-box">
-                    
+
                     <!-- Spots -->
                     <div class="spot spot-1" title="Theremin"></div>
-                    <div class="spot spot-2 has-image" title="Violin" style="background-image: url('profiles/violin.jpg')"></div>
+                    <div class="spot spot-2 has-image" title="Violin"
+                        style="background-image: url('/listeningnotfound/profiles/violin.jpg')"></div>
                     <div class="spot spot-3" title="Drum Kit"></div>
-                    <div class="spot spot-4 has-image" title="Piano" style="background-image: url('profiles/piano.jpg')"></div>
+                    <div class="spot spot-4 has-image" title="Piano"
+                        style="background-image: url('/listeningnotfound/profiles/piano.jpg')"></div>
                     <div class="spot spot-5" title="Contrabassoon"></div>
-                    <div class="spot spot-6 has-image" title="Flute" style="background-image: url('profiles/flute.jpg')"></div>
-                    <div class="spot spot-7 has-image" title="Percussion" style="background-image: url('profiles/percussion.jpg')"></div>
-                    
+                    <div class="spot spot-6 has-image" title="Flute"
+                        style="background-image: url('/listeningnotfound/profiles/flute.jpg')"></div>
+                    <div class="spot spot-7 has-image" title="Percussion"
+                        style="background-image: url('/listeningnotfound/profiles/percussion.jpg')"></div>
+
                     <div class="foh-box">FOH</div>
-                    
-                    <div class="spot spot-8 has-image" title="Bassoon" style="background-image: url('profiles/bassoon.jpg')"></div>
+
+                    <div class="spot spot-8 has-image" title="Bassoon"
+                        style="background-image: url('/listeningnotfound/profiles/bassoon.jpg')"></div>
 
                     <!-- Exits -->
                     <div class="exit-icon top-left">
@@ -81,7 +111,7 @@
             <div class="modal-content-wrapper">
                 <div id="modal-dynamic-content">
                     <div class="modal-image" id="modal-image"></div>
-                    
+
                     <div class="modal-content">
                         <h2 id="modal-title">Name</h2>
                         <div class="cv-divider"></div>
@@ -89,7 +119,7 @@
                         <p id="modal-description">Cargando details...</p>
                     </div>
                 </div>
-                
+
                 <div class="carousel-controls" id="carousel-controls" style="display: none;">
                     <button class="arrow-btn" id="carousel-prev">&#10094;</button>
                     <div class="carousel-dots" id="carousel-dots"></div>
@@ -99,6 +129,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/listeningnotfound/script.js"></script>
 </body>
+
 </html>

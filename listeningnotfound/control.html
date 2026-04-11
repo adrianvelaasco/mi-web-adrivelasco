@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTROL | Listening Not Found</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --bg: #050505; 
+            --card: #111; 
+            --accent: #0000FF; 
+            --text: #ffffff; 
+            --border: #222;
+        }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { 
+            width: 100%; 
+            max-width: 800px; 
+            background: var(--card); 
+            padding: 40px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        h1 { 
+            font-size: 1rem; 
+            letter-spacing: 0.3em; 
+            text-transform: uppercase; 
+            margin: 0 0 40px 0; 
+            color: var(--accent);
+            text-align: center;
+        }
+        .group { margin-bottom: 25px; }
+        label { 
+            display: block; 
+            margin-bottom: 10px; 
+            font-size: 0.7rem; 
+            font-weight: 700;
+            opacity: 0.5; 
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        select, textarea { 
+            width: 100%; 
+            background: #000; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-family: inherit; 
+            font-size: 1rem;
+            outline: none; 
+            transition: border-color 0.3s;
+        }
+        select:focus, textarea:focus { border-color: var(--accent); }
+        textarea { 
+            height: 350px; 
+            resize: vertical; 
+            line-height: 1.6; 
+        }
+        button { 
+            width: 100%; 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 18px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.2em; 
+            transition: all 0.3s; 
+            font-size: 0.9rem;
+        }
+        button:hover { 
+            background: #1a1aff; 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(0,0,255,0.3);
+        }
+        button:active { transform: translateY(0); }
+        
+        .status-bar { 
+            margin-top: 20px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem; 
+            opacity: 0.4; 
+        }
+        .indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; }
+        .dot.online { background: #00FF00; box-shadow: 0 0 10px #00FF00; }
+        
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LIVE CONTROL PANEL</h1>
+        
+        <div class="group">
+            <label>SELECCIONAR INSTRUMENTO / TÉCNICO</label>
+            <select id="profile-selector">
+                <optgroup label="ORQUESTA / ENSEMBLE">
+                    <option value="bassoon">Rodrigo Rodrigues (Bassoon)</option>
+                    <option value="contrabassoon">Rodrigo Rodrigues (Contrabassoon)</option>
+                    <option value="flute">Giusy Panazador (Flute)</option>
+                    <option value="piano">Valentina Donato (Piano)</option>
+                    <option value="theremin">Valentina Donato (Theremin)</option>
+                    <option value="percussion">Vitalia Agrba (Percussion)</option>
+                    <option value="drumkit">Vitalia Agrba (Drum Kit)</option>
+                    <option value="violin">Bahar Erünsal (Violinist)</option>
+                </optgroup>
+                <optgroup label="EQUIPO FOH">
+                    <option value="oscar">Oscar (FOH Engineer)</option>
+                    <option value="adri">Adri (System Tech)</option>
+                    <option value="isay">Isay (Lighting)</option>
+                </optgroup>
+                <optgroup label="GENERAL">
+                    <option value="listeningnotfound">Listening Not Found (Info)</option>
+                    <option value="ensemble404">Ensemble 404 (Info)</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>TEXTO DE LA BIOGRAFÍA</label>
+            <textarea id="bio-text" placeholder="Escribe aquí..."></textarea>
+        </div>
+
+        <button id="update-btn">ACTUALIZAR EN VIVO</button>
+        
+        <div class="status-bar">
+            <div class="indicator">
+                <div class="dot" id="status-dot"></div>
+                <span id="status-text">Desconectado</span>
+            </div>
+            <div>FIREBASE CLOUD SYNC</div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // CONFIGURACIÓN DE FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbhWOj-6nbiEDsXmgcDhXEjI0u1iqZWgE",
+            authDomain: "listening-not-found.firebaseapp.com",
+            databaseURL: "https://listening-not-found-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "listening-not-found",
+            storageBucket: "listening-not-found.firebasestorage.app",
+            messagingSenderId: "659911475972",
+            appId: "1:659911475972:web:561ad1ee64e3b5ccd94651",
+            measurementId: "G-7QKNE3ZM62"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const selector = document.getElementById('profile-selector');
+        const textArea = document.getElementById('bio-text');
+        const updateBtn = document.getElementById('update-btn');
+        const statusText = document.getElementById('status-text');
+        const statusDot = document.getElementById('status-dot');
+
+        // Monitor de conexión
+        const connectedRef = ref(db, ".info/connected");
+        onValue(connectedRef, (snap) => {
+            if (snap.val() === true) {
+                statusDot.classList.add('online');
+                statusText.innerText = "Conectado y Sincronizado";
+            } else {
+                statusDot.classList.remove('online');
+                statusText.innerText = "Desconectado";
+            }
+        });
+
+        // Cargar dato al cambiar selector
+        function loadCurrentData() {
+            const id = selector.value;
+            onValue(ref(db, 'profiles/' + id), (snapshot) => {
+                textArea.value = snapshot.val() || "";
+            }, { onlyOnce: true });
+        }
+
+        selector.addEventListener('change', loadCurrentData);
+        loadCurrentData(); // Initial load
+
+        // Update function
+        updateBtn.addEventListener('click', () => {
+            const id = selector.value;
+            const text = textArea.value;
+            
+            updateBtn.disabled = true;
+            updateBtn.innerText = "GUARDANDO...";
+
+            set(ref(db, 'profiles/' + id), text)
+                .then(() => {
+                    updateBtn.innerText = "¡ACTUALIZADO!";
+                    setTimeout(() => {
+                        updateBtn.disabled = false;
+                        updateBtn.innerText = "ACTUALIZAR EN VIVO";
+                    }, 1000);
+                })
+                .catch(err => {
+                    alert("Error al guardar: " + err.message);
+                    updateBtn.disabled = false;
+                    updateBtn.innerText = "REINTENTAR";
+                });
+        });
+    </script>
+</body>
+</html>
