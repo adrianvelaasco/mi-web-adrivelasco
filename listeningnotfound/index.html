@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimensionador de Espacios | Plano Técnico</title>
+    <title>Space Scaler | Technical Floor Plan</title>
     <meta name="description"
-        content="Visualización técnica interactiva de dimensiones espaciales con medidas precisas de 17.85m x 18.06m.">
+        content="Interactive technical visualization of spatial dimensions with precise 17.85m x 18.06m measurements.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap"
@@ -15,7 +15,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCbhWOj-6nbiEDsXmgcDhXEjI0u1iqZWgE",
@@ -32,6 +32,7 @@
         window.firebaseDB = getDatabase(app);
         window.firebaseRef = ref;
         window.firebaseOnValue = onValue;
+        window.firebaseSet = set;
     </script>
 </head>
 
@@ -60,6 +61,21 @@
                 <!-- Main Rectangle -->
                 <!-- Main Rectangle -->
                 <div class="rectangle-box">
+                    <!-- Sala Sections Visualization -->
+                    <div id="sala-sections">
+                        <div id="section-list">
+                            <div class="section prev-2"></div>
+                            <div class="section prev-1"></div>
+                            <div class="active-section-group">
+                                <div class="section active" id="current-section-name">ENTRY LOOP</div>
+                                <div class="progress-container">
+                                    <div id="section-progress-bar"></div>
+                                </div>
+                            </div>
+                            <div class="section next-1"></div>
+                            <div class="section next-2"></div>
+                        </div>
+                    </div>
 
                     <!-- Spots -->
                     <div class="spot spot-1" title="Theremin"></div>
@@ -116,7 +132,7 @@
                         <h2 id="modal-title">Name</h2>
                         <div class="cv-divider"></div>
                         <div class="cv-section-title">PROFILE SUMMARY</div>
-                        <p id="modal-description">Cargando details...</p>
+                        <p id="modal-description">Loading details...</p>
                     </div>
                 </div>
 

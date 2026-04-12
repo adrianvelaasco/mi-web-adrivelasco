@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,43 +116,22 @@
     <div class="container">
         <h1>LIVE CONTROL PANEL</h1>
         
-        <div class="group">
-            <label>SELECCIONAR INSTRUMENTO / TÉCNICO</label>
-            <select id="profile-selector">
-                <optgroup label="ORQUESTA / ENSEMBLE">
-                    <option value="bassoon">Rodrigo Rodrigues (Bassoon)</option>
-                    <option value="contrabassoon">Rodrigo Rodrigues (Contrabassoon)</option>
-                    <option value="flute">Giusy Panazador (Flute)</option>
-                    <option value="piano">Valentina Donato (Piano)</option>
-                    <option value="theremin">Valentina Donato (Theremin)</option>
-                    <option value="percussion">Vitalia Agrba (Percussion)</option>
-                    <option value="drumkit">Vitalia Agrba (Drum Kit)</option>
-                    <option value="violin">Bahar Erünsal (Violinist)</option>
-                </optgroup>
-                <optgroup label="EQUIPO FOH">
-                    <option value="oscar">Oscar (FOH Engineer)</option>
-                    <option value="adri">Adri (System Tech)</option>
-                    <option value="isay">Isay (Lighting)</option>
-                </optgroup>
-                <optgroup label="GENERAL">
-                    <option value="listeningnotfound">Listening Not Found (Info)</option>
-                    <option value="ensemble404">Ensemble 404 (Info)</option>
-                </optgroup>
-            </select>
-        </div>
 
         <div class="group">
-            <label>TEXTO DE LA BIOGRAFÍA</label>
-            <textarea id="bio-text" placeholder="Escribe aquí..."></textarea>
+            <label>SEQUENCE CONTROL (SALA)</label>
+            <div id="sequence-status" style="margin-bottom: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 8px; text-align: center;">
+                <div style="font-size: 0.7rem; opacity: 0.5; margin-bottom: 5px;">CURRENT SECTION</div>
+                <div id="current-section-display" style="font-size: 1.5rem; font-weight: 700; color: #fff;">ENTRY LOOP</div>
+                <div id="countdown-display" style="font-size: 0.9rem; margin-top: 10px; color: var(--accent);">--:--</div>
+            </div>
+            <button id="start-sequence-btn">START SECTION 2 (ACTIVATION)</button>
+            <button id="reset-sequence-btn" style="background: #331111; margin-top: 10px; font-size: 0.7rem; padding: 10px;">RESET EVERYTHING (REVERT TO ENTRY LOOP)</button>
         </div>
-
-        <button id="update-btn">ACTUALIZAR EN VIVO</button>
-        <button id="sync-all-btn" style="background: #222; margin-top: 10px; font-size: 0.7rem; padding: 10px;">IMPORTAR TODOS LOS .TXT ACTUALES</button>
         
         <div class="status-bar">
             <div class="indicator">
                 <div class="dot" id="status-dot"></div>
-                <span id="status-text">Desconectado</span>
+                <span id="status-text">Disconnected</span>
             </div>
             <div>FIREBASE CLOUD SYNC</div>
         </div>
@@ -162,7 +141,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // CONFIGURACIÓN DE FIREBASE
+        // FIREBASE CONFIGURATION
         const firebaseConfig = {
             apiKey: "AIzaSyCbhWOj-6nbiEDsXmgcDhXEjI0u1iqZWgE",
             authDomain: "listening-not-found.firebaseapp.com",
@@ -177,97 +156,115 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const selector = document.getElementById('profile-selector');
-        const textArea = document.getElementById('bio-text');
-        const updateBtn = document.getElementById('update-btn');
-        const syncAllBtn = document.getElementById('sync-all-btn');
+        const startBtn = document.getElementById('start-sequence-btn');
+        const resetBtn = document.getElementById('reset-sequence-btn');
+        const currentDisplay = document.getElementById('current-section-display');
+        const countdownDisplay = document.getElementById('countdown-display');
         const statusText = document.getElementById('status-text');
         const statusDot = document.getElementById('status-dot');
 
-        // Lista de perfiles para la sincronización masiva
-        const allProfileIds = [
-            'bassoon', 'contrabassoon', 'flute', 'piano', 'theremin', 
-            'percussion', 'drumkit', 'violin', 'oscar', 'adri', 'isay',
-            'listeningnotfound', 'ensemble404'
+        const sections = [
+            { name: "Entry Loop", duration: 0 },
+            { name: "Activation", duration: 2 },
+            { name: "Exploratory Field", duration: 4 },
+            { name: "Latent Space Walk", duration: 2 },
+            { name: "Orbit", duration: 1 },
+            { name: "Deepfake", duration: 2 },
+            { name: "Ghost Takeover", duration: 2 },
+            { name: "Digital Error", duration: 1 },
+            { name: "Rarefied", duration: 2 },
+            { name: "Pointillism", duration: 2 },
+            { name: "Digital Rain", duration: 2 },
+            { name: "Etheric + Melody", duration: 2 },
+            { name: "Whisper Network", duration: 2 },
+            { name: "Groups + Spatialisation + Imitation + Memory Leak", duration: 2 },
+            { name: "Ghost Swarm", duration: 2 },
+            { name: "Collective Swell", duration: 1 },
+            { name: "Post-Digital Tempest", duration: 1 },
+            { name: "Buffer Error", duration: 2 },
+            { name: "Resonator", duration: 2 },
+            { name: "Micro + Slow Movement", duration: 3 },
+            { name: "Upload Ascension", duration: 4 }
         ];
 
-        // Sync All Logic
-        syncAllBtn.addEventListener('click', async () => {
-            if (!confirm("Esto sobrescribirá los datos en Firebase con los textos de los archivos .txt. ¿Continuar?")) return;
-            
-            syncAllBtn.innerText = "IMPORTANDO...";
-            syncAllBtn.disabled = true;
-
-            for (const id of allProfileIds) {
-                try {
-                    // Mapeo manual para corregir nombres de archivo si es necesario
-                    let fileName = id;
-                    if (id === 'drumkit') fileName = 'percussion'; // drumkit hereda de percussion
-                    if (id === 'contrabassoon') fileName = 'bassoon';
-
-                    const resp = await fetch('profiles/' + fileName + '.txt');
-                    if (resp.ok) {
-                        const text = await resp.text();
-                        await set(ref(db, 'profiles/' + id), text);
-                        console.log("Sincronizado: " + id);
-                    }
-                } catch (e) {
-                    console.error("Error sincronizando " + id, e);
-                }
-            }
-
-            syncAllBtn.innerText = "¡TODO SINCRONIZADO!";
-            setTimeout(() => {
-                syncAllBtn.disabled = false;
-                syncAllBtn.innerText = "IMPORTAR TODOS LOS .TXT ACTUALES";
-                loadCurrentData();
-            }, 2000);
-        });
-
-        // Monitor de conexión
+        // Connection Monitor
         const connectedRef = ref(db, ".info/connected");
         onValue(connectedRef, (snap) => {
             if (snap.val() === true) {
                 statusDot.classList.add('online');
-                statusText.innerText = "Conectado y Sincronizado";
+                statusText.innerText = "Connected and Synchronized";
             } else {
                 statusDot.classList.remove('online');
-                statusText.innerText = "Desconectado";
+                statusText.innerText = "Disconnected";
             }
         });
 
-        // Cargar dato al cambiar selector
-        function loadCurrentData() {
-            const id = selector.value;
-            onValue(ref(db, 'profiles/' + id), (snapshot) => {
-                textArea.value = snapshot.val() || "";
-            }, { onlyOnce: true });
+        // Sequence Monitor
+        const seqRef = ref(db, 'sequence');
+        onValue(seqRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data && data.isRunning) {
+                const idx = data.currentIndex || 0;
+                currentDisplay.innerText = sections[idx] ? sections[idx].name : "FINISHED";
+                startBtn.disabled = true;
+                startBtn.innerText = "SEQUENCE IN PROGRESS";
+                
+                // Countdown logic (approximate client-side for UI only)
+                if (data.startTime && sections[idx].duration > 0) {
+                    updateCountdown(data.startTime, sections[idx].duration);
+                } else {
+                    countdownDisplay.innerText = "--:--";
+                }
+            } else {
+                if (countdownInterval) clearInterval(countdownInterval);
+                currentDisplay.innerText = "ENTRY LOOP";
+                countdownDisplay.innerText = "--:--";
+                startBtn.disabled = false;
+                startBtn.innerText = "START SECTION 2 (ACTIVATION)";
+            }
+        });
+
+        let countdownInterval;
+        function updateCountdown(startTime, durationMin) {
+            if (countdownInterval) clearInterval(countdownInterval);
+            const durationMs = durationMin * 60 * 1000;
+            
+            const tick = () => {
+                const elapsed = Date.now() - (startTime - (window.serverTimeOffset || 0));
+                const remaining = Math.max(0, durationMs - elapsed);
+                const mins = Math.floor(remaining / 60000);
+                const secs = Math.floor((remaining % 60000) / 1000);
+                countdownDisplay.innerText = `${mins}:${secs.toString().padStart(2, '0')}`;
+                if (remaining <= 0) clearInterval(countdownInterval);
+            };
+            
+            countdownInterval = setInterval(tick, 1000);
+            tick();
         }
 
-        selector.addEventListener('change', loadCurrentData);
-        loadCurrentData(); // Initial load
+        // Server time offset
+        const offsetRef = ref(db, ".info/serverTimeOffset");
+        onValue(offsetRef, (snap) => {
+            window.serverTimeOffset = snap.val();
+        });
 
-        // Update function
-        updateBtn.addEventListener('click', () => {
-            const id = selector.value;
-            const text = textArea.value;
-            
-            updateBtn.disabled = true;
-            updateBtn.innerText = "GUARDANDO...";
+        // Start Sequence
+        startBtn.addEventListener('click', () => {
+            const startTime = Date.now() + (window.serverTimeOffset || 0);
+            set(ref(db, 'sequence'), {
+                currentIndex: 1, // Section 2
+                startTime: startTime,
+                isRunning: true
+            });
+        });
 
-            set(ref(db, 'profiles/' + id), text)
-                .then(() => {
-                    updateBtn.innerText = "¡ACTUALIZADO!";
-                    setTimeout(() => {
-                        updateBtn.disabled = false;
-                        updateBtn.innerText = "ACTUALIZAR EN VIVO";
-                    }, 1000);
-                })
-                .catch(err => {
-                    alert("Error al guardar: " + err.message);
-                    updateBtn.disabled = false;
-                    updateBtn.innerText = "REINTENTAR";
-                });
+        // Reset Sequence
+        resetBtn.addEventListener('click', () => {
+            set(ref(db, 'sequence'), {
+                currentIndex: 0,
+                startTime: 0,
+                isRunning: false
+            });
         });
     </script>
 </body>

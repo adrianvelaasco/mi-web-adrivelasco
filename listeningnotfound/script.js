@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const textInheritance = {
         'contrabassoon': 'bassoon',
-        'drumkit': 'percussion', 
+        'drumkit': 'percussion',
         'theremin': 'piano'
     };
 
@@ -43,40 +43,70 @@ document.addEventListener('DOMContentLoaded', () => {
     const carouselPrev = document.getElementById('carousel-prev');
     const carouselNext = document.getElementById('carousel-next');
     const carouselDots = document.getElementById('carousel-dots');
-    
+
     const btnListening = document.getElementById('btn-listening');
     const btnEnsemble = document.getElementById('btn-ensemble');
 
-    // Real-time synchronization
-    let currentFirebaseUnsubscribe = null;
+    // SECTION SEQUENCE DATA
+    const sections = [
+        { name: "Entry Loop", duration: 0, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
+        { name: "Activation", duration: 2, description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
+        { name: "Exploratory Field", duration: 4, description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." },
+        { name: "Latent Space Walk", duration: 2, description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." },
+        { name: "Orbit", duration: 1, description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium." },
+        { name: "Deepfake", duration: 2, description: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur." },
+        { name: "Ghost Takeover", duration: 2, description: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit." },
+        { name: "Digital Error", duration: 1, description: "Aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis." },
+        { name: "Rarefied", duration: 2, description: "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur." },
+        { name: "Pointillism", duration: 2, description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum." },
+        { name: "Digital Rain", duration: 2, description: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est." },
+        { name: "Etheric + Melody", duration: 2, description: "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias." },
+        { name: "Whisper Network", duration: 2, description: "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et." },
+        { name: "Groups + Spatialisation + Imitation + Memory Leak", duration: 2, description: "Error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo." },
+        { name: "Ghost Swarm", duration: 2, description: "Inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem." },
+        { name: "Collective Swell", duration: 1, description: "Quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione." },
+        { name: "Post-Digital Tempest", duration: 1, description: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit." },
+        { name: "Buffer Error", duration: 2, description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium." },
+        { name: "Resonator", duration: 2, description: "Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta." },
+        { name: "Micro + Slow Movement", duration: 3, description: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur." },
+        { name: "Upload Ascension", duration: 4, description: "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur." }
+    ];
 
-    function formatText(text) {
-        if (!text) return "";
-        return text.split(/\r?\n+/).filter(p => p.trim() !== '').join('<br><br>');
+    let currentSequenceData = { currentIndex: 0, startTime: 0, isRunning: false };
+    let serverTimeOffset = 0;
+
+    // UI ELEMENTS FOR SECTIONS
+    const sectionElements = {
+        prev2: document.querySelector('.section.prev-2'),
+        prev1: document.querySelector('.section.prev-1'),
+        active: document.querySelector('.section.active'),
+        next1: document.querySelector('.section.next-1'),
+        next2: document.querySelector('.section.next-2'),
+        progressBar: document.getElementById('section-progress-bar')
+    };
+
+    // SECTION MODAL EVENT LISTENERS
+    [sectionElements.prev2, sectionElements.prev1, sectionElements.active, sectionElements.next1, sectionElements.next2].forEach((el, i) => {
+        el.addEventListener('click', () => {
+            const map = [-2, -1, 0, 1, 2];
+            const targetIdx = currentSequenceData.currentIndex + map[i];
+            if (sections[targetIdx]) {
+                openSectionModal(sections[targetIdx]);
+            }
+        });
+    });
+
+    function openSectionModal(section) {
+        carouselControls.style.display = 'none';
+        modalImage.style.display = 'none';
+        modalTitle.textContent = section.name;
+        modalDescription.innerHTML = `<span style="font-size: 0.7rem; opacity: 0.5; display: block; margin-bottom: 10px;">SECTION [${toRoman(sections.indexOf(section)+1)}]</span>` + section.description;
+        modalOverlay.classList.add('active');
     }
 
+    // SYNC BIO (REVERTED TO STATIC FILES)
     function syncBio(id, fallbackFile, targetEl) {
-        // Cancel previous listener if any
-        if (currentFirebaseUnsubscribe) {
-            // Unsubscribe logic depends on SDK version, but here we just overwrite old ones
-        }
-
-        const dbId = id.replace(' ', '');
-
-        if (window.firebaseDB && window.firebaseRef && window.firebaseOnValue) {
-            const profileRef = window.firebaseRef(window.firebaseDB, 'profiles/' + dbId);
-            window.firebaseOnValue(profileRef, (snapshot) => {
-                const val = snapshot.val();
-                if (val) {
-                    targetEl.innerHTML = formatText(val);
-                } else {
-                    // Fallback to text file if no data in Firebase yet
-                    fetchBioFromFile(fallbackFile, targetEl);
-                }
-            });
-        } else {
-            fetchBioFromFile(fallbackFile, targetEl);
-        }
+        fetchBioFromFile(fallbackFile, targetEl);
     }
 
     async function fetchBioFromFile(filename, targetEl) {
@@ -86,13 +116,107 @@ document.addEventListener('DOMContentLoaded', () => {
                 const text = await response.text();
                 targetEl.innerHTML = formatText(text);
             } else {
-                targetEl.innerText = "No se encontró descripción técnica.";
+                targetEl.innerText = "No technical description found.";
             }
         } catch (e) {
-            targetEl.innerText = "Error al cargar datos.";
+            targetEl.innerText = "Error loading data.";
         }
     }
 
+    function formatText(text) {
+        if (!text) return "";
+        return text.replace(/\n/g, '<br>');
+    }
+
+    function toRoman(num) {
+        if (typeof num !== 'number' || num <= 0) return "";
+        const lookup = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 };
+        let roman = '';
+        for (let i in lookup) {
+            while (num >= lookup[i]) {
+                roman += i;
+                num -= lookup[i];
+            }
+        }
+        return roman;
+    }
+
+    function updateSectionUI() {
+        const idx = currentSequenceData.currentIndex;
+
+        const getSafeName = (i) => {
+            if (!sections[i]) return "";
+            const roman = toRoman(i + 1);
+            return `[${roman}] ${sections[i].name}`;
+        };
+
+        sectionElements.prev2.innerText = getSafeName(idx - 2);
+        sectionElements.prev1.innerText = getSafeName(idx - 1);
+        sectionElements.active.innerText = currentSequenceData.isRunning ? getSafeName(idx) : (idx === 0 ? getSafeName(0) : "ENTRY LOOP");
+        sectionElements.next1.innerText = getSafeName(idx + 1);
+        sectionElements.next2.innerText = getSafeName(idx + 2);
+
+        if (!currentSequenceData.isRunning) {
+            sectionElements.progressBar.style.width = '0%';
+        }
+    }
+
+    // FIREBASE SEQUENCE INTEGRATION
+    if (window.firebaseDB && window.firebaseRef && window.firebaseOnValue) {
+        const seqRef = window.firebaseRef(window.firebaseDB, 'sequence');
+        const offsetRef = window.firebaseRef(window.firebaseDB, ".info/serverTimeOffset");
+
+        window.firebaseOnValue(offsetRef, (snap) => {
+            serverTimeOffset = snap.val() || 0;
+        });
+
+        window.firebaseOnValue(seqRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                currentSequenceData = data;
+                updateSectionUI();
+            }
+        });
+    }
+
+    // TIMER LOOP
+    function tick() {
+        if (currentSequenceData.isRunning && currentSequenceData.startTime) {
+            const idx = currentSequenceData.currentIndex;
+            const currentSection = sections[idx];
+
+            if (currentSection && currentSection.duration > 0) {
+                const durationMs = currentSection.duration * 60 * 1000;
+                const elapsed = Date.now() - (currentSequenceData.startTime - serverTimeOffset);
+                const progress = Math.min(100, (elapsed / durationMs) * 100);
+
+                sectionElements.progressBar.style.width = `${progress}%`;
+
+                // AUTO ADVANCE
+                if (progress >= 100) {
+                    const nextIdx = idx + 1;
+                    if (nextIdx < sections.length) {
+                        window.firebaseSet(window.firebaseRef(window.firebaseDB, 'sequence'), {
+                            currentIndex: nextIdx,
+                            startTime: Date.now() + serverTimeOffset,
+                            isRunning: true
+                        });
+                    } else {
+                        // End of sequence
+                        window.firebaseSet(window.firebaseRef(window.firebaseDB, 'sequence'), {
+                            currentIndex: idx,
+                            startTime: 0,
+                            isRunning: false
+                        });
+                    }
+                }
+            }
+        }
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // REST OF THE SCRIPT (MODALS, FLYING PHOTOS, ETC.)
     if (btnListening) {
         btnListening.addEventListener('click', () => {
             openSpecialModal('Listening Not Found', 'listeningnotfound');
@@ -109,23 +233,23 @@ document.addEventListener('DOMContentLoaded', () => {
         carouselControls.style.display = 'none';
         modalImage.style.display = 'none';
         modalTitle.textContent = title;
-        modalDescription.innerHTML = 'Cargando...';
+        modalDescription.innerHTML = 'Loading...';
         modalOverlay.classList.add('active');
-        
+
         syncBio(id, id + '.txt', modalDescription);
     }
 
     async function showFohProfile(index) {
         currentFohIndex = index;
         const profile = fohProfiles[index];
-        
+
         modalTitle.innerHTML = `${profile.name} <span class="profession">${profile.profession}</span>`;
         modalImage.style.backgroundImage = `url('profiles/${profile.id}.jpg')`;
         modalImage.style.display = 'block';
         carouselControls.style.display = 'flex';
         carouselDots.innerHTML = fohProfiles.map((_, i) => `<span class="dot ${i === index ? 'active' : ''}"></span>`).join('');
-        
-        modalDescription.innerHTML = 'Cargando...';
+
+        modalDescription.innerHTML = 'Loading...';
         syncBio(profile.id, profile.id + '.txt', modalDescription);
     }
 
@@ -133,14 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
         carouselControls.style.display = 'none';
         const title = spot.getAttribute('title');
         const lowerTitle = title.toLowerCase();
-        
+
         if (musicians[lowerTitle]) {
             modalTitle.innerHTML = `${musicians[lowerTitle].name} <span class="profession">${musicians[lowerTitle].profession}</span>`;
         } else {
             modalTitle.textContent = title;
         }
-        
-        modalDescription.textContent = 'Cargando detalles...';
+
+        modalDescription.textContent = 'Loading details...';
 
         if (spot.classList.contains('has-image')) {
             const bgImage = spot.style.backgroundImage;
@@ -162,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (textInheritance[fileNameBase]) {
             fileNameBase = textInheritance[fileNameBase];
         }
-        
+
         syncBio(fileNameBase, fileNameBase + '.txt', modalDescription);
     }
 

@@ -112,8 +112,87 @@ body {
     left: 0;
     top: 50px; /* 1.25m gap */
     bottom: 50px; /* 1.25m gap */
-    width: 1px;
     background-color: var(--rect-border);
+}
+
+/* Sala Sections Sequence */
+#sala-sections {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#section-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* Increased gap */
+    width: 100%;
+    pointer-events: none;
+}
+
+.active-section-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 5px; /* Progress bar very close to text */
+}
+
+.section {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    font-weight: 400;
+    pointer-events: auto; /* Make sections clickable */
+    cursor: pointer;
+}
+
+.section.active {
+    font-size: 1.2rem;
+    font-weight: 700;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.section.prev-1, .section.next-1 {
+    font-size: 0.9rem;
+    opacity: 0.5;
+    transform: scale(0.9);
+}
+
+.section.prev-2, .section.next-2 {
+    font-size: 0.7rem;
+    opacity: 0.2;
+    transform: scale(0.8);
+}
+
+.progress-container {
+    width: 100%;
+    height: 2px;
+    background: rgba(45, 45, 45, 0.1);
+    border-radius: 1px;
+    overflow: hidden;
+    max-width: 180px;
+}
+
+#section-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--rect-border);
+    transition: width 0.1s linear;
 }
 
 .exit-icon {
