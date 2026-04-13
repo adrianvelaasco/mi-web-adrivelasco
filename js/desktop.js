@@ -1985,41 +1985,54 @@ document.addEventListener("DOMContentLoaded", function () {
             enable: true
         },
         callbacks: {
-            onMixEnd: function (state) {
-                const isOthers = state.activeFilter.selector === '.others';
+            onMixStart: function (state, futureState) {
+                const isOthers = futureState.activeFilter.selector === '.others';
                 const yearHeaders = document.querySelectorAll('.year-header');
                 const roleHeaders = document.querySelectorAll('.role-header');
+                const futureShow = futureState.show;
 
                 if (isOthers) {
-                    // Hide Years, Show Roles
-                    yearHeaders.forEach(h => h.style.setProperty('display', 'none', 'important'));
+                    // Smoothly hide Years, handle Roles
+                    yearHeaders.forEach(h => h.classList.add('header-hidden'));
                     roleHeaders.forEach(header => {
                         const roleClass = header.getAttribute('data-role');
-                        let hasVisibleItems = false;
-                        let sibling = header.nextElementSibling;
-                        while (sibling && !sibling.classList.contains('role-header')) {
-                            if (sibling.classList.contains('mix') && sibling.classList.contains(roleClass) && sibling.style.display !== 'none') {
-                                hasVisibleItems = true;
+                        let willHaveVisibleItems = false;
+                        
+                        // Check if any MIX targeted to be shown matches this role
+                        for (let item of futureShow) {
+                            if (item.classList.contains('mix') && item.classList.contains(roleClass)) {
+                                willHaveVisibleItems = true;
                                 break;
                             }
-                            sibling = sibling.nextElementSibling;
                         }
-                        header.style.setProperty('display', hasVisibleItems ? 'block' : 'none', 'important');
+                        
+                        if (willHaveVisibleItems) {
+                            header.classList.remove('header-hidden');
+                        } else {
+                            header.classList.add('header-hidden');
+                        }
                     });
                 } else {
-                    // Hide Roles, Show Years
-                    roleHeaders.forEach(h => h.style.setProperty('display', 'none', 'important'));
+                    // Smoothly hide Roles, handle Years
+                    roleHeaders.forEach(h => h.classList.add('header-hidden'));
                     yearHeaders.forEach(header => {
-                        let hasVisibleItems = false;
+                        let willHaveVisibleItems = false;
                         let sibling = header.nextElementSibling;
+                        
+                        // Check if any target in current year group will be shown
                         while (sibling && !sibling.classList.contains('year-header') && !sibling.classList.contains('role-header')) {
-                            if (sibling.classList.contains('mix') && sibling.style.display !== 'none') {
-                                hasVisibleItems = true;
+                            if (sibling.classList.contains('mix') && futureShow.includes(sibling)) {
+                                willHaveVisibleItems = true;
                                 break;
                             }
                             sibling = sibling.nextElementSibling;
                         }
-                        header.style.setProperty('display', hasVisibleItems ? 'block' : 'none', 'important');
+                        
+                        if (willHaveVisibleItems) {
+                            header.classList.remove('header-hidden');
+                        } else {
+                            header.classList.add('header-hidden');
+                        }
                     });
                 }
             }

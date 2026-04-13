@@ -3,6 +3,15 @@
         background-color: white;
     }
 
+    /* Fix Safari click issues on translated text globally */
+    [data-t] {
+        pointer-events: none;
+    }
+    /* Re-enable for the actual interactive elements themselves */
+    a[data-t], button[data-t], input[data-t], .audio-control[data-t] {
+        pointer-events: auto;
+    }
+
     /* --- HOME SECTION STYLES --- */
     #home-container {
         position: fixed;
@@ -186,6 +195,8 @@
         text-align: center;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         transform: translate(-50%, -50%);
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     .cv-button:hover {
@@ -222,6 +233,7 @@
         transition: color 0.4s ease !important;
         position: relative;
         z-index: 2;
+        pointer-events: none;
     }
 
     .page_buttons {
@@ -268,6 +280,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     .link-btn[aria-selected="true"] .tiktoks-texts {
@@ -292,6 +306,8 @@
         text-transform: uppercase !important;
         transition: none !important;
         margin: 0 10px !important;
+        user-select: none;
+        -webkit-user-select: none;
     }
 
     .filter-button[aria-selected="true"] {
@@ -509,10 +525,41 @@
         position: relative !important;
         display: block !important;
         width: 100% !important;
+        
+        /* Transition properties */
+        max-height: 200px; /* Large enough to fit the content */
+        opacity: 1;
+        overflow: hidden;
+        transition: 
+            max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+            opacity 0.4s ease,
+            margin 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+            padding 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+            border-bottom-width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: max-height, opacity, margin, padding;
+    }
+
+    .header-hidden {
+        max-height: 0 !important;
+        opacity: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-bottom-width: 0 !important;
+        pointer-events: none !important;
+        visibility: hidden !important;
+        transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
 
     .role-header {
-        display: none !important; /* Will be toggled by JS */
+        /* Initial state for roles (removed display: none to allow animation) */
+        max-height: 0;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        border-bottom-width: 0;
+        visibility: hidden;
     }
 
     .year-header:first-of-type, .role-header:first-of-type {
