@@ -210,27 +210,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Media Map (from about.html)
     const mediaMap = {
-        'f1': 'fotos/500x500 (normales)/F1.mp4', 'f2': 'fotos/500x500 (normales)/F2.webp', 'f3': 'fotos/500x500 (normales)/F3.mp4',
-        'f4': 'fotos/500x500 (normales)/F4.mp4', 'f5': 'fotos/500x500 (normales)/F5.webp', 'f6': 'fotos/500x500 (normales)/F6.mp4',
-        'f7': 'fotos/500x500 (normales)/F7.webp', 'f8': 'fotos/500x500 (normales)/F8.webp', 'f9': 'fotos/500x500 (normales)/F9.webp',
-        'f10': 'fotos/500x500 (normales)/F10.webp', 'f11': 'fotos/500x500 (normales)/F11.mp4', 'f12': 'fotos/500x500 (normales)/F12.webp',
-        'power': 'fotos/500x500 (normales)/power.webp', '<': 'fotos/500x500 (normales)/<.webp', '1': 'fotos/500x500 (normales)/1.webp',
-        '2': 'fotos/500x500 (normales)/2.webp', '0': 'fotos/500x500 (normales)/0.webp', "'": 'fotos/500x500 (normales)/\'.mp4',
-        '+': 'fotos/500x500 (normales)/¡.mp4', 'delete': 'fotos/860x500 (tab, esc, delete)/delete.webp', 'tab': 'fotos/860x500 (tab, esc, delete)/tab.webp',
-        'q': 'fotos/500x500 (normales)/q.webp', 'w': 'fotos/500x500 (normales)/w.webp', 'p': 'fotos/500x500 (normales)/p.webp',
-        '`': 'fotos/500x500 (normales)/option right.webp', '=': 'fotos/500x500 (normales)/+.webp', 'ç': 'fotos/500x500 (normales)/ç.webp',
-        'esc': 'fotos/860x500 (tab, esc, delete)/esc.webp', 'a': 'fotos/500x500 (normales)/a.webp', 's': 'fotos/500x500 (normales)/s.webp',
-        ';': 'fotos/500x500 (normales)/ñ.mp4', ']': 'fotos/500x500 (normales)/´.mp4', 'return': 'fotos/1075x500 (capslock, return)/return.mp4',
-        'caps': 'fotos/1075x500 (capslock, return)/caps lock.mp4', 'z': 'fotos/500x500 (normales)/z.mp4', 'x': 'fotos/500x500 (normales)/x.webp',
-        '-': 'fotos/500x500 (normales)/-.webp', 'shift': 'fotos/1075x500 (capslock, return)/shift left.webp',
-        'shift-right': 'fotos/1075x500 (capslock, return)/shift right.mp4', 'fn': 'fotos/500x500 (normales)/fn.webp',
-        'ctrl': 'fotos/500x500 (normales)/ctrl.mp4', 'opt': 'fotos/500x500 (normales)/option left.mp4',
-        'opt-right': 'fotos/500x500 (normales)/option right.webp', 'cmd': 'fotos/500x500 (normales)/command left.webp',
-        'cmd-right': 'fotos/500x500 (normales)/command right.webp', 'space': 'fotos/4318x500 (espacio)/espacio.mp4',
-        'arrow-up': 'fotos/1600x500 (flechas)/flecha up.mp4',
-        'arrow-down': 'fotos/1600x500 (flechas)/flecha down.mp4',
-        'arrow-left': 'fotos/1600x500 (flechas)/flecha left.mp4',
-        'arrow-right': 'fotos/1600x500 (flechas)/flecha right.mp4'
+        'f1': 'assets/images/about_page/500x500 (normales)/F1.mp4', 'f2': 'assets/images/about_page/500x500 (normales)/F2.webp', 'f3': 'assets/images/about_page/500x500 (normales)/F3.mp4',
+        'f4': 'assets/images/about_page/500x500 (normales)/F4.mp4', 'f5': 'assets/images/about_page/500x500 (normales)/F5.webp', 'f6': 'assets/images/about_page/500x500 (normales)/F6.mp4',
+        'f7': 'assets/images/about_page/500x500 (normales)/F7.webp', 'f8': 'assets/images/about_page/500x500 (normales)/F8.webp', 'f9': 'assets/images/about_page/500x500 (normales)/F9.webp',
+        'f10': 'assets/images/about_page/500x500 (normales)/F10.webp', 'f11': 'assets/images/about_page/500x500 (normales)/F11.mp4', 'f12': 'assets/images/about_page/500x500 (normales)/F12.webp',
+        'power': 'assets/images/about_page/500x500 (normales)/power.webp', '<': 'assets/images/about_page/500x500 (normales)/<.webp', '1': 'assets/images/about_page/500x500 (normales)/1.webp',
+        '2': 'assets/images/about_page/500x500 (normales)/2.webp', '0': 'assets/images/about_page/500x500 (normales)/0.webp', "'": 'assets/images/about_page/500x500 (normales)/\'.mp4',
+        '+': 'assets/images/about_page/500x500 (normales)/¡.mp4', 'delete': 'assets/images/about_page/860x500 (tab, esc, delete)/delete.webp', 'tab': 'assets/images/about_page/860x500 (tab, esc, delete)/tab.webp',
+        'q': 'assets/images/about_page/500x500 (normales)/q.webp', 'w': 'assets/images/about_page/500x500 (normales)/w.webp', 'p': 'assets/images/about_page/500x500 (normales)/p.webp',
+        '`': 'assets/images/about_page/500x500 (normales)/option right.webp', '=': 'assets/images/about_page/500x500 (normales)/+.webp', 'ç': 'assets/images/about_page/500x500 (normales)/ç.webp',
+        'esc': 'assets/images/about_page/860x500 (tab, esc, delete)/esc.webp', 'a': 'assets/images/about_page/500x500 (normales)/a.webp', 's': 'assets/images/about_page/500x500 (normales)/s.webp',
+        ';': 'assets/images/about_page/500x500 (normales)/ñ.mp4', ']': 'assets/images/about_page/500x500 (normales)/´.mp4', 'return': 'assets/images/about_page/1075x500 (capslock, return)/return.mp4',
+        'caps': 'assets/images/about_page/1075x500 (capslock, return)/caps lock.mp4', 'z': 'assets/images/about_page/500x500 (normales)/z.mp4', 'x': 'assets/images/about_page/500x500 (normales)/x.webp',
+        '-': 'assets/images/about_page/500x500 (normales)/-.webp', 'shift': 'assets/images/about_page/1075x500 (capslock, return)/shift left.webp',
+        'shift-right': 'assets/images/about_page/1075x500 (capslock, return)/shift right.mp4', 'fn': 'assets/images/about_page/500x500 (normales)/fn.webp',
+        'ctrl': 'assets/images/about_page/500x500 (normales)/ctrl.mp4', 'opt': 'assets/images/about_page/500x500 (normales)/option left.mp4',
+        'opt-right': 'assets/images/about_page/500x500 (normales)/option right.webp', 'cmd': 'assets/images/about_page/500x500 (normales)/command left.webp',
+        'cmd-right': 'assets/images/about_page/500x500 (normales)/command right.webp', 'space': 'assets/images/about_page/4318x500 (espacio)/espacio.mp4',
+        'arrow-up': 'assets/images/about_page/1600x500 (flechas)/flecha up.mp4',
+        'arrow-down': 'assets/images/about_page/1600x500 (flechas)/flecha down.mp4',
+        'arrow-left': 'assets/images/about_page/1600x500 (flechas)/flecha left.mp4',
+        'arrow-right': 'assets/images/about_page/1600x500 (flechas)/flecha right.mp4'
     };
 
     const mediaCache = {};
@@ -1190,7 +1190,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const currentLang = document.documentElement.getAttribute('lang') || localStorage.getItem('preferredLanguage') || 'en';
-        cvBtn.href = currentLang === 'es' ? 'CVs/CV_Español.pdf' : 'CVs/CV_Ingles.pdf';
+        cvBtn.href = currentLang === 'es' ? 'assets/CVs/CV_Español.pdf' : 'assets/CVs/CV_Ingles.pdf';
     }
 
     const paragraphStates = paragraphs.map(() => ({ opacity: -1, x: -9999, y: -9999, scale: -1, w: -1, h: -1 }));

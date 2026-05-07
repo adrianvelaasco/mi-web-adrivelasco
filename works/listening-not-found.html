@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="0; url=viewer.html?work=listening-not-found">
+    <script>
+        // Check if loaded inside an iframe (viewer context) or standalone
+        // However, standard viewer uses client-side rendering from JSON, not iframe loading of these files.
+        // So we can safely redirect always.
+        window.location.replace("viewer.html?work=listening-not-found");
+    </script>
+</head>
+<body>
+    <p>Redirecting to listening-not-found...</p>
+</body>
+</html>

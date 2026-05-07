@@ -26,32 +26,52 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     // --- WORKS DATA ---
     const worksData = [
-        { id: 'meinzuhause-gmbh', title: 'Mein Zuhause GmbH', year: 2026, category: 'full-lenght', thumbnail: 'images/thumbnails/finals-p480/Meinzuhause-Thumbnail.webp', video: 'videos/compressed/9.mp4', desc: 'work-meinzuhause-gmbh-desc' },
-        { id: 'personas-que-quiza-conozcas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'images/thumbnails/finals-p480/PQQC-Thumbnail.webp', video: 'videos/compressed/9.mp4', desc: 'work-personas-desc' },
-        { id: 'en-busca-del-video-perfecto', title: 'EN BUSCA DEL VIDEO PERFECTO', year: 2025, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/EBDVP-Thumbnail.webp', video: 'videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
-        { id: 'pianogames', title: 'PIANOGAMES', year: 2025, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/Pianogames-Thumbnail.webp', video: 'videos/compressed/2.mp4', desc: 'work-pianogames-desc' },
-        { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Rumble-Thumbnail.webp', video: 'videos/compressed/4.mp4', desc: 'work-rumble-desc' },
-        { id: 'osc-protocol', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/OSC-Protocol-Thumbnail.webp', video: 'videos/compressed/6.mp4', desc: 'work-osc-desc' },
-        { id: 'three-years-of-evolution', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/TYoE-Thumbnail.webp', video: 'videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
-        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/Game-Of-Life-Thumbnail.webp', video: 'videos/compressed/3.mp4', desc: 'work-life-desc' },
-        { id: 'another-music-conservatory', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'images/thumbnails/finals-p480/AMC-Thumbnail.webp', video: 'videos/compressed/8.mp4', desc: 'work-amc-desc' },
-        { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/lespontanea-Thumbnail.webp', video: 'videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
-        { id: 'minuit-toujours-arrive', title: 'MINUIT TOUJOURS<br>ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Minuit-Toujours-Arrive-Thumbnail.webp', video: '', desc: 'work-minuit-desc' },
-        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'images/thumbnails/finals-p480/Cisne-y-Cerdo-Thumbnail.webp', video: '', desc: 'work-cisne-desc' },
+        { id: 'meinzuhause-gmbh', title: 'Mein Zuhause GmbH', year: 2026, category: 'full-lenght', thumbnail: 'assets/images/thumbnails/finals-p480/Meinzuhause-Thumbnail.webp', video: 'assets/videos/compressed/9.mp4', desc: 'work-meinzuhause-gmbh-desc' },
+        { id: 'personas-que-quiza-conozcas', title: 'PERSONAS QUE QUIZÁ CONOZCAS', year: 2025, category: 'full-lenght', thumbnail: 'assets/images/thumbnails/finals-p480/PQQC-Thumbnail.webp', video: 'assets/videos/compressed/9.mp4', desc: 'work-personas-desc' },
+        { id: 'en-busca-del-video-perfecto', title: 'EN BUSCA DEL VIDEO PERFECTO', year: 2025, category: 'just-sound', thumbnail: 'assets/images/thumbnails/finals-p480/EBDVP-Thumbnail.webp', video: 'assets/videos/compressed/5.mp4', desc: 'work-ebdvp-desc' },
+        { id: 'pianogames', title: 'PIANOGAMES', year: 2025, category: 'multimedia', thumbnail: 'assets/images/thumbnails/finals-p480/Pianogames-Thumbnail.webp', video: 'assets/videos/compressed/2.mp4', desc: 'work-pianogames-desc' },
+        { id: 'rumble', title: 'RUMBLE', year: 2025, category: 'just-sound', thumbnail: 'assets/images/thumbnails/finals-p480/Rumble-Thumbnail.webp', video: 'assets/videos/compressed/4.mp4', desc: 'work-rumble-desc' },
+        { id: 'osc-protocol', title: 'OSC PROTOCOL', year: 2024, category: 'just-sound', thumbnail: 'assets/images/thumbnails/finals-p480/OSC-Protocol-Thumbnail.webp', video: 'assets/videos/compressed/6.mp4', desc: 'work-osc-desc' },
+        { id: 'three-years-of-evolution', title: 'THREE YEARS OF EVOLUTION', year: 2024, category: 'multimedia', thumbnail: 'assets/images/thumbnails/finals-p480/TYoE-Thumbnail.webp', video: 'assets/videos/compressed/1.mp4', desc: 'work-tyoe-desc' },
+        { id: 'game-of-life', title: 'GAME OF LIFE', year: 2024, category: 'multimedia', thumbnail: 'assets/images/thumbnails/finals-p480/Game-Of-Life-Thumbnail.webp', video: 'assets/videos/compressed/3.mp4', desc: 'work-life-desc' },
+        { id: 'another-music-conservatory', title: 'ANOTHER MUSIC CONSERVATORY', year: 2024, category: 'multimedia', thumbnail: 'assets/images/thumbnails/finals-p480/AMC-Thumbnail.webp', video: 'assets/videos/compressed/8.mp4', desc: 'work-amc-desc' },
+        { id: 'lespontanea', title: 'lespontanea', year: 2023, category: 'just-sound', thumbnail: 'assets/images/thumbnails/finals-p480/lespontanea-Thumbnail.webp', video: 'assets/videos/compressed/7.mp4', desc: 'work-espontanea-desc' },
+        { id: 'minuit-toujours-arrive', title: 'MINUIT TOUJOURS<br>ARRIVE', year: 2023, category: 'just-sound', thumbnail: 'assets/images/thumbnails/finals-p480/Minuit-Toujours-Arrive-Thumbnail.webp', video: '', desc: 'work-minuit-desc' },
+        { id: 'cisne-y-cerdo', title: 'CISNE Y CERDO', year: 2022, category: 'just-sound', thumbnail: 'assets/images/thumbnails/finals-p480/Cisne-y-Cerdo-Thumbnail.webp', video: '', desc: 'work-cisne-desc' },
         { 
-            id: 'spotify-desilusion', 
-            title: 'DESILUSIÓN', 
+            id: 'listening-not-found', 
+            title: 'Listening Not Found - Oscar Corpo & Ensemble 404', 
+            subtitle: 'visual, light, web',
             category: 'others', 
-            subCategory: 'music producer', 
-            embed: '<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/0fqHkjPLCr8bCBafTSszoa?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>' 
+            subCategory: 'video design', 
+            thumbnail: 'assets/images/thumbnails/finals-p480/ListeningNotFound-Thumbnail.webp'
+        },
+        { 
+            id: 'performer-dreamloader', 
+            title: 'DreamLoader.exe - Isay Ramirez', 
+            subtitle: 'performer',
+            category: 'others', 
+            subCategory: 'performer', 
+            thumbnail: 'assets/images/thumbnails/finals-p480/DreamLoader-Thumbnail.webp',
+            link: 'https://youtu.be/HREOq8L0l0A'
         },
         { 
             id: 'performer-aparition', 
-            title: 'APARICION - Luciano Correa', 
+            title: 'Aparición - Luciano Correa', 
+            subtitle: 'performer',
             category: 'others', 
             subCategory: 'performer', 
-            thumbnail: 'images/others/aparition.png',
+            thumbnail: 'assets/images/others/aparition.png',
             link: 'https://youtu.be/I7Euya2zfg8'
+        },
+        { 
+            id: 'spotify-desilusion', 
+            title: 'YALLAH SAFI - Korashe, Kfe', 
+            subtitle: 'sound',
+            category: 'others', 
+            subCategory: 'music producer', 
+            thumbnail: 'assets/images/thumbnails/yallah-safi-thumbnail.webp',
+            link: 'https://open.spotify.com/intl-es/track/0fqHkjPLCr8bCBafTSszoa?si=22bf2b71e2c2407f'
         }
     ];
 
@@ -188,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
             'audio-on': "sound on",
             'audio-off': "sound off",
             'success-msg': "Thank you! Your submission has been received",
-            cvLink: "CVs/CV_Ingles.pdf"
+            cvLink: "assets/CVs/CV_Ingles.pdf"
         },
         es: {
             'nav-about': "BIO",
@@ -235,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
             'audio-on': "sonido on",
             'audio-off': "sonido off",
             'success-msg': "¡Gracias! Tu mensaje ha sido enviado correctamente",
-            cvLink: "CVs/CV_Español.pdf"
+            cvLink: "assets/CVs/CV_Español.pdf"
         }
     };
 
@@ -739,34 +759,30 @@ document.addEventListener("DOMContentLoaded", function () {
         let html = '';
 
         if (filter === 'others') {
-            const subCategories = ['music producer', 'video design', 'performer'];
-            subCategories.forEach(sc => {
-                const subItems = filtered.filter(w => w.subCategory === sc);
-                if (subItems.length > 0) {
-                    const roleMap = {
-                        'music producer': 'role-producer',
-                        'video design': 'role-video',
-                        'performer': 'role-performer'
-                    };
-                    const roleKey = roleMap[sc] || sc;
-                    const translatedRole = translations[currentLang][roleKey] || sc.toUpperCase();
-                    html += `<h2 class="year-header" style="grid-column: 1/-1;">${translatedRole}</h2>`;
-                    subItems.forEach(work => {
-                        if (work.embed) {
-                            html += `<div class="catalogue-item-embed" style="grid-column: 1 / -1; width: 100%; margin: 10px 0 20px 0;">${work.embed}</div>`;
-                        } else {
-                            const link = work.link ? work.link : `works/viewer_mobile.html?work=${work.id}`;
-                            const target = work.link ? 'target="_blank"' : '';
-                            html += `
-                                <a href="${link}" ${target} class="catalogue-item">
-                                    <div class="catalogue-thumb">
-                                        <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
-                                    </div>
-                                    <span class="catalogue-title">${work.title}</span>
-                                </a>
-                            `;
-                        }
-                    });
+            filtered.forEach(work => {
+                if (work.embed) {
+                    html += `
+                        <div class="catalogue-item-embed" style="margin-top: 20px;">
+                            <div class="catalogue-thumb" style="background: #1f1f1f; position: relative; overflow: hidden;">
+                                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    ${work.embed.replace('height="352"', 'height="100%"').replace('width="100%"', 'width="100%"')}
+                                </div>
+                            </div>
+                            <span class="catalogue-title" style="margin-top: 8px; display: block;">${work.title}</span>
+                            ${work.subtitle ? `<span class="catalogue-subtitle" style="display: block; opacity: 0.7; font-size: 0.75rem; color: var(--primary);">${work.subtitle}</span>` : ''}
+                        </div>`;
+                } else {
+                    const link = work.link ? work.link : `works/viewer_mobile.html?work=${work.id}`;
+                    const target = work.link ? 'target="_blank"' : '';
+                    html += `
+                        <a href="${link}" ${target} class="catalogue-item" style="margin-top: 20px;">
+                            <div class="catalogue-thumb">
+                                <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
+                            </div>
+                            <span class="catalogue-title">${work.title}</span>
+                            ${work.subtitle ? `<span class="catalogue-subtitle">${work.subtitle}</span>` : ''}
+                        </a>
+                    `;
                 }
             });
         } else {
@@ -782,6 +798,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <img src="${work.thumbnail}" alt="${work.title}" loading="lazy">
                             </div>
                             <span class="catalogue-title">${work.title}</span>
+                            ${work.subtitle ? `<span class="catalogue-subtitle">${work.subtitle}</span>` : ''}
                         </a>
                     `;
                 });
@@ -997,19 +1014,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const keyContainer = document.getElementById('key-carousel');
     if (keyContainer) {
         const keyAssets = [
-            { src: 'fotos/500x500 (normales)/q.webp' },
-            { src: 'fotos/500x500 (normales)/w.webp' },
-            { src: 'fotos/500x500 (normales)/a.webp' },
-            { src: 'fotos/500x500 (normales)/s.webp' },
-            { src: 'fotos/500x500 (normales)/p.webp' },
-            { src: 'fotos/500x500 (normales)/F1.mp4' },
-            { src: 'fotos/500x500 (normales)/x.webp' },
-            { src: 'fotos/500x500 (normales)/ctrl.mp4' },
-            { src: 'fotos/500x500 (normales)/z.mp4' },
-            { src: 'fotos/500x500 (normales)/F3.mp4' },
-            { src: 'fotos/500x500 (normales)/option right.webp' },
-            { src: 'fotos/500x500 (normales)/F5.webp' },
-            { src: 'fotos/500x500 (normales)/F11.mp4' }
+            { src: 'assets/images/about_page/500x500 (normales)/q.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/w.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/a.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/s.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/p.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/F1.mp4' },
+            { src: 'assets/images/about_page/500x500 (normales)/x.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/ctrl.mp4' },
+            { src: 'assets/images/about_page/500x500 (normales)/z.mp4' },
+            { src: 'assets/images/about_page/500x500 (normales)/F3.mp4' },
+            { src: 'assets/images/about_page/500x500 (normales)/option right.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/F5.webp' },
+            { src: 'assets/images/about_page/500x500 (normales)/F11.mp4' }
         ];
 
         // Shuffle assets initially for random order every time

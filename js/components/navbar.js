@@ -184,11 +184,11 @@
       <div class="navbar_container2">
         <div class="navbar_logo" style="position: relative; z-index: 2;">
           <a href="${root}index.html?section=home" class="brand-logo-link w-nav-brand ${currentPage === 'index.html' ? 'w--current' : ''}">
-            <img loading="lazy" src="${root}images/branding/Logo.png" alt="Adrian Velasco Logo" class="logo">
+            <img loading="lazy" src="${root}assets/images/branding/Logo.png" alt="Adrian Velasco Logo" class="logo">
           </a>
         </div>
         <canvas id="headerArrowCanvas"></canvas>
-        <img loading="lazy" src="${root}images/GIF-Header.gif" alt="" class="penguin-gif">
+        <img loading="lazy" src="${root}assets/images/GIF-Header.gif" alt="" class="penguin-gif">
         <nav role="navigation" class="nav_menu_wrapper w-nav-menu">
           <ul role="list" class="nav-menu-two w-list-unstyled">
             <li>

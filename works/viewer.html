@@ -605,6 +605,53 @@
             .id-meinzuhause-gmbh .video-soon-placeholder {
                 min-width: 0 !important;
             }
+
+            /* Specific Layout for Listening Not Found (Asymmetrical) */
+            .id-listening-not-found .video-column {
+                display: flex;
+                flex-flow: row wrap;
+                align-items: stretch;
+                gap: 20px;
+            }
+
+            .id-listening-not-found .image-wrapper,
+            .id-listening-not-found .video-soon-placeholder {
+                margin-bottom: 0;
+            }
+
+            .id-listening-not-found .pic-1 {
+                flex: 1 1 100%;
+                aspect-ratio: 21 / 9;
+            }
+
+            .id-listening-not-found .pic-2 {
+                flex: 1 1 35%;
+                aspect-ratio: 4 / 5;
+            }
+
+            .id-listening-not-found .pic-3 {
+                flex: 1 1 60%;
+                aspect-ratio: 16 / 9;
+            }
+
+            .id-listening-not-found .mz-soon {
+                flex: 1 1 100%;
+                aspect-ratio: 16 / 9;
+            }
+
+            .id-listening-not-found .pic-4 {
+                flex: 1 1 60%;
+                aspect-ratio: 16 / 9;
+            }
+
+            .id-listening-not-found .pic-5 {
+                flex: 1 1 35%;
+                aspect-ratio: 4 / 5;
+            }
+
+            .id-listening-not-found .image-wrapper {
+                min-width: 0 !important;
+            }
         }
 
         /* Info Column */
@@ -614,6 +661,15 @@
             gap: 0;
             /* Control gap via margins of children */
             height: 100%;
+            max-height: calc(100vh - 220px);
+            overflow-y: auto;
+            padding-bottom: 100px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .info-column::-webkit-scrollbar {
+            display: none;
         }
 
         .info-card {
@@ -658,6 +714,21 @@
             margin-bottom: 4px;
             font-size: 0.8rem;
             opacity: 0.8;
+        }
+
+        .credits-box.stacked-credits {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .credits-row.title-row {
+            margin-top: 15px;
+            margin-bottom: -15px;
+        }
+
+        .credits-label.section-title {
+            font-size: 1.1rem;
+            opacity: 1;
         }
 
         /* Navigation Arrows (Vertical Paddles) */
@@ -2072,7 +2143,7 @@
                 title: 'RUMBLE. 2025',
                 videos: ['QhXVTFkVde4'],
                 desc: 'work-rumble-desc',
-                score: '../pdfs/rumble.pdf',
+                score: '../assets/pdfs/rumble.pdf',
                 credits: [
                     { label: 'Dates', value: '1 FEB. Auditorio Nacional de España<br>7 MAR. Centro Cultural Villa de Nerja' }
                 ]
@@ -2082,7 +2153,7 @@
                 title: 'OSC PROTOCOL. 2024',
                 videos: ['SJr9lo4Ses0', 'T-8SwfE1cHs'],
                 desc: 'work-osc-desc',
-                score: '../pdfs/oscprotocol.pdf',
+                score: '../assets/pdfs/oscprotocol.pdf',
                 credits: [
                     { label: 'Pianist', value: 'Pablo Gil' },
                     { label: 'Dates', value: '9 MAY. Ateneo de Madrid<br>18 MAY. Real Conservatorio Superior de Música de Madrid' }
@@ -2093,7 +2164,7 @@
                 title: 'THREE YEARS OF EVOLUTION. 2024',
                 videos: ['0w1TvFGLKVU'],
                 desc: 'work-tyoe-desc',
-                score: '../pdfs/threeyears.pdf',
+                score: '../assets/pdfs/threeyears.pdf',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
                     { label: 'Performer', value: 'Paula Ortega' },
@@ -2135,7 +2206,7 @@
                 title: 'MINUIT TOUJOURS ARRIVE. 2023',
                 videos: ['LCkRsxdqyDU'],
                 desc: 'work-minuit-desc',
-                score: '../pdfs/minuit.pdf',
+                score: '../assets/pdfs/minuit.pdf',
                 credits: [
                     { label: 'Premiered by', value: 'Trio Arbós<br>at Teatro de la Zarzuela' },
                     { label: 'Awards', value: 'II PREMIO DE COMPOSICIÓN TZ-RCSMM' }
@@ -2146,10 +2217,31 @@
                 title: 'CISNE Y CERDO. 2022',
                 videos: ['3nSSqvQ-25o'],
                 desc: 'work-cisne-desc',
-                score: '../pdfs/cisneycerdo.pdf',
+                score: '../assets/pdfs/cisneycerdo.pdf',
                 credits: [
                     { label: 'Text', value: 'Dionisio Cañas' },
                     { label: 'Dates', value: '21 JUN. Sala 400 Museo Reina Sofía, Madrid' }
+                ]
+            },
+            {
+                id: 'listening-not-found',
+                title: 'LISTENING NOT FOUND. 2024',
+                videos: ['7kwyLfiuIXA'],
+                images: ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'],
+                imageCaption: '© <a href="https://stefan-bausewein.de" target="_blank">Stefan Bausewein</a>',
+                description: 'Listening Not Found is an immersive and performative multimedia installation that transforms the concert into a living, navigable experience. Visitors move freely through a dynamic sonic landscape of live performers, spatial audio, and AI-generated “ghost instruments.”<br><br>Blurring reality and illusion, presence and absence, the work invites active listening as a personal, embodied and intentional act. Each journey is unique: an exploration of perception, authenticity, and the fragile boundary between human and machine in our post-digital world.',
+                stackedCredits: true,
+                credits: [
+                    { label: 'Design', value: '' },
+                    { label: 'Oscar Corpo', value: 'Concept, Composer, AI sound design, Artistic Director' },
+                    { label: 'Adri Velasco', value: 'Video, Light, Web design, Assistance composer' },
+                    { label: 'Isay Ramirez', value: 'Sound Engineer, Spatialization, Recording Engineer' },
+                    { label: 'Photography', value: 'Stefan Bausewein' },
+                    { label: 'ENSEMBLE 404', value: '' },
+                    { label: 'Valentina Donato', value: 'Piano, Keyboard, Theremin, Assistance Composer' },
+                    { label: 'Bahar Erünsal', value: 'Violin' },
+                    { label: 'Vitalia Agrba', value: 'Drumkit, Percussion' },
+                    { label: 'Giusy Panzanaro', value: 'Flute' }
                 ]
             }
         ];
@@ -2158,44 +2250,44 @@
 
         const audioConfigs = {
             'en-busca-del-video-perfecto': {
-                file: '../audios/EBDVP.mp3',
+                file: '../assets/audios/EBDVP.mp3',
                 title: 'EN BUSCA DEL VIDEO PERFECTO',
                 link: 'https://soundcloud.com/adrivelaasco/en-busca-del-video-perfecto',
-                subtitleSrc: '../subs/ebdvp.srt',
+                subtitleSrc: '../assets/subs/ebdvp.srt',
                 waveformHeight: 25
             },
             'lespontanea': {
-                file: '../audios/lespontanea.mp3',
+                file: '../assets/audios/lespontanea.mp3',
                 title: 'LESPONTANEA',
                 link: 'https://soundcloud.com/adrivelaasco/lespontanea',
                 waveformHeight: 25
             },
             'rumble': {
-                file: '../audios/rumble.mp3',
+                file: '../assets/audios/rumble.mp3',
                 title: 'RUMBLE',
                 link: 'https://soundcloud.com/adrivelaasco/rumble',
                 waveformHeight: 25
             },
             'osc-protocol': {
-                file: '../audios/oscprotocol.mp3',
+                file: '../assets/audios/oscprotocol.mp3',
                 title: 'OSC PROTOCOL',
                 link: '',
                 waveformHeight: 25
             },
             'minuit-toujours-arrive': {
-                file: '../audios/minuit.mp3',
+                file: '../assets/audios/minuit.mp3',
                 title: 'MINUIT TOUJOURS ARRIVE',
                 link: '',
                 waveformHeight: 25
             },
             'cisne-y-cerdo': {
-                file: '../audios/cisneycerdo.mp3',
+                file: '../assets/audios/cisneycerdo.mp3',
                 title: 'CISNE Y CERDO',
                 link: '',
                 waveformHeight: 25
             },
             'three-years-of-evolution': {
-                file: '../audios/threeyears.mp3',
+                file: '../assets/audios/threeyears.mp3',
                 title: 'THREE YEARS OF EVOLUTION',
                 link: '',
                 waveformHeight: 25
@@ -2249,11 +2341,12 @@
 
                 let contentHTML = '';
 
-                // Render asymmetrical distribution for meinzuhause
-                if (work.id === 'meinzuhause-gmbh') {
+                // Render asymmetrical distribution for meinzuhause or listening-not-found
+                if (work.id === 'meinzuhause-gmbh' || work.id === 'listening-not-found') {
+                    const folder = work.id === 'meinzuhause-gmbh' ? 'meinzuhause' : work.id;
                     const pic = (idx) => `
                         <div class="image-wrapper pic-${idx + 1}" onclick="openLightbox(${idx})">
-                            <img src="../images/meinzuhause/${work.images[idx]}" alt="Project Image" class="work-img">
+                            <img src="../assets/images/${folder}/${work.images[idx]}" alt="Project Image" class="work-img">
                             ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
                         </div>
                     `;
@@ -2274,7 +2367,7 @@
                     if (work.images) {
                         contentHTML += work.images.map((img, idx) => `
                             <div class="image-wrapper" onclick="openLightbox(${idx})">
-                                <img src="../images/meinzuhause/${img}" alt="Project Image" class="work-img">
+                                <img src="../assets/images/${work.id}/${img}" alt="Project Image" class="work-img">
                                 ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
                             </div>
                         `).join('');
@@ -2312,12 +2405,19 @@
                 const descDiv = document.getElementById('display-desc');
                 if (work.desc) {
                     descDiv.innerHTML = `<p data-t="${work.desc}"></p>`;
+                } else if (work.description) {
+                    descDiv.innerHTML = `<p>${work.description}</p>`;
                 } else {
                     descDiv.innerHTML = '';
                 }
 
                 // Update Credits
                 const creditsBox = document.getElementById('display-credits');
+                if (work.stackedCredits) {
+                    creditsBox.classList.add('stacked-credits');
+                } else {
+                    creditsBox.classList.remove('stacked-credits');
+                }
                 const labelMap = {
                     'Work': 'label-work',
                     'Performer': 'label-performer',
@@ -2343,11 +2443,13 @@
                 };
 
                 creditsBox.innerHTML = work.credits.map(c => {
-                    const tKey = labelMap[c.label] || 'label-work';
+                    const tKey = labelMap[c.label];
+                    const isTitle = !c.value;
+                    const labelHTML = tKey ? `<span class="credits-label ${isTitle ? 'section-title' : ''}" data-t="${tKey}">${c.label}</span>` : `<span class="credits-label ${isTitle ? 'section-title' : ''}">${c.label}</span>`;
                     return `
-                        <div class="credits-row">
-                            <span class="credits-label" data-t="${tKey}">${c.label}</span>
-                            ${c.value}
+                        <div class="credits-row ${isTitle ? 'title-row' : ''}">
+                            ${labelHTML}
+                            ${c.value ? c.value : ''}
                         </div>
                     `;
                 }).join('');
@@ -2404,6 +2506,14 @@
                     scoreBtnContainer.style.display = 'none';
                 }
 
+                const prevArrow = document.getElementById('prevWork');
+                const nextArrow = document.getElementById('nextWork');
+                if (prevArrow && nextArrow) {
+                    const showNav = (work.id !== 'listening-not-found');
+                    prevArrow.style.display = showNav ? 'flex' : 'none';
+                    nextArrow.style.display = showNav ? 'flex' : 'none';
+                }
+
                 wrapper.classList.remove('fade-out');
             }, 400);
         }
@@ -2419,22 +2529,6 @@
                     } else {
                         sharedAudio.pause();
                     }
-                }
-            }
-            if (e.code === 'ArrowLeft') {
-                const lb = document.getElementById('lightbox');
-                if (lb && lb.style.display === 'flex') {
-                    changeImg(-1);
-                } else {
-                    document.getElementById('prevWork').click();
-                }
-            }
-            if (e.code === 'ArrowRight') {
-                const lb = document.getElementById('lightbox');
-                if (lb && lb.style.display === 'flex') {
-                    changeImg(1);
-                } else {
-                    document.getElementById('nextWork').click();
                 }
             }
         });
@@ -2590,15 +2684,21 @@
         }
 
         // Navigation logic
-        document.getElementById('prevWork').addEventListener('click', () => {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+        document.getElementById('prevWork').onclick = () => {
+            if (worksData[currentIndex].id === 'listening-not-found') return;
+            do {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+            } while (worksData[currentIndex].id === 'listening-not-found');
             renderWork(currentIndex);
-        });
+        };
 
-        document.getElementById('nextWork').addEventListener('click', () => {
-            currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+        document.getElementById('nextWork').onclick = () => {
+            if (worksData[currentIndex].id === 'listening-not-found') return;
+            do {
+                currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+            } while (worksData[currentIndex].id === 'listening-not-found');
             renderWork(currentIndex);
-        });
+        };
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
@@ -2612,8 +2712,11 @@
                 } else if (isScoreActive && flipBook) {
                     flipBook.flipPrev();
                 } else {
+                    if (worksData[currentIndex].id === 'listening-not-found') return;
                     document.getElementById('prevWork').classList.add('active');
-                    currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+                    do {
+                        currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+                    } while (worksData[currentIndex].id === 'listening-not-found');
                     renderWork(currentIndex);
                 }
             } else if (e.key === 'ArrowRight') {
@@ -2622,8 +2725,11 @@
                 } else if (isScoreActive && flipBook) {
                     flipBook.flipNext();
                 } else {
+                    if (worksData[currentIndex].id === 'listening-not-found') return;
                     document.getElementById('nextWork').classList.add('active');
-                    currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+                    do {
+                        currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+                    } while (worksData[currentIndex].id === 'listening-not-found');
                     renderWork(currentIndex);
                 }
             } else if (e.key === 'Escape') {
@@ -2777,7 +2883,9 @@
             img.style.transform = 'scale(0.97)';
 
             setTimeout(() => {
-                img.src = '../images/meinzuhause/' + currentLightboxImages[currentLightboxIndex];
+                const currentWorkId = worksData[currentIndex].id;
+                const folderName = currentWorkId === 'meinzuhause-gmbh' ? 'meinzuhause' : currentWorkId;
+                img.src = '../assets/images/' + folderName + '/' + currentLightboxImages[currentLightboxIndex];
                 caption.innerHTML = work.imageCaption || '';
                 img.style.opacity = '1';
                 img.style.transform = 'scale(1)';

@@ -501,6 +501,21 @@
             letter-spacing: 0.5px;
         }
 
+        .credits-box.stacked-credits {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .credits-row.title-row {
+            margin-top: 15px;
+            margin-bottom: -15px;
+        }
+
+        .credits-label.section-title {
+            font-size: 1.1rem;
+            opacity: 1;
+        }
+
         .credits-value {
             font-size: 0.95rem;
             font-weight: 600;
@@ -1030,7 +1045,7 @@
     <!-- Header -->
     <header class="mobile-header">
         <a href="../tablet.html?section=home" class="nav-btn-logo">
-            <img src="../images/branding/Logo.png" alt="Logo" class="header-logo-img">
+            <img src="../assets/images/branding/Logo.png" alt="Logo" class="header-logo-img">
         </a>
         <nav class="nav-links">
             <a href="../tablet.html?section=about" class="nav-link">ABOUT</a>
@@ -1272,7 +1287,7 @@
                 title: 'RUMBLE. 2025',
                 videos: ['QhXVTFkVde4'],
                 desc: 'work-rumble-desc',
-                score: '../pdfs/rumble.pdf',
+                score: '../assets/pdfs/rumble.pdf',
                 credits: [
                     { label: 'Dates', value: '1 FEB. Auditorio Nacional de España<br>7 MAR. Centro Cultural Villa de Nerja' }
                 ]
@@ -1282,7 +1297,7 @@
                 title: 'OSC PROTOCOL. 2024',
                 videos: ['SJr9lo4Ses0', 'T-8SwfE1cHs'],
                 desc: 'work-osc-desc',
-                score: '../pdfs/oscprotocol.pdf',
+                score: '../assets/pdfs/oscprotocol.pdf',
                 credits: [
                     { label: 'Pianist', value: 'Pablo Gil' },
                     { label: 'Dates', value: '9 MAY. Ateneo de Madrid<br>18 MAY. Real Conservatorio Superior de Música de Madrid' }
@@ -1293,7 +1308,7 @@
                 title: 'THREE YEARS OF EVOLUTION. 2024',
                 videos: ['0w1TvFGLKVU'],
                 desc: 'work-tyoe-desc',
-                score: '../pdfs/threeyears.pdf',
+                score: '../assets/pdfs/threeyears.pdf',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
                     { label: 'Performer', value: 'Paula Ortega' },
@@ -1335,7 +1350,7 @@
                 title: 'MINUIT TOUJOURS<br>ARRIVE. 2023',
                 videos: ['LCkRsxdqyDU'],
                 desc: 'work-minuit-desc',
-                score: '../pdfs/minuit.pdf',
+                score: '../assets/pdfs/minuit.pdf',
                 credits: [
                     { label: 'Premiered by', value: 'Trio Arbós<br>at Teatro de la Zarzuela' },
                     { label: 'Awards', value: 'II PREMIO DE COMPOSICIÓN TZ-RCSMM' }
@@ -1346,10 +1361,31 @@
                 title: 'CISNE Y CERDO. 2022',
                 videos: ['3nSSqvQ-25o'],
                 desc: 'work-cisne-desc',
-                score: '../pdfs/cisneycerdo.pdf',
+                score: '../assets/pdfs/cisneycerdo.pdf',
                 credits: [
                     { label: 'Text', value: 'Dionisio Cañas' },
                     { label: 'Dates', value: '21 JUN. Sala 400 Museo Reina Sofía, Madrid' }
+                ]
+            },
+            {
+                id: 'listening-not-found',
+                title: 'LISTENING NOT FOUND. 2024',
+                videos: ['7kwyLfiuIXA'],
+                images: ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'],
+                imageCaption: '© <a href="https://stefan-bausewein.de" target="_blank">Stefan Bausewein</a>',
+                description: 'Listening Not Found is an immersive and performative multimedia installation that transforms the concert into a living, navigable experience. Visitors move freely through a dynamic sonic landscape of live performers, spatial audio, and AI-generated “ghost instruments.”<br><br>Blurring reality and illusion, presence and absence, the work invites active listening as a personal, embodied and intentional act. Each journey is unique: an exploration of perception, authenticity, and the fragile boundary between human and machine in our post-digital world.',
+                stackedCredits: true,
+                credits: [
+                    { label: 'Design', value: '' },
+                    { label: 'Oscar Corpo', value: 'Concept, Composer, AI sound design, Artistic Director' },
+                    { label: 'Adri Velasco', value: 'Video, Light, Web design, Assistance composer' },
+                    { label: 'Isay Ramirez', value: 'Sound Engineer, Spatialization, Recording Engineer' },
+                    { label: 'Photography', value: 'Stefan Bausewein' },
+                    { label: 'ENSEMBLE 404', value: '' },
+                    { label: 'Valentina Donato', value: 'Piano, Keyboard, Theremin, Assistance Composer' },
+                    { label: 'Bahar Erünsal', value: 'Violin' },
+                    { label: 'Vitalia Agrba', value: 'Drumkit, Percussion' },
+                    { label: 'Giusy Panzanaro', value: 'Flute' }
                 ]
             }
         ];
@@ -1359,44 +1395,44 @@
 
         const audioConfigs = {
             'en-busca-del-video-perfecto': {
-                file: '../audios/EBDVP.mp3',
+                file: '../assets/audios/EBDVP.mp3',
                 title: 'EN BUSCA DEL VIDEO PERFECTO',
                 link: 'https://soundcloud.com/adrivelaasco/en-busca-del-video-perfecto',
-                subtitleSrc: '../subs/ebdvp.srt',
+                subtitleSrc: '../assets/subs/ebdvp.srt',
                 waveformHeight: 25
             },
             'lespontanea': {
-                file: '../audios/lespontanea.mp3',
+                file: '../assets/audios/lespontanea.mp3',
                 title: 'LESPONTANEA',
                 link: 'https://soundcloud.com/adrivelaasco/lespontanea',
                 waveformHeight: 25
             },
             'rumble': {
-                file: '../audios/rumble.mp3',
+                file: '../assets/audios/rumble.mp3',
                 title: 'RUMBLE',
                 link: 'https://soundcloud.com/adrivelaasco/rumble',
                 waveformHeight: 25
             },
             'osc-protocol': {
-                file: '../audios/oscprotocol.mp3',
+                file: '../assets/audios/oscprotocol.mp3',
                 title: 'OSC PROTOCOL',
                 link: '',
                 waveformHeight: 25
             },
             'minuit-toujours-arrive': {
-                file: '../audios/minuit.mp3',
+                file: '../assets/audios/minuit.mp3',
                 title: 'MINUIT TOUJOURS ARRIVE',
                 link: '',
                 waveformHeight: 25
             },
             'cisne-y-cerdo': {
-                file: '../audios/cisneycerdo.mp3',
+                file: '../assets/audios/cisneycerdo.mp3',
                 title: 'CISNE Y CERDO',
                 link: '',
                 waveformHeight: 25
             },
             'three-years-of-evolution': {
-                file: '../audios/threeyears.mp3',
+                file: '../assets/audios/threeyears.mp3',
                 title: 'THREE YEARS OF EVOLUTION',
                 link: '',
                 waveformHeight: 25
@@ -1430,10 +1466,11 @@
 
                 let contentHTML = '';
 
-                if (work.id === 'meinzuhause-gmbh') {
+                if (work.id === 'meinzuhause-gmbh' || work.id === 'listening-not-found') {
+                    const folder = work.id === 'meinzuhause-gmbh' ? 'meinzuhause' : work.id;
                     const pic = (idx) => `
                         <div class="image-wrapper pic-${idx+1} teaser" onclick="openLightbox(${idx})">
-                            <img src="../images/meinzuhause/${work.images[idx]}" alt="Project Image" class="work-img">
+                            <img src="../assets/images/${folder}/${work.images[idx]}" alt="Project Image" class="work-img">
                             <div class="teaser-overlay">
                                 <div class="teaser-text">TAP TO SEE THE GALLERY</div>
                             </div>
@@ -1446,10 +1483,18 @@
                                 <iframe src="https://www.youtube.com/embed/${work.videos[0]}?modestbranding=1&rel=0&showinfo=0" allowfullscreen></iframe>
                             </div>
                         `;
-                    // Only show first image + video for tablet
+                    // Only show first image + video for tablet/mobile
                     contentHTML = pic(0) + video;
                 } else {
-                    contentHTML = work.videos.map(id => {
+                    if (work.images && work.images.length > 0) {
+                        contentHTML += work.images.map((img, idx) => `
+                            <div class="image-wrapper" onclick="openLightbox(${idx})">
+                                <img src="../assets/images/${work.id}/${img}" alt="Project Image" class="work-img">
+                                ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
+                            </div>
+                        `).join('');
+                    }
+                    contentHTML += work.videos.map(id => {
                         if (id === 'soon') {
                             return `<div class="video-soon-placeholder"></div>`;
                         }
@@ -1472,11 +1517,22 @@
                     `;
                 }
                 const descDiv = document.getElementById('display-desc');
-                const translationKey = work.desc;
-                const translatedText = translations[currentLang][translationKey] || "";
-                descDiv.innerHTML = `<p>${translatedText}</p>`;
+                if (work.desc) {
+                    const translationKey = work.desc;
+                    const translatedText = translations[currentLang][translationKey] || "";
+                    descDiv.innerHTML = `<p>${translatedText}</p>`;
+                } else if (work.description) {
+                    descDiv.innerHTML = `<p>${work.description}</p>`;
+                } else {
+                    descDiv.innerHTML = '';
+                }
 
                 const creditsBox = document.getElementById('display-credits');
+                if (work.stackedCredits) {
+                    creditsBox.classList.add('stacked-credits');
+                } else {
+                    creditsBox.classList.remove('stacked-credits');
+                }
                 const labelMap = {
                     'Work': 'label-work',
                     'Performer': 'label-performer',
@@ -1502,17 +1558,25 @@
                 };
 
                 creditsBox.innerHTML = work.credits.map(c => {
-                    const tKey = labelMap[c.label] || 'label-work';
+                    const tKey = labelMap[c.label];
+                    const isTitle = !c.value;
+                    const labelHTML = tKey ? `<span class="credits-label ${isTitle ? 'section-title' : ''}" data-t="${tKey}">${c.label}</span>` : `<span class="credits-label ${isTitle ? 'section-title' : ''}">${c.label}</span>`;
                     return `
-                    <div class="credits-row">
-                        <span class="credits-label" data-t="${tKey}">${c.label}</span>
-                        <span class="credits-value">${c.value}</span>
+                    <div class="credits-row ${isTitle ? 'title-row' : ''}">
+                        ${labelHTML}
+                        ${c.value ? `<span class="credits-value">${c.value}</span>` : ''}
                     </div>
                 `}).join('');
 
                 // Trigger translation re-run if script is ready
                 if (window.navComponent && window.navComponent.updatePageTranslations) {
                     window.navComponent.updatePageTranslations();
+                }
+
+                // Handle Footer visibility
+                const footer = document.querySelector('.mobile-nav-footer');
+                if (footer) {
+                    footer.style.display = (work.id === 'listening-not-found') ? 'none' : 'flex';
                 }
 
                 // Handle Score Button
@@ -1676,12 +1740,18 @@
 
         // Navigation
         document.getElementById('prevWork').onclick = () => {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+            if (worksData[currentIndex].id === 'listening-not-found') return;
+            do {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : worksData.length - 1;
+            } while (worksData[currentIndex].id === 'listening-not-found');
             renderWork(currentIndex);
         };
 
         document.getElementById('nextWork').onclick = () => {
-            currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+            if (worksData[currentIndex].id === 'listening-not-found') return;
+            do {
+                currentIndex = (currentIndex < worksData.length - 1) ? currentIndex + 1 : 0;
+            } while (worksData[currentIndex].id === 'listening-not-found');
             renderWork(currentIndex);
         };
 
@@ -2115,7 +2185,7 @@
             slider.innerHTML = allImages.map(img => `
                 <div class="lightbox-image-box">
                     <div class="img-wrapper" style="position: relative; line-height: 0;">
-                        <img src="../images/meinzuhause/${img}" class="lightbox-img-large" alt="Gallery Image" style="display: block;">
+                        <img src="../assets/images/${work.id === 'meinzuhause-gmbh' ? 'meinzuhause' : work.id}/${img}" class="lightbox-img-large" alt="Gallery Image" style="display: block;">
                         <div class="lightbox-description">${work.imageCaption || ''}</div>
                     </div>
                 </div>
