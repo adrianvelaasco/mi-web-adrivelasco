@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
             category: 'others', 
             subCategory: 'performer', 
             thumbnail: 'assets/images/thumbnails/finals-p480/DreamLoader-Thumbnail.webp',
-            link: 'https://youtu.be/HREOq8L0l0A'
+            link: 'https://youtu.be/KRlQOCS7R1I'
         },
         { 
             id: 'performer-aparition', 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             subtitle: 'performer',
             category: 'others', 
             subCategory: 'performer', 
-            thumbnail: 'assets/images/others/aparition.png',
+            thumbnail: 'assets/images/thumbnails/finals-p480/Aparition-Thumbnail.webp',
             link: 'https://youtu.be/I7Euya2zfg8'
         },
         { 
