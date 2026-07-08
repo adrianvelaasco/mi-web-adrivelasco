@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Works - Adri Velasco</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
 
     <script src="../js/router-redirect.js"></script>
     <script>
@@ -47,8 +48,10 @@
     <link href="../css/components/navbar.css?v=1.1" rel="stylesheet" type="text/css">
 
     <style>
-        * { box-sizing: border-box; }
-        
+        * {
+            box-sizing: border-box;
+        }
+
         html {
             width: 100dvw;
             height: 100dvh;
@@ -56,7 +59,8 @@
             padding: 0;
             -webkit-text-size-adjust: none;
             overflow: hidden !important;
-            position: fixed; /* Safari desktop lock */
+            position: fixed;
+            /* Safari desktop lock */
         }
 
         body {
@@ -214,8 +218,16 @@
         }
 
         @keyframes eye-blink {
-            0%, 92%, 100% { transform: translate(-50%, -50%) scaleY(1); }
-            96% { transform: translate(-50%, -50%) scaleY(0.1); }
+
+            0%,
+            92%,
+            100% {
+                transform: translate(-50%, -50%) scaleY(1);
+            }
+
+            96% {
+                transform: translate(-50%, -50%) scaleY(0.1);
+            }
         }
 
         #custom-eye-cursor circle {
@@ -223,9 +235,25 @@
         }
 
         @keyframes eye-look {
-            0%, 10%, 40%, 60%, 90%, 100% { transform: translateX(0); }
-            20%, 30% { transform: translateX(-3px); }
-            70%, 80% { transform: translateX(3px); }
+
+            0%,
+            10%,
+            40%,
+            60%,
+            90%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            30% {
+                transform: translateX(-3px);
+            }
+
+            70%,
+            80% {
+                transform: translateX(3px);
+            }
         }
 
         .work-img {
@@ -233,6 +261,13 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            backface-visibility: hidden;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .image-wrapper:hover .work-img {
+            transform: scale(1.03);
         }
 
         .image-caption {
@@ -321,6 +356,8 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             border: 1px solid #0000ff14;
             transition: transform 0.4s ease, opacity 0.3s ease;
+            backface-visibility: hidden;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .lightbox-nav {
@@ -548,108 +585,82 @@
             z-index: 10;
         }
 
-        /* Specific Layout for Mein Zuhause (Asymmetrical) */
+        /* Specific Layout for Mein Zuhause (2 columns grid) */
         @media (min-width: 1024px) {
-            .id-meinzuhause-gmbh .video-column {
-                display: flex;
-                flex-flow: row wrap;
-                align-items: stretch;
+            .video-column.id-meinzuhause-gmbh {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
             }
 
-            .id-meinzuhause-gmbh .image-wrapper,
-            .id-meinzuhause-gmbh .video-soon-placeholder {
+            .video-column.id-meinzuhause-gmbh .image-wrapper {
                 margin-bottom: 0;
-                /* Handled by gap */
+                width: 100%;
+                aspect-ratio: 3 / 4; /* Taller (vertical) aspect ratio */
             }
 
-            /* Distribution: Pic1 (Full) | Pic2 (Small) & Pic3 (Large) | SOON (Full) | Pic4 (Large) & Pic5 (Small) */
-            .id-meinzuhause-gmbh .pic-1 {
-                flex: 1 1 100%;
-                aspect-ratio: 21 / 9;
-            }
-
-            .id-meinzuhause-gmbh .pic-2 {
-                flex: 1 1 35%;
-                aspect-ratio: 4 / 5;
-            }
-
-            .id-meinzuhause-gmbh .pic-3 {
-                flex: 1 1 60%;
+            .video-column.id-meinzuhause-gmbh .mz-soon {
+                grid-column: span 2;
+                width: 100%;
                 aspect-ratio: 16 / 9;
-            }
-
-            .id-meinzuhause-gmbh .mz-soon {
-                flex: 1 1 100%;
-                aspect-ratio: 16 / 9;
-            }
-
-            .id-meinzuhause-gmbh .pic-4 {
-                flex: 1 1 60%;
-                aspect-ratio: 16 / 9;
-            }
-
-            .id-meinzuhause-gmbh .pic-5 {
-                flex: 1 1 35%;
-                aspect-ratio: 4 / 5;
             }
 
             /* Ensure login button is always full width at the bottom */
-            .id-meinzuhause-gmbh .login-btn-wrapper {
-                flex: 1 1 100%;
+            .video-column.id-meinzuhause-gmbh .login-btn-wrapper {
+                grid-column: span 2;
                 margin-top: 20px;
             }
 
             /* Prevent preview photos from wrapping when resizing desktop window */
-            .id-meinzuhause-gmbh .image-wrapper,
-            .id-meinzuhause-gmbh .video-soon-placeholder {
+            .video-column.id-meinzuhause-gmbh .image-wrapper,
+            .video-column.id-meinzuhause-gmbh .video-soon-placeholder {
                 min-width: 0 !important;
             }
 
             /* Specific Layout for Listening Not Found (Asymmetrical) */
-            .id-listening-not-found .video-column {
+            .video-column.id-listening-not-found {
                 display: flex;
                 flex-flow: row wrap;
                 align-items: stretch;
                 gap: 20px;
             }
 
-            .id-listening-not-found .image-wrapper,
-            .id-listening-not-found .video-soon-placeholder {
+            .video-column.id-listening-not-found .image-wrapper,
+            .video-column.id-listening-not-found .video-soon-placeholder {
                 margin-bottom: 0;
             }
 
-            .id-listening-not-found .pic-1 {
+            .video-column.id-listening-not-found .pic-1 {
                 flex: 1 1 100%;
                 aspect-ratio: 21 / 9;
             }
 
-            .id-listening-not-found .pic-2 {
+            .video-column.id-listening-not-found .pic-2 {
                 flex: 1 1 35%;
                 aspect-ratio: 4 / 5;
             }
 
-            .id-listening-not-found .pic-3 {
+            .video-column.id-listening-not-found .pic-3 {
                 flex: 1 1 60%;
                 aspect-ratio: 16 / 9;
             }
 
-            .id-listening-not-found .mz-soon {
+            .video-column.id-listening-not-found .mz-soon {
                 flex: 1 1 100%;
                 aspect-ratio: 16 / 9;
             }
 
-            .id-listening-not-found .pic-4 {
+            .video-column.id-listening-not-found .pic-4 {
                 flex: 1 1 60%;
                 aspect-ratio: 16 / 9;
             }
 
-            .id-listening-not-found .pic-5 {
+            .video-column.id-listening-not-found .pic-5 {
                 flex: 1 1 35%;
                 aspect-ratio: 4 / 5;
             }
 
-            .id-listening-not-found .image-wrapper {
+            .video-column.id-listening-not-found .image-wrapper {
                 min-width: 0 !important;
             }
         }
@@ -722,12 +733,12 @@
         }
 
         .credits-row.title-row {
-            margin-top: 15px;
+            flex: 1 0 100%;
+            margin-top: 25px;
             margin-bottom: -15px;
         }
 
         .credits-label.section-title {
-            font-size: 1.1rem;
             opacity: 1;
         }
 
@@ -1494,8 +1505,12 @@
         [data-t] {
             pointer-events: none;
         }
+
         /* Restore pointer-events for elements that actually need them (like inputs or specific buttons that ARE the translated element) */
-        button[data-t], a[data-t], input[data-t], .audio-control[data-t] {
+        button[data-t],
+        a[data-t],
+        input[data-t],
+        .audio-control[data-t] {
             pointer-events: auto;
         }
 
@@ -1554,7 +1569,8 @@
 
 <body style="overflow: hidden;">
     <div id="custom-eye-cursor">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
             <circle cx="12" cy="12" r="3" fill="white"></circle>
         </svg>
@@ -2094,17 +2110,30 @@
             {
                 id: 'meinzuhause-gmbh',
                 title: 'MEIN ZUHAUSE GMBH. 2026',
-                images: ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'],
+                images: [
+                    'pic1.jpg',
+                    'StimmeX_26_JonasAlbrecht-08664.jpg',
+                    'StimmeX_26_JonasAlbrecht-08509.jpg',
+                    'StimmeX_26_JonasAlbrecht-08699.jpg',
+                    'StimmeX_26_JonasAlbrecht-08708.jpg',
+                    'pic5.jpg',
+                    'pic2.jpg',
+                    'StimmeX_26_JonasAlbrecht-08559.jpg',
+                    'StimmeX_26_JonasAlbrecht-08751.jpg',
+                    'pic3.jpg'
+                ],
                 videos: ['tQVKnYp8i80'],
-                imageCaption: '© <a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a>',
+                imageCaption: '© <a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a> - MFS 26.02',
                 desc: 'work-meinzuhause-gmbh-desc',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
+                    { label: 'MFS - 26.02' },
                     { label: 'Performer', value: 'Gustav Bloéb' },
                     { label: 'Live Sound', value: 'Giovanni Dinello' },
                     { label: 'Technical Assistance', value: 'Ian Whillock' },
-                    { label: 'Video Recording', value: 'Goran Lazarevic & Tong Khanh Ha<br>Hamburg Open Online University' },
-                    { label: 'Photography', value: 'Marc Bernard' }
+                    { label: 'Stimme X - 25.07' },
+                    { label: 'Performer', value: 'Anton Brus' },
+                    { label: 'Co-Regie', value: 'Maddalena Bertassi' }
                 ]
             },
             {
@@ -2345,13 +2374,13 @@
                 // Render asymmetrical distribution for meinzuhause or listening-not-found
                 if (work.id === 'meinzuhause-gmbh' || work.id === 'listening-not-found') {
                     const folder = work.id === 'meinzuhause-gmbh' ? 'meinzuhause' : work.id;
-                    const pic = (idx) => `
+                    const pic = (idx, customCaption) => `
                         <div class="image-wrapper pic-${idx + 1}" onclick="openLightbox(${idx})">
                             <img src="../assets/images/${folder}/${work.images[idx]}" alt="Project Image" class="work-img">
-                            ${work.imageCaption ? `<div class="image-caption">${work.imageCaption}</div>` : ''}
+                            ${customCaption || work.imageCaption ? `<div class="image-caption">${customCaption || work.imageCaption}</div>` : ''}
                         </div>
                     `;
-                    const video = work.videos[0] === 'soon' 
+                    const video = work.videos[0] === 'soon'
                         ? `<div class="video-soon-placeholder mz-soon"></div>`
                         : `
                             <div class="video-wrapper mz-soon">
@@ -2360,8 +2389,18 @@
                             </div>
                         `;
 
-                    // Order: 1, 2, 3, VIDEO, 4, 5
-                    contentHTML = pic(0) + pic(1) + pic(2) + video + pic(3) + pic(4);
+                    const jonasCaption = '© <a href="https://www.jonas-albrecht.de" target="_blank">Jonas Albrecht</a> - Stimme X 25.07';
+                    contentHTML = '';
+                    for (let i = 0; i < work.images.length; i++) {
+                        if (work.id === 'meinzuhause-gmbh' && i === 4) {
+                            contentHTML += video;
+                        }
+                        const caption = work.images[i].includes('JonasAlbrecht') ? jonasCaption : work.imageCaption;
+                        contentHTML += pic(i, caption);
+                    }
+                    if (work.id !== 'meinzuhause-gmbh') {
+                        contentHTML += video;
+                    }
                 } else {
                     // Standard Render
                     // Render Images
@@ -2887,7 +2926,13 @@
                 const currentWorkId = worksData[currentIndex].id;
                 const folderName = currentWorkId === 'meinzuhause-gmbh' ? 'meinzuhause' : currentWorkId;
                 img.src = '../assets/images/' + folderName + '/' + currentLightboxImages[currentLightboxIndex];
-                caption.innerHTML = work.imageCaption || '';
+
+                let dynamicCaption = work.imageCaption || '';
+                if (currentWorkId === 'meinzuhause-gmbh' && currentLightboxImages[currentLightboxIndex].includes('JonasAlbrecht')) {
+                    dynamicCaption = '© <a href="https://www.jonas-albrecht.de" target="_blank">Jonas Albrecht</a> - Stimme X 25.07';
+                }
+                caption.innerHTML = dynamicCaption;
+
                 img.style.opacity = '1';
                 img.style.transform = 'scale(1)';
             }, 100);

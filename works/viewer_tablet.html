@@ -257,6 +257,8 @@
             height: 100%;
             object-fit: cover;
             display: block;
+            backface-visibility: hidden;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .image-caption {
@@ -389,6 +391,8 @@
             border-radius: 4px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             border: 1px solid #0000ff14;
+            backface-visibility: hidden;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         .lightbox-nav-wrapper {
@@ -507,12 +511,12 @@
         }
 
         .credits-row.title-row {
-            margin-top: 15px;
+            flex: 1 0 100%;
+            margin-top: 25px;
             margin-bottom: -15px;
         }
 
         .credits-label.section-title {
-            font-size: 1.1rem;
             opacity: 1;
         }
 
@@ -1238,17 +1242,30 @@
             {
                 id: 'meinzuhause-gmbh',
                 title: 'MEIN ZUHAUSE GMBH. 2026',
-                images: ['pic1.jpg', 'pic2.jpg', 'pic3.jpg', 'pic4.jpg', 'pic5.jpg'],
-                imageCaption: '© <a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a>',
+                images: [
+                    'pic1.jpg',
+                    'StimmeX_26_JonasAlbrecht-08664.jpg',
+                    'StimmeX_26_JonasAlbrecht-08509.jpg',
+                    'StimmeX_26_JonasAlbrecht-08699.jpg',
+                    'StimmeX_26_JonasAlbrecht-08708.jpg',
+                    'pic5.jpg',
+                    'pic2.jpg',
+                    'StimmeX_26_JonasAlbrecht-08559.jpg',
+                    'StimmeX_26_JonasAlbrecht-08751.jpg',
+                    'pic3.jpg'
+                ],
+                imageCaption: '© <a href="https://www.instagram.com/marcbernard_?igsh=dzE1aGR0OHI2Y3No" target="_blank">Marc Bernard</a> - MFS 26.02',
                 videos: ['tQVKnYp8i80'],
                 desc: 'work-meinzuhause-gmbh-desc',
                 credits: [
                     { label: 'Work', value: 'Adri Velasco' },
+                    { label: 'MFS - 26.02' },
                     { label: 'Performer', value: 'Gustav Bloéb' },
                     { label: 'Live Sound', value: 'Giovanni Dinello' },
                     { label: 'Technical Assistance', value: 'Ian Whillock' },
-                    { label: 'Video Recording', value: 'Goran Lazarevic & Tong Khanh Ha<br>Hamburg Open Online University' },
-                    { label: 'Photography', value: 'Marc Bernard' }
+                    { label: 'Stimme X - 25.07' },
+                    { label: 'Performer', value: 'Anton Brus' },
+                    { label: 'Co-Regie', value: 'Maddalena Bertassi' }
                 ]
             },
             {
@@ -2187,7 +2204,7 @@
                 <div class="lightbox-image-box">
                     <div class="img-wrapper" style="position: relative; line-height: 0;">
                         <img src="../assets/images/${work.id === 'meinzuhause-gmbh' ? 'meinzuhause' : work.id}/${img}" class="lightbox-img-large" alt="Gallery Image" style="display: block;">
-                        <div class="lightbox-description">${work.imageCaption || ''}</div>
+                        <div class="lightbox-description">${work.id === 'meinzuhause-gmbh' && img.includes('JonasAlbrecht') ? '© <a href="https://www.jonas-albrecht.de" target="_blank">Jonas Albrecht</a> - Stimme X 25.07' : (work.imageCaption || '')}</div>
                     </div>
                 </div>
             `).join('');
